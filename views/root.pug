@@ -1,0 +1,8 @@
+extends layout.pug
+
+block content
+  h1 Pissychan
+  div.boards
+    each board in boards
+      div.board
+        a(href=board) /#{board}/
