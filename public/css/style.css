@@ -1,3 +1,43 @@
+/* https://color.adobe.com/ru/color1-color-theme-15852390
+ * Color Theme Swatches in Hex
+ * */
+.color1-1-hex { color: #1D2D60; }
+.color1-2-hex { color: #40CEE2; }
+.color1-3-hex { color: #F2F2F0; }
+.color1-4-hex { color: #FFBC47; }
+.color1-5-hex { color: #F65E5D; }
+
+:root {
+  --main-bg-color: #F2F2F0;
+  --main-bg2-color: #1D2D60;
+  --main-txt-color: #1D2D60;
+}
+
 body {
-  background-color: #EEE;
+  background-color: var(--main-bg-color);
+  color: var(--main-txt-color);
+  border-color: var(--main-txt-color);
+}
+
+h1 {
+  margin: 10px;
+  text-align: center;
+}
+
+div.first_post {
+  border-top-style: solid;
+  border-bottom-style: solid;
+  border-width: 1px;
+  display: block;
+  padding: 20px 0 20px 0;
+  margin: 10px 0 10px 10px;
+}
+
+.post_header_element {
+  display: inline;
+  margin: 0 3pt 0 3pt;
+}
+
+.post_message {
+  display: block;
 }

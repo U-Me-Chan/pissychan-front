@@ -1,13 +1,17 @@
 extends layout.pug
 
 block content
-  h1 Welcome to /#{board_name}/
+  h1 /#{board_name}/ - Board name
   div.threads
     each thread in threads
-      div.thread(id=thread.id)
-        div.timestamp #{thread.timestamp}
-        div.subject #{thread.subject}
-        div.poster #{thread.poster}
-        div.message #{thread.message}
+      div.first_post(id=thread.id)
+        div.post_header
+          div.post_header_element.thread_id
+            a(href=board_name + '/' + thread.id) #{thread.id}
+          div.post_header_element.timestamp #{thread.timestamp}
+          div.post_header_element.subject #{thread.subject}
+          div.post_header_element.poster #{thread.poster}
+        div.post_message
+          p #{thread.message}
     else
       p Тредов нет
