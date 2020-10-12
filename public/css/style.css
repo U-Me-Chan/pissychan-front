@@ -49,6 +49,10 @@ div.post {
   margin: 0 3pt 0 3pt;
 }
 
+.subject {
+  font-weight: bold;
+}
+
 .post_message {
   display: block;
 }
