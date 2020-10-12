@@ -19,3 +19,33 @@ block content
           div.post_header_element.poster #{post.poster}
         div.post_message
           p #{post.message}
+
+  form.new_post(action='/add_movie', method='POST')
+    div
+      div
+        label.input_post Name:
+        input.input_post(
+          type='text'
+          name='poster'
+          value=''
+          size='30'
+        )
+      div
+        label.input_post Subject:
+        textarea.input_post(
+          type='text'
+          name='subject'
+          value=''
+          rows='1'
+          cols='40'
+        )
+      div
+        label.input_post Message:
+        textarea.input_post(
+          type='text'
+          name='message'
+          value=''
+          rows='10'
+          cols='40'
+        )
+    input(type='submit', value='Submit')

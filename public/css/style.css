@@ -56,3 +56,12 @@ div.post {
 .post_message {
   display: block;
 }
+
+.new_post {
+  margin: auto;
+  display: inline-block;
+}
+
+.input_post {
+  display: block;
+}
