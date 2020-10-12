@@ -42,8 +42,8 @@ function httpRequestToBackend (params, postData) {
 
 const boardHandler = (req, res) => {
   const options = {
-    // FIXME: Move host to config file
-    host: 'pissykaka.ritsuka.host',
+    host: req.config.backend_hostname,
+    port: req.config.backend_port,
     path: '/board?name=' + req.params.board_name
   }
 

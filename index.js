@@ -2,6 +2,8 @@ const express = require('express')
 const app = express()
 const port = 3000
 
+const config = require('./config')
+
 // https://nimblewebdeveloper.com/blog/hot-reload-nodejs-server
 // Only run this in development
 if (process.env.NODE_ENV !== 'production') {
@@ -36,9 +38,12 @@ if (process.env.NODE_ENV !== 'production') {
 
 app.set('view engine', 'pug')
 
+console.log(config)
+
 // Hot reload!
 // ALL server routes are in this module!
 app.use((req, res, next) => {
+  req.config = config
   require('./app/router')(req, res, next)
 })
 
