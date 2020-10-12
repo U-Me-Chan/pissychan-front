@@ -40,6 +40,8 @@ app.set('view engine', 'pug')
 
 console.log(config)
 
+app.use('/static', express.static('public'))
+
 // Hot reload!
 // ALL server routes are in this module!
 app.use((req, res, next) => {

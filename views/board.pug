@@ -1,14 +1,13 @@
-html
-  head
-    title /#{board_name}/
-  body
-    h1 Welcome to /#{board_name}/
-    div.threads
-      each thread in threads
-        div.thread(id=thread.id)
-          div.timestamp #{thread.timestamp}
-          div.subject #{thread.subject}
-          div.poster #{thread.poster}
-          div.message #{thread.message}
-      else 
-        p Тредов нет
+extends layout.pug
+
+block content
+  h1 Welcome to /#{board_name}/
+  div.threads
+    each thread in threads
+      div.thread(id=thread.id)
+        div.timestamp #{thread.timestamp}
+        div.subject #{thread.subject}
+        div.poster #{thread.poster}
+        div.message #{thread.message}
+    else
+      p Тредов нет
