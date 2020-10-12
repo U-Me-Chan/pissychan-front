@@ -1,0 +1,23 @@
+extends layout.pug
+
+block content
+  h1 /#{board_name}/ - Board name
+  div.thread
+    div.post_header
+      div.post_header_element.thread_id #{thread.id}
+      div.post_header_element.timestamp #{thread.timestamp}
+      div.post_header_element.subject #{thread.subject}
+      div.post_header_element.poster #{thread.poster}
+    div.post_message
+      p #{thread.message}
+    each post in posts
+      div.post(id=post.id)
+        div.post_header
+          div.post_header_element.post_id #{post.id}
+          div.post_header_element.timestamp #{post.timestamp}
+          div.post_header_element.subject #{post.subject}
+          div.post_header_element.poster #{post.poster}
+        div.post_message
+          p #{post.message}
+    else
+      p Постов нет

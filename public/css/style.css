@@ -1,16 +1,16 @@
-/* https://color.adobe.com/ru/color1-color-theme-15852390
- * Color Theme Swatches in Hex
- * */
-.color1-1-hex { color: #1D2D60; }
-.color1-2-hex { color: #40CEE2; }
-.color1-3-hex { color: #F2F2F0; }
-.color1-4-hex { color: #FFBC47; }
-.color1-5-hex { color: #F65E5D; }
+/* Color Theme Swatches in Hex */
+.Helka-pidu-1-hex { color: #525943; }
+.Helka-pidu-2-hex { color: #F2D8C2; }
+.Helka-pidu-3-hex { color: #F2F2F2; }
+.Helka-pidu-4-hex { color: #F29C6B; }
+.Helka-pidu-5-hex { color: #F27D52; }
 
 :root {
-  --main-bg-color: #F2F2F0;
-  --main-bg2-color: #1D2D60;
-  --main-txt-color: #1D2D60;
+  --main-txt-color: #525943;
+  --main-bg-color:  #F2D8C2;
+  --main-bg2-color: #F2F2F2;
+  --main-fg-color:  #F29C6B;
+  --main-fg2-color: #F27D52;
 }
 
 body {
@@ -24,12 +24,23 @@ h1 {
   text-align: center;
 }
 
-div.first_post {
+div.thread {
   border-top-style: solid;
   border-bottom-style: solid;
   border-width: 1px;
   display: block;
   padding: 20px 0 20px 0;
+  margin: 10px 0 10px 10px;
+}
+
+div.post {
+  background-color: var(--main-bg2-color);
+  border-color: var(--main-txt-color);
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 5px;
+  display: block;
+  padding: 10px;
   margin: 10px 0 10px 10px;
 }
 

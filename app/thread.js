@@ -4,19 +4,20 @@ function renderError (error) {
   return 'Error ' + error.message
 }
 
-const boardHandler = (req, res) => {
+const threadHandler = (req, res) => {
   const options = {
     host: req.config.backend_hostname,
     port: req.config.backend_port,
-    path: '/board?name=' + req.params.board_name
+    path: '/post?id=' + req.params.thread_id
   }
 
   httpRequestToBackend(options)
     .then((backedResponseBody) => {
-      const boardData = backedResponseBody.payload.board_data
-      res.render('board', {
-        board_name: boardData.name,
-        threads: boardData.threads
+      const threadData = backedResponseBody.payload.thread_data
+      res.render('thread', {
+        board_name: req.params.board_name,
+        thread: threadData[0],
+        posts: threadData.replies
       })
     })
     .catch((error) => {
@@ -24,4 +25,4 @@ const boardHandler = (req, res) => {
     })
 }
 
-module.exports = boardHandler
+module.exports = threadHandler

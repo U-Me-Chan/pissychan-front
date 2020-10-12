@@ -4,10 +4,10 @@ block content
   h1 /#{board_name}/ - Board name
   div.threads
     each thread in threads
-      div.first_post(id=thread.id)
+      div.thread(id=thread.id)
         div.post_header
           div.post_header_element.thread_id
-            a(href=board_name + '/' + thread.id) #{thread.id}
+            a(href=thread.id) #{thread.id}
           div.post_header_element.timestamp #{thread.timestamp}
           div.post_header_element.subject #{thread.subject}
           div.post_header_element.poster #{thread.poster}
