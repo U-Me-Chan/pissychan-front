@@ -9,15 +9,15 @@ const threadHandler = (req, res) => {
   const options = {
     host: config.backend_hostname,
     port: config.backend_port,
-    path: '/post?id=' + req.params.thread_id
+    path: '/post/' + req.params.thread_id
   }
 
   httpRequestToBackend(options)
     .then((backedResponseBody) => {
       const threadData = backedResponseBody.payload.thread_data
       res.render('thread', {
-        board_name: req.params.board_name,
-        thread: threadData[0],
+        board_tag: req.params.board_tag,
+        thread: threadData,
         posts: threadData.replies
       })
     })

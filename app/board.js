@@ -9,13 +9,14 @@ const boardHandler = (req, res) => {
   const options = {
     host: config.backend_hostname,
     port: config.backend_port,
-    path: '/board?name=' + req.params.board_name
+    path: '/board/' + req.params.board_tag
   }
 
   httpRequestToBackend(options)
     .then((backedResponseBody) => {
       const boardData = backedResponseBody.payload.board_data
       res.render('board', {
+        board_tag: boardData.tag,
         board_name: boardData.name,
         threads: boardData.threads
       })
