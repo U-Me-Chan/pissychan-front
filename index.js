@@ -1,6 +1,5 @@
 const express = require('express')
 const app = express()
-const port = 3000
 
 const config = require('./config')
 
@@ -49,6 +48,6 @@ app.use((req, res, next) => {
   require('./app/router')(req, res, next)
 })
 
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
+app.listen(config.port, () => {
+  console.log(`Example app listening at http://localhost:${config.port}`)
 })
