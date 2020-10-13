@@ -13,8 +13,8 @@ function hasNonemptyProperty (obj, prop) {
 
 function formatSource (reqBody) {
   let source = '/'
-  if (hasNonemptyProperty(reqBody, 'board_tag')) {
-    source += reqBody.board_tag + '/'
+  if (hasNonemptyProperty(reqBody, 'tag')) {
+    source += reqBody.tag + '/'
   }
   if (hasNonemptyProperty(reqBody, 'thread')) {
     source += reqBody.thread + '/'
@@ -24,8 +24,8 @@ function formatSource (reqBody) {
 
 function formatQueryObject (reqBody) {
   const query = {}
-  if (hasNonemptyProperty(reqBody, 'board_tag')) {
-    query.board_tag = reqBody.board_tag
+  if (hasNonemptyProperty(reqBody, 'tag')) {
+    query.tag = reqBody.tag
   }
   if (hasNonemptyProperty(reqBody, 'poster')) {
     query.poster = reqBody.poster

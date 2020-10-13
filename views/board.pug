@@ -1,7 +1,7 @@
 extends layout.pug
 
 block content
-  h1 /#{board_tag}/ - Board name
+  h1 /#{tag}/ - #{board_name}
   div.threads
     each thread in threads
       div.thread(id=thread.id)
@@ -11,10 +11,10 @@ block content
           div.post_header_element.timestamp #{thread.timestamp}
           div.post_header_element.thread_id #{thread.id}
           div.post_header_element.reply_button
-            a(href='/' + board_tag + '/' + thread.id + '/') Replies
+            a(href='/' + tag + '/' + thread.id + '/') Replies
         div.post_message
           p #{thread.message}
   form.new_thread(action='/post', method='POST')
     include post_form
-    input(type='hidden', name='board_tag', value=board_tag)
+    input(type='hidden', name='tag', value=tag)
     input(type='submit', value='Submit')

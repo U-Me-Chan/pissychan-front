@@ -16,7 +16,7 @@ const threadHandler = (req, res) => {
     .then((backedResponseBody) => {
       const threadData = backedResponseBody.payload.thread_data
       res.render('thread', {
-        board_tag: req.params.board_tag,
+        tag: req.params.tag,
         thread: threadData,
         posts: threadData.replies
       })

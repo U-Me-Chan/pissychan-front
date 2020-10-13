@@ -1,7 +1,7 @@
 extends layout.pug
 
 block content
-  h1 /#{board_name}/ - Board name
+  h1 /#{tag}/ - #{board_name}
   div.thread
     div.post_header
       div.post_header_element.subject #{thread.subject}
@@ -21,6 +21,6 @@ block content
           p #{post.message}
   form.new_post(action='/post', method='POST')
     include post_form
-    input(type='hidden', name="board_name", value=board_name)
+    input(type='hidden', name="tag", value=tag)
     input(type='hidden', name="thread", value=thread.id)
     input(type='submit', value='Submit')
