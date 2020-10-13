@@ -5,9 +5,10 @@ function renderError (error) {
 }
 
 const boardHandler = (req, res) => {
+  const config = req.app.locals.config
   const options = {
-    host: req.config.backend_hostname,
-    port: req.config.backend_port,
+    host: config.backend_hostname,
+    port: config.backend_port,
     path: '/board?name=' + req.params.board_name
   }
 

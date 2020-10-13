@@ -1,8 +1,3 @@
-const express = require('express')
-const app = express()
-
-const config = require('./config')
-
 // https://nimblewebdeveloper.com/blog/hot-reload-nodejs-server
 // Only run this in development
 if (process.env.NODE_ENV !== 'production') {
@@ -35,16 +30,17 @@ if (process.env.NODE_ENV !== 'production') {
   })
 }
 
+const express = require('express')
+const app = express()
+const config = require('./config')
+
+app.locals.config = config
 app.set('view engine', 'pug')
-
-console.log(config)
-
 app.use('/static', express.static('public'))
 
 // Hot reload!
 // ALL server routes are in this module!
 app.use((req, res, next) => {
-  req.config = config
   require('./app/router')(req, res, next)
 })
 
