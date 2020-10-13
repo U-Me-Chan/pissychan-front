@@ -6,11 +6,12 @@ block content
     each thread in threads
       div.thread(id=thread.id)
         div.post_header
-          div.post_header_element.thread_id
-            a(href='/' + board_name + '/' + thread.id + '/') #{thread.id}
-          div.post_header_element.timestamp #{thread.timestamp}
           div.post_header_element.subject #{thread.subject}
           div.post_header_element.poster #{thread.poster}
+          div.post_header_element.timestamp #{thread.timestamp}
+          div.post_header_element.thread_id #{thread.id}
+          div.post_header_element.reply_button
+            a(href='/' + board_name + '/' + thread.id + '/') Replies
         div.post_message
           p #{thread.message}
   form.new_thread(action='/post', method='POST')

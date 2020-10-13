@@ -1,0 +1,3 @@
+- Markdown
+- Newlines instead of \n 
+- Clickable links
