@@ -35,6 +35,8 @@ const bodyParser = require('body-parser')
 const app = express()
 const config = require('./config')
 
+console.log(config)
+
 app.locals.config = config
 app.set('view engine', 'pug')
 app.use('/static', express.static('public'))
