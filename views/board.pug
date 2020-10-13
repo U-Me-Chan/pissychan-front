@@ -7,7 +7,7 @@ block content
       div.thread(id=thread.id)
         div.post_header
           div.post_header_element.thread_id
-            a(href=board_name + '/' + thread.id) #{thread.id}
+            a(href='/' + board_name + '/' + thread.id + '/') #{thread.id}
           div.post_header_element.timestamp #{thread.timestamp}
           div.post_header_element.subject #{thread.subject}
           div.post_header_element.poster #{thread.poster}
