@@ -13,3 +13,7 @@ block content
           div.post_header_element.poster #{thread.poster}
         div.post_message
           p #{thread.message}
+  form.new_thread(action='/post', method='POST')
+    include post_form
+    input(type='hidden', name="board_name", value=board_name)
+    input(type='submit', value='Submit')

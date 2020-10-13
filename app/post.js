@@ -1,5 +1,4 @@
 const httpRequestToBackend = require('./http_request')
-const querystring = require('querystring')
 
 function renderError (error) {
   return 'Error ' + error.message
@@ -44,16 +43,19 @@ function formatQueryObject (reqBody) {
 }
 
 const postHandler = (req, res) => {
-  const postQuery = querystring.stringify(formatQueryObject(req.body))
+  const postQuery = JSON.stringify(formatQueryObject(req.body))
   const config = req.app.locals.config
   const options = {
     method: 'POST',
     host: config.backend_hostname,
     port: config.backend_port,
-    path: '/post?' + postQuery
+    path: '/post',
+    headers: {
+      'Content-Type': 'application/json'
+    }
   }
 
-  httpRequestToBackend(options)
+  httpRequestToBackend(options, postQuery)
     .then((backedResponseBody) => {
       res.redirect(formatSource(req.body))
     })
