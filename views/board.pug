@@ -6,10 +6,8 @@ block content
     each thread in threads
       div.thread(id=thread.id)
         label.post_header
-          b.post_header_element.subject= thread.subject + ' '
-          a.post_header_element.poster= thread.poster + ' '
-          a.post_header_element.timestamp= thread.timestamp + ' '
-          a.post_header_element.thread_id= thread.id + ' '
+          - const post = thread
+          include post_header_elements
           a.post_header_element.reply_button(
             href='/' + tag + '/' + thread.id + '/'
           ) Replies
