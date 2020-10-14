@@ -1,6 +1,6 @@
 const httpRequestToBackend = require('./http_request')
 const htmlDefuse = require('./html_defuse')
-const formatReadable = require('./format_readable')
+const fmt = require('./format')
 
 function renderError (error) {
   return 'Error ' + error.message
@@ -19,7 +19,8 @@ const boardHandler = (req, res) => {
       const boardData = backedResponseBody.payload.board_data
       const threads = boardData.threads
       threads.forEach((post) => {
-        post.message = formatReadable(htmlDefuse(post.message))
+        post.message = fmt.formatMessage(htmlDefuse(post.message))
+        post.timestamp = fmt.formatTimestamp(post.timestamp)
       })
       res.render('board', {
         tag: boardData.tag,

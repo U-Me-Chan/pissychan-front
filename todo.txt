@@ -1,5 +1,3 @@
-- Human readable timestamp
-- Clickable links
 - Clickable links to posts (like ">>123")
 - Comprehensive look in `links` browser
 - Markdown
