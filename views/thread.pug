@@ -18,7 +18,7 @@ block content
           div.post_header_element.timestamp #{post.timestamp}
           div.post_header_element.post_id #{post.id}
         div.post_message
-          p #{post.message}
+          p !{post.message}
   form.new_post(action='/post', method='POST')
     include post_form
     input(type='hidden', name="tag", value=tag)
