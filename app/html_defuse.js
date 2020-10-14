@@ -3,15 +3,15 @@ const regex = /[&|<|>|"|']/g
 function htmlDefuse (data) {
   return data.replace(regex, function (match) {
     if (match === '&') {
-      return '&amp'
+      return '&amp;'
     } else if (match === '<') {
-      return '&lt'
+      return '&lt;'
     } else if (match === '>') {
-      return '&gt'
+      return '&gt;'
     } else if (match === '"') {
-      return '&quot'
+      return '&quot;'
     } else {
-      return '&apos'
+      return '&apos;'
     }
   })
 }
