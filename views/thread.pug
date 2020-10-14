@@ -6,22 +6,20 @@ block content
     a(href='/' + tag) Return
   div.posting_mode Posting mode: Reply
   div.thread
-    div.post_header
-      div.post_header_element.subject #{thread.subject}
-      div.post_header_element.poster #{thread.poster}
-      div.post_header_element.timestamp #{thread.timestamp}
-      div.post_header_element.thread_id #{thread.id}
-    div.post_message
-      p !{thread.message}
+    label.post_header
+      b.post_header_element.subject= thread.subject + ' '
+      a.post_header_element.poster= thread.poster + ' '
+      a.post_header_element.timestamp= thread.timestamp + ' '
+      a.post_header_element.thread_id= thread.id + ' '
+    blockquote.post_message !{thread.message}
     each post in posts
       div.post(id=post.id)
-        div.post_header
-          div.post_header_element.subject #{post.subject}
-          div.post_header_element.poster #{post.poster}
-          div.post_header_element.timestamp #{post.timestamp}
-          div.post_header_element.post_id #{post.id}
-        div.post_message
-          p !{post.message}
+        label.post_header
+          b.post_header_element.subject= post.subject + ' '
+          a.post_header_element.poster= post.poster + ' '
+          a.post_header_element.timestamp= post.timestamp + ' '
+          a.post_header_element.thread_id= post.id + ' '
+        blockquote.post_message !{post.message}
   form.new_post(action='/post', method='POST')
     include post_form
     input(type='hidden', name="tag", value=tag)

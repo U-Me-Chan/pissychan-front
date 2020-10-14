@@ -44,19 +44,6 @@ div.post {
   margin: 10px 0 10px 10px;
 }
 
-.post_header_element {
-  display: inline;
-  margin: 0 3pt 0 3pt;
-}
-
-.subject {
-  font-weight: bold;
-}
-
-.post_message {
-  display: block;
-}
-
 .new_post {
   margin: auto;
   display: inline-block;
