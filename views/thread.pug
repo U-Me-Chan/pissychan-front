@@ -2,6 +2,9 @@ extends layout.pug
 
 block content
   h1 /#{tag}/ - #{board_name}
+  div
+    a(href='/' + tag) Return
+  div.posting_mode Posting mode: Reply
   div.thread
     div.post_header
       div.post_header_element.subject #{thread.subject}
