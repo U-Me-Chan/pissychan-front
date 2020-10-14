@@ -39,7 +39,7 @@ console.log(config)
 
 app.locals.config = config
 app.set('view engine', 'pug')
-app.use('/static', express.static('public'))
+app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: true })) // For HTML POST forms
 
 // Hot reload!
