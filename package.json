@@ -3,12 +3,17 @@
   "version": "0.1.0",
   "description": "Pissykaka frontend",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Oxore/pissychan-front.git"
+  },
   "husky": {
     "hooks": {
       "pre-commit": "npm run lint"
     }
   },
   "scripts": {
+    "start": "node index.js",
     "lint": "eslint --ignore-path .gitignore .",
     "dev": "node index.js"
   },
