@@ -9,7 +9,7 @@ block content
       div.post_header_element.timestamp #{thread.timestamp}
       div.post_header_element.thread_id #{thread.id}
     div.post_message
-      p #{thread.message}
+      p !{thread.message}
     each post in posts
       div.post(id=post.id)
         div.post_header

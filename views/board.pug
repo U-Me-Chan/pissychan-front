@@ -13,7 +13,7 @@ block content
           div.post_header_element.reply_button
             a(href='/' + tag + '/' + thread.id + '/') Replies
         div.post_message
-          p #{thread.message}
+          p !{thread.message}
   form.new_thread(action='/post', method='POST')
     include post_form
     input(type='hidden', name='tag', value=tag)

@@ -17,6 +17,7 @@ const threadHandler = (req, res) => {
   httpRequestToBackend(options)
     .then((backedResponseBody) => {
       const threadData = backedResponseBody.payload.thread_data
+      threadData.message = formatReadable(htmlDefuse(threadData.message))
       const replies = threadData.replies
       replies.forEach((post) => {
         post.message = formatReadable(htmlDefuse(post.message))
