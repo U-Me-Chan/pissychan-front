@@ -9,8 +9,8 @@
   --main-txt-color: #525943;
   --main-bg-color:  #F2D8C2;
   --main-bg2-color: #F2F2F2;
-  --main-fg-color:  #F29C6B;
-  --main-fg2-color: #F27D52;
+  --main-fg-color:  #F27D52;
+  --main-fg2-color: #E34D2E;
 }
 
 body {
@@ -42,6 +42,11 @@ div.post {
   display: block;
   padding: 10px;
   margin: 10px 0 10px 10px;
+}
+
+a {
+  text-decoration: none;
+  color: var(--main-fg2-color);
 }
 
 .new_post {
