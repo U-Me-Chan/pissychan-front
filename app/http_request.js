@@ -3,7 +3,8 @@ const http = require('http')
 // https://stackoverflow.com/questions/38533580/nodejs-how-to-promisify-http-request-reject-got-called-two-times
 function httpRequestToBackend (params, postData) {
   params.headers = params.headers || {}
-  params.headers['User-Agent'] = 'pissychan-front/'
+  params.headers['User-Agent'] = 'pissychan-front/' +
+    process.env.npm_package_version
 
   return new Promise(function (resolve, reject) {
     var req = http.request(params, function (res) {
