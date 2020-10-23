@@ -2,4 +2,5 @@
 b.post_header_element.subject= post.subject + ' '
 span.post_header_element.poster= post.poster + ' '
 span.post_header_element.timestamp= post.timestamp + ' '
-span.post_header_element.thread_id= post.id + ' '
+a(name=post.id)
+a(href='#' + post.id): span.post_header_element.thread_id=post.id + ' '
