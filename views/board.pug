@@ -2,6 +2,10 @@ extends layout.pug
 
 block content
   h1 /#{tag}/ - #{board_name}
+  form.new_thread(action='/post', method='POST')
+    include post_form
+    input(type='hidden', name='tag', value=tag)
+    input(type='submit', value='Submit')
   div.threads
     each thread in threads
       div.thread(id=thread.id)
@@ -12,7 +16,3 @@ block content
             href='/' + tag + '/' + thread.id + '/'
           ) Replies
         blockquote.post_message !{thread.message}
-  form.new_thread(action='/post', method='POST')
-    include post_form
-    input(type='hidden', name='tag', value=tag)
-    input(type='submit', value='Submit')
