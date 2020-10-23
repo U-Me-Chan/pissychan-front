@@ -1,4 +1,7 @@
 const httpRequestToBackend = require('./http_request')
+const htmlDefuse = require('./html_defuse')
+const parser = require('./html_defuse')
+const fmt = require('./format')
 
 function renderError (error) {
   return 'Error ' + error.message
@@ -14,8 +17,17 @@ const rootHandler = (req, res) => {
 
   httpRequestToBackend(options)
     .then((backedResponseBody) => {
+      const posts = backedResponseBody.payload.posts
+
+      posts.forEach((post) => {
+        post.message = fmt.formatMessage(htmlDefuse(post.message))
+        post.message = parser(post.message)
+        post.timestamp = fmt.formatTimestamp(post.timestamp)
+      })
+
       res.render('root', {
-        boards: backedResponseBody.payload
+        boards: backedResponseBody.payload.boards,
+        posts: backedResponseBody.payload.posts
       })
     })
     .catch((error) => {
