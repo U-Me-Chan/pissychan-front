@@ -39,6 +39,9 @@ function formatQueryObject (reqBody) {
   if (hasNonemptyProperty(reqBody, 'thread')) {
     query.parent_id = reqBody.thread
   }
+  if (hasNonemptyProperty(reqBody, 'sage')) {
+    query.sage = true
+  }
   return query
 }
 

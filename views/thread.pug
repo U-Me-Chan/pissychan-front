@@ -7,9 +7,12 @@ block content
   div.posting_mode Posting mode: Reply
   form.new_post(action='/post', method='POST')
     include post_form
-    input(type='hidden', name="tag", value=tag)
-    input(type='hidden', name="thread", value=thread.id)
+    input(type='hidden', name='tag', value=tag)
+    input(type='hidden', name='thread', value=thread.id)
     input(type='submit', value='Submit')
+    label
+      input(type='checkbox' name='sage')
+      span sage
   div.thread
     label.post_header
       - const post = thread
