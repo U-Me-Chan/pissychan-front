@@ -1,6 +1,5 @@
 const httpRequestToBackend = require('./http_request')
 const htmlDefuse = require('./html_defuse')
-const parser = require('./html_defuse')
 const fmt = require('./format')
 
 function renderError (error) {
@@ -21,7 +20,6 @@ const rootHandler = (req, res) => {
 
       posts.forEach((post) => {
         post.message = fmt.formatMessage(htmlDefuse(post.message))
-        post.message = parser(post.message)
         post.timestamp = fmt.formatTimestamp(post.timestamp)
       })
 
