@@ -6,3 +6,18 @@ block content
     each board in boards
       div.board
         a(href='/' + board.tag + '/') /#{board.tag}/ - #{board.name}
+  h2 Feed
+  div.posts
+    each post in posts
+      div.thread(id=post.id)
+        label.post_header
+          b.post_header_element.subject= post.subject + ' '
+          span.post_header_element.poster= post.poster + ' '
+          span.post_header_element.timestamp= post.timestamp + ' '
+          if post.parent_id
+            a(href='/' + post.tag + '/' + post.parent_id + '#' + post.id) /#{post.tag}/#{post.parent_id}/#{post.id}
+          else
+            a(href='/' + post.tag + '/' + post.id) /#{post.tag}/#{post.id}
+
+
+        blockquote.post_message !{post.message}
