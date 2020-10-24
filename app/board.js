@@ -10,9 +10,28 @@ const boardHandler = (req, res) => {
     headers: { 'User-Agent': config.user_agent }
   }
 
-  axios.get('/board/' + req.params.tag, options)
-    .then((backRes) => {
-      const board = backRes.data.payload.board_data
+  Promise.allSettled([
+    axios.get('/board/' + req.params.tag, options),
+    axios.get('/board/all', options)
+  ])
+    .then((results) => {
+      // We don't care much about boards list, hence this promise may fail
+      // silently
+
+      const allBoardsRes = results[1]
+      const navs = allBoardsRes.status === 'fulfilled'
+        ? allBoardsRes.value.data.payload.boards.map(b => `/${b.tag}/`)
+        : []
+
+      // We care about fetching board content, hence fail of this promise is
+      // unacceptable
+
+      const boardRes = results[0]
+      if (boardRes.status !== 'fulfilled') {
+        throw new Error(boardRes.reason)
+      }
+
+      const board = boardRes.value.data.payload.board_data
       const threads = board.threads
 
       threads.forEach((post) => {
@@ -23,9 +42,10 @@ const boardHandler = (req, res) => {
       res.render('board', {
         tag: board.tag,
         board_name: board.name,
+        navs,
         threads
       })
-    }, backRes => res.send(backRes.message))
+    })
     .catch(error => res.send(error.stack))
 }
 

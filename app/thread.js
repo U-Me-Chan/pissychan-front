@@ -10,9 +10,28 @@ const threadHandler = (req, res) => {
     headers: { 'User-Agent': config.user_agent }
   }
 
-  axios.get('/post/' + req.params.thread_id, options)
-    .then((backRes) => {
-      const thread = backRes.data.payload.thread_data
+  Promise.allSettled([
+    axios.get('/post/' + req.params.thread_id, options),
+    axios.get('/board/all', options)
+  ])
+    .then((results) => {
+      // We don't care much about boards list, hence this promise may fail
+      // silently
+
+      const allBoardsRes = results[1]
+      const navs = allBoardsRes.status === 'fulfilled'
+        ? allBoardsRes.value.data.payload.boards.map(b => `/${b.tag}/`)
+        : []
+
+      // We care about fetching board content, hence fail of this promise is
+      // unacceptable
+
+      const boardRes = results[0]
+      if (boardRes.status !== 'fulfilled') {
+        throw new Error(boardRes.reason)
+      }
+
+      const thread = boardRes.value.data.payload.thread_data
       const posts = thread.replies
 
       thread.message = fmt.formatMessage(htmlDefuse(thread.message))
@@ -26,9 +45,10 @@ const threadHandler = (req, res) => {
       res.render('thread', {
         tag: req.params.tag,
         thread,
+        navs,
         posts
       })
-    }, backRes => res.send(backRes.message))
+    })
     .catch(error => res.send(error.stack))
 }
 

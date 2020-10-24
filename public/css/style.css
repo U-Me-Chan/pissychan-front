@@ -57,3 +57,7 @@ a {
 .input_post {
   display: block;
 }
+
+.navbar {
+  text-align: right;
+}

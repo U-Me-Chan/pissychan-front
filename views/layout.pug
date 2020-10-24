@@ -16,6 +16,15 @@ html
     main#main
     .ui.container
 
+      div.navbar
+        | #{"[ "}
+        each nav in navs
+          a(href=nav) #{nav}
+          | #{" "}
+        | #{"] [ "}
+        a(href='/') #{"Home "}
+        | #{"] "}
+
       block content
 
     block footer

@@ -14,6 +14,7 @@ const rootHandler = (req, res) => {
     .then((backRes) => {
       const posts = backRes.data.payload.posts
       const boards = backRes.data.payload.boards
+      const navs = boards.map(b => `/${b.tag}/`)
 
       posts.forEach((post) => {
         post.message = fmt.formatMessage(htmlDefuse(post.message))
@@ -21,6 +22,7 @@ const rootHandler = (req, res) => {
       })
 
       res.render('root', {
+        navs,
         boards,
         posts
       })
