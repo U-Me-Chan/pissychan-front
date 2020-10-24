@@ -59,12 +59,8 @@ const postHandler = (req, res) => {
   }
 
   httpRequestToBackend(options, postQuery)
-    .then((backedResponseBody) => {
-      res.redirect(formatSource(req.body))
-    })
-    .catch((error) => {
-      res.send(renderError(error))
-    })
+    .then(resBody => res.redirect(formatSource(req.body)))
+    .catch(error => res.send(renderError(error)))
 }
 
 module.exports = postHandler

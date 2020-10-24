@@ -15,8 +15,9 @@ const rootHandler = (req, res) => {
   }
 
   httpRequestToBackend(options)
-    .then((backedResponseBody) => {
-      const posts = backedResponseBody.payload.posts
+    .then((resBody) => {
+      const posts = resBody.payload.posts
+      const boards = resBody.payload.boards
 
       posts.forEach((post) => {
         post.message = fmt.formatMessage(htmlDefuse(post.message))
@@ -24,8 +25,8 @@ const rootHandler = (req, res) => {
       })
 
       res.render('root', {
-        boards: backedResponseBody.payload.boards,
-        posts: backedResponseBody.payload.posts
+        boards,
+        posts
       })
     })
     .catch((error) => {

@@ -15,17 +15,17 @@ const boardHandler = (req, res) => {
   }
 
   httpRequestToBackend(options)
-    .then((backedResponseBody) => {
-      const boardData = backedResponseBody.payload.board_data
-      const threads = boardData.threads
+    .then((resBody) => {
+      const board = resBody.payload.board_data
+      const threads = board.threads
       threads.forEach((post) => {
         post.message = fmt.formatMessage(htmlDefuse(post.message))
         post.timestamp = fmt.formatTimestamp(post.timestamp)
       })
       res.render('board', {
-        tag: boardData.tag,
-        board_name: boardData.name,
-        threads: threads
+        tag: board.tag,
+        board_name: board.name,
+        threads
       })
     })
     .catch((error) => {

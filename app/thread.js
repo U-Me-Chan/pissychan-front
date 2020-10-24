@@ -15,19 +15,19 @@ const threadHandler = (req, res) => {
   }
 
   httpRequestToBackend(options)
-    .then((backedResponseBody) => {
-      const threadData = backedResponseBody.payload.thread_data
-      threadData.message = fmt.formatMessage(htmlDefuse(threadData.message))
-      threadData.timestamp = fmt.formatTimestamp(threadData.timestamp)
-      const replies = threadData.replies
-      replies.forEach((post) => {
+    .then((resBody) => {
+      const thread = resBody.payload.thread_data
+      thread.message = fmt.formatMessage(htmlDefuse(thread.message))
+      thread.timestamp = fmt.formatTimestamp(thread.timestamp)
+      const posts = thread.replies
+      posts.forEach((post) => {
         post.message = fmt.formatMessage(htmlDefuse(post.message))
         post.timestamp = fmt.formatTimestamp(post.timestamp)
       })
       res.render('thread', {
         tag: req.params.tag,
-        thread: threadData,
-        posts: replies
+        thread,
+        posts
       })
     })
     .catch((error) => {
