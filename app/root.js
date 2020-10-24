@@ -1,23 +1,19 @@
-const httpRequestToBackend = require('./http_request')
+const axios = require('axios')
 const htmlDefuse = require('./html_defuse')
 const fmt = require('./format')
-
-function renderError (error) {
-  return 'Error ' + error.message
-}
+const u = require('./util')
 
 const rootHandler = (req, res) => {
   const config = req.app.locals.config
   const options = {
-    host: config.backend_hostname,
-    port: config.backend_port,
-    path: '/board/all'
+    baseURL: u.baseURLFromConfig(config),
+    headers: { 'User-Agent': config.user_agent }
   }
 
-  httpRequestToBackend(options)
-    .then((resBody) => {
-      const posts = resBody.payload.posts
-      const boards = resBody.payload.boards
+  axios.get('/board/all', options)
+    .then((backRes) => {
+      const posts = backRes.data.payload.posts
+      const boards = backRes.data.payload.boards
 
       posts.forEach((post) => {
         post.message = fmt.formatMessage(htmlDefuse(post.message))
@@ -28,10 +24,8 @@ const rootHandler = (req, res) => {
         boards,
         posts
       })
-    })
-    .catch((error) => {
-      res.send(renderError(error))
-    })
+    }, backRes => res.send(backRes.message))
+    .catch(error => res.send(error.stack))
 }
 
 module.exports = rootHandler

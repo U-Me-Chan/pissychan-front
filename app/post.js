@@ -1,8 +1,5 @@
-const httpRequestToBackend = require('./http_request')
-
-function renderError (error) {
-  return 'Error ' + error.message
-}
+const axios = require('axios')
+const u = require('./util')
 
 function hasNonemptyProperty (obj, prop) {
   if (obj === undefined) { return false }
@@ -46,21 +43,17 @@ function formatQueryObject (reqBody) {
 }
 
 const postHandler = (req, res) => {
-  const postQuery = JSON.stringify(formatQueryObject(req.body))
   const config = req.app.locals.config
   const options = {
-    method: 'POST',
-    host: config.backend_hostname,
-    port: config.backend_port,
-    path: '/post',
-    headers: {
-      'Content-Type': 'application/json'
-    }
+    baseURL: u.baseURLFromConfig(config),
+    headers: { 'User-Agent': config.user_agent }
   }
 
-  httpRequestToBackend(options, postQuery)
-    .then(resBody => res.redirect(formatSource(req.body)))
-    .catch(error => res.send(renderError(error)))
+  axios.post('/post', formatQueryObject(req.body), options)
+    .then(
+      _ => res.redirect(formatSource(req.body)),
+      backRes => res.send(backRes.message))
+    .catch(error => res.send(error.stack))
 }
 
 module.exports = postHandler

@@ -2,14 +2,16 @@ const dev = {
   env_name: 'dev',
   port: 3000,
   backend_hostname: 'pissykaka.ritsuka.host',
-  backend_port: 80
+  backend_port: 80,
+  user_agent: 'pissychan-front/' + process.env.npm_package_version
 }
 
 const production = {
   env_name: 'production',
   port: 8080,
   backend_hostname: 'pissykaka.ritsuka.host',
-  backend_port: 80
+  backend_port: 80,
+  user_agent: 'pissychan-front/' + process.env.npm_package_version
 }
 
 const envConfig = {

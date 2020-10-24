@@ -1,36 +1,32 @@
-const httpRequestToBackend = require('./http_request')
+const axios = require('axios')
 const htmlDefuse = require('./html_defuse')
 const fmt = require('./format')
-
-function renderError (error) {
-  return 'Error ' + error.message
-}
+const u = require('./util')
 
 const boardHandler = (req, res) => {
   const config = req.app.locals.config
   const options = {
-    host: config.backend_hostname,
-    port: config.backend_port,
-    path: '/board/' + req.params.tag
+    baseURL: u.baseURLFromConfig(config),
+    headers: { 'User-Agent': config.user_agent }
   }
 
-  httpRequestToBackend(options)
-    .then((resBody) => {
-      const board = resBody.payload.board_data
+  axios.get('/board/' + req.params.tag, options)
+    .then((backRes) => {
+      const board = backRes.data.payload.board_data
       const threads = board.threads
+
       threads.forEach((post) => {
         post.message = fmt.formatMessage(htmlDefuse(post.message))
         post.timestamp = fmt.formatTimestamp(post.timestamp)
       })
+
       res.render('board', {
         tag: board.tag,
         board_name: board.name,
         threads
       })
-    })
-    .catch((error) => {
-      res.send(renderError(error))
-    })
+    }, backRes => res.send(backRes.message))
+    .catch(error => res.send(error.stack))
 }
 
 module.exports = boardHandler
