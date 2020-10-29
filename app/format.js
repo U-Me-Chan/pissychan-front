@@ -1,4 +1,6 @@
 const linkify = require('linkifyjs/html')
+const defaultMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug',
+  'Sep', 'Oct', 'Nov', 'Dec']
 
 // Must be called after htmlDefuse, so all '>' must be replaced with &gt;
 function renderMarkdown (data) {
@@ -29,10 +31,8 @@ module.exports = {
       className: 'linkified'
     })
   },
-  formatTimestamp: (unixtime) => {
+  formatTimestamp: (unixtime, months = defaultMonths) => {
     const t = new Date(unixtime * 1000)
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug',
-      'Sep', 'Oct', 'Nov', 'Dec']
     const year = t.getFullYear()
     const month = months[t.getMonth()]
     const date = t.getDate()

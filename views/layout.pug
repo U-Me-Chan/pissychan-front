@@ -3,9 +3,9 @@ html
   head
     meta(name='viewport' content='width=device-width, initial-scale=1.0')
     if tag
-      title /#{tag}/ - #{board_name} - Pissychan
+      title /#{tag}/ - #{board_name} - #{texts.pissychan}
     else
-      title Pissychan
+      title=texts.pissychan
 
     link(rel='stylesheet' href='/css/style.css')
     style.
@@ -17,13 +17,13 @@ html
     .ui.container
 
       div.navbar
-        | #{"[ "}
+        | #{'[ '}
         each nav in navs
           a(href=nav) #{nav}
-          | #{" "}
-        | #{"] [ "}
-        a(href='/') #{"Home "}
-        | #{"] "}
+          | #{' '}
+        | #{'] [ '}
+        a(href='/') #{texts.link_home + ' '}
+        | #{'] '}
 
       block content
 

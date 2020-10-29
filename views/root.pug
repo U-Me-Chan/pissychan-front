@@ -1,12 +1,12 @@
 extends layout.pug
 
 block content
-  h1 Pissychan
+  h1 #{texts.pissychan}
   div.boards
     each board in boards
       div.board
         a(href='/' + board.tag + '/') /#{board.tag}/ - #{board.name}
-  h2 Feed
+  h2 #{texts.feed}
   div.posts
     each post in posts
       div.thread(id=post.id)

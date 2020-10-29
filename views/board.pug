@@ -5,7 +5,7 @@ block content
   form.new_thread(action='/post', method='POST')
     include post_form
     input(type='hidden', name='tag', value=tag)
-    input(type='submit', value='Submit')
+    input(type='submit', value=texts.submit)
   div.threads
     each thread in threads
       div.thread(id=thread.id)
@@ -14,5 +14,5 @@ block content
           include post_header_elements
           a.post_header_element.reply_button(
             href='/' + tag + '/' + thread.id + '/'
-          ) Replies
+          ) #{texts.into_thread}
         blockquote.post_message !{thread.message}

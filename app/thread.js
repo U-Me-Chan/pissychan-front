@@ -2,9 +2,11 @@ const axios = require('axios')
 const htmlDefuse = require('./html_defuse')
 const fmt = require('./format')
 const u = require('./util')
+const i18n = require('./i18n')
 
 const threadHandler = (req, res) => {
   const config = req.app.locals.config
+  const texts = i18n[config.lang]
   const options = {
     baseURL: u.baseURLFromConfig(config),
     headers: { 'User-Agent': config.user_agent }
@@ -35,18 +37,19 @@ const threadHandler = (req, res) => {
       const posts = thread.replies
 
       thread.message = fmt.formatMessage(htmlDefuse(thread.message))
-      thread.timestamp = fmt.formatTimestamp(thread.timestamp)
+      thread.timestamp = fmt.formatTimestamp(thread.timestamp, texts.months)
 
       posts.forEach((post) => {
         post.message = fmt.formatMessage(htmlDefuse(post.message))
-        post.timestamp = fmt.formatTimestamp(post.timestamp)
+        post.timestamp = fmt.formatTimestamp(post.timestamp, texts.months)
       })
 
       res.render('thread', {
         tag: req.params.tag,
         thread,
         navs,
-        posts
+        posts,
+        texts
       })
     })
     .catch(error => res.send(error.stack))

@@ -3,7 +3,8 @@ const dev = {
   port: 3000,
   backend_hostname: 'pissykaka.ritsuka.host',
   backend_port: 80,
-  user_agent: 'pissychan-front/' + process.env.npm_package_version
+  user_agent: 'pissychan-front/' + process.env.npm_package_version,
+  lang: 'en'
 }
 
 const production = {
@@ -11,7 +12,8 @@ const production = {
   port: 8080,
   backend_hostname: 'pissykaka.ritsuka.host',
   backend_port: 80,
-  user_agent: 'pissychan-front/' + process.env.npm_package_version
+  user_agent: 'pissychan-front/' + process.env.npm_package_version,
+  lang: 'ru'
 }
 
 const envConfig = {
@@ -34,6 +36,9 @@ function getEnvName () {
 function overrideFromEnvVars (config) {
   if (isEnvVarDefined('PORT')) {
     config.port = parseInt(process.env.PORT)
+  }
+  if (isEnvVarDefined('UI_LANG')) {
+    config.lang = process.env.UI_LANG.substr(0, 2)
   }
   if (isEnvVarDefined('BACKEND_HOSTNAME')) {
     config.backend_hostname = process.env.BACKEND_HOSTNAME
