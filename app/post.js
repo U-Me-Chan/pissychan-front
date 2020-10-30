@@ -1,19 +1,12 @@
 const axios = require('axios')
 const u = require('./util')
 
-function hasNonemptyProperty (obj, prop) {
-  if (obj === undefined) { return false }
-  if (obj[prop] === undefined) { return false }
-  if (obj[prop] === '') { return false }
-  return true
-}
-
 function formatSource (reqBody) {
   let source = '/'
-  if (hasNonemptyProperty(reqBody, 'tag')) {
+  if (reqBody.tag) {
     source += reqBody.tag + '/'
   }
-  if (hasNonemptyProperty(reqBody, 'thread')) {
+  if (reqBody.thread) {
     source += reqBody.thread + '/'
   }
   return source
@@ -21,24 +14,12 @@ function formatSource (reqBody) {
 
 function formatQueryObject (reqBody) {
   const query = {}
-  if (hasNonemptyProperty(reqBody, 'tag')) {
-    query.tag = reqBody.tag
-  }
-  if (hasNonemptyProperty(reqBody, 'poster')) {
-    query.poster = reqBody.poster
-  }
-  if (hasNonemptyProperty(reqBody, 'subject')) {
-    query.subject = reqBody.subject
-  }
-  if (hasNonemptyProperty(reqBody, 'message')) {
-    query.message = reqBody.message
-  }
-  if (hasNonemptyProperty(reqBody, 'thread')) {
-    query.parent_id = reqBody.thread
-  }
-  if (hasNonemptyProperty(reqBody, 'sage')) {
-    query.sage = true
-  }
+  query.tag = reqBody.tag || undefined
+  query.poster = reqBody.poster || undefined
+  query.subject = reqBody.subject || undefined
+  query.message = reqBody.message || undefined
+  query.parent_id = reqBody.thread || undefined
+  query.sage = reqBody.sage || undefined
   return query
 }
 
