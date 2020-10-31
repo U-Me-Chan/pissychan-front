@@ -5,7 +5,7 @@ const ru = {
   subject: 'Тема',
   message: 'Суть',
   submit: 'Отправить',
-  pissychan: 'Писичан',
+  pissychan: 'Писсичан',
   posting_mode: 'Режим постинга',
   posting_mode_reply: 'Ответ в тред',
   into_thread: 'В тред',
