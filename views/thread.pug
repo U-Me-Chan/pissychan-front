@@ -4,15 +4,9 @@ block content
   h1 /#{tag}/ - #{board_name}
   div
     a(href='/' + tag) #{texts.up}
-  div.posting_mode #{texts.posting_mode}: #{texts.posting_mode_reply}
-  form.new_post(action='/post', method='POST')
-    include post_form
-    input(type='hidden', name='tag', value=tag)
-    input(type='hidden', name='thread', value=thread.id)
-    input(type='submit', value=texts.submit)
-    label.sage
-      input(type='checkbox' name='sage')
-      | #{texts.sage}
+
+  include post_form_thread
+
   div.thread
     label.post_header
       - const post = thread
@@ -25,3 +19,5 @@ block content
           include post_header_elements
         //- blockquote makes nice look in Links browser
         blockquote.post_message !{post.message}
+
+  include post_form_thread
