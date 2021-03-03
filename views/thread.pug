@@ -12,7 +12,9 @@ block content
       - const post = thread
       include post_header_elements
     //- blockquote makes nice look in Links browser
-    blockquote.post_message !{thread.message}
+    blockquote.post_message
+      p !{thread.message}
+      div.post_count !{texts.post_count}: !{posts.length}
     each post in posts
       div.post(id=post.id)
         label.post_header

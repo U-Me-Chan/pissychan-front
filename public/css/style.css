@@ -33,6 +33,10 @@ div.thread {
   margin: 10px 0 10px 10px;
 }
 
+div.post_count {
+  font-style: italic;
+}
+
 div.post {
   background-color: var(--main-bg2-color);
   border-color: var(--main-txt-color);
