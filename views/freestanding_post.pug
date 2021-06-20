@@ -5,7 +5,7 @@ block content
   div
     a(href='/' + tag) #{texts.up}
 
-  include post_form_thread
+  include post_form_freestanding_post
 
   div.thread
     label.post_header
@@ -14,7 +14,8 @@ block content
     //- blockquote makes nice look in Links browser
     blockquote.post_message
       p !{thread.message}
-      div.post_count.thread_info !{texts.post_count}: !{posts.length}
+      div.parent_thread.thread_info !{texts.parent_thread}:
+        a(href=`/${tag}/${thread.parent_id}`)=` ${thread.parent_id}`
     each post in posts
       div.post(id=post.id)
         label.post_header
@@ -22,4 +23,4 @@ block content
         //- blockquote makes nice look in Links browser
         blockquote.post_message !{post.message}
 
-  include post_form_thread
+  include post_form_freestanding_post

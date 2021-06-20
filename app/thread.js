@@ -47,7 +47,7 @@ const threadHandler = (req, res) => {
         post.timestamp = fmt.formatTimestamp(post.timestamp, texts.months)
       })
 
-      res.render('thread', {
+      res.render(thread.parent_id ? 'freestanding_post' : 'thread', {
         tag: req.params.tag,
         thread,
         navs,
