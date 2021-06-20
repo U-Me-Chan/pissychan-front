@@ -1,5 +1,4 @@
 const axios = require('axios')
-const htmlDefuse = require('./html_defuse')
 const fmt = require('./format')
 const u = require('./util')
 const i18n = require('./i18n')
@@ -18,8 +17,12 @@ const rootHandler = (req, res) => {
       const boards = backRes.data.payload.boards
       const navs = boards.map(b => `/${b.tag}/`)
 
+      const formatMessage = config.format_old
+        ? fmt.formatMessageOld
+        : fmt.formatMessage
+
       posts.forEach((post) => {
-        post.message = fmt.formatMessage(htmlDefuse(post.message))
+        post.message = formatMessage(post.message)
         post.timestamp = fmt.formatTimestamp(post.timestamp, texts.months)
       })
 
