@@ -4,7 +4,8 @@ const dev = {
   backend_hostname: 'pissykaka.scheoble.ml',
   backend_port: 80,
   user_agent: 'pissychan-front/' + process.env.npm_package_version,
-  lang: 'en'
+  lang: 'en',
+  format_old: false
 }
 
 const production = {
@@ -13,7 +14,8 @@ const production = {
   backend_hostname: 'pissykaka.scheoble.ml',
   backend_port: 80,
   user_agent: 'pissychan-front/' + process.env.npm_package_version,
-  lang: 'ru'
+  lang: 'ru',
+  format_old: false
 }
 
 const envConfig = {

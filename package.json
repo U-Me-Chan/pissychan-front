@@ -11,6 +11,7 @@
     "start": "node index.js",
     "lint": "eslint --ignore-path .gitignore .",
     "postinstall": "husky install",
+    "test": "jasmine",
     "dev": "node index.js"
   },
   "author": "Oxore <oxore@protonmail.com>",
@@ -23,12 +24,14 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^5.1.0",
     "eslint-plugin-standard": "^4.1.0",
-    "husky": "^6.0.0"
+    "husky": "^6.0.0",
+    "jasmine": "^3.7.0"
   },
   "dependencies": {
     "axios": "^0.21.1",
     "express": "^4.17.1",
     "linkifyjs": "^2.1.9",
+    "marked": "^2.1.1",
     "pug": "^3.0.2"
   }
 }

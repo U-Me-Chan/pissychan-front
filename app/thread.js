@@ -1,5 +1,4 @@
 const axios = require('axios')
-const htmlDefuse = require('./html_defuse')
 const fmt = require('./format')
 const u = require('./util')
 const i18n = require('./i18n')
@@ -36,11 +35,15 @@ const threadHandler = (req, res) => {
       const thread = boardRes.value.data.payload.thread_data
       const posts = thread.replies
 
-      thread.message = fmt.formatMessage(htmlDefuse(thread.message))
+      const formatMessage = config.format_old
+        ? fmt.formatMessageOld
+        : fmt.formatMessage
+
+      thread.message = formatMessage(thread.message)
       thread.timestamp = fmt.formatTimestamp(thread.timestamp, texts.months)
 
       posts.forEach((post) => {
-        post.message = fmt.formatMessage(htmlDefuse(post.message))
+        post.message = fmt.formatMessage(post.message)
         post.timestamp = fmt.formatTimestamp(post.timestamp, texts.months)
       })
 
