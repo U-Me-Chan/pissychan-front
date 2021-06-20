@@ -24,7 +24,7 @@ function renderMarkdown (text) {
 }
 
 function renderNewlines (text) {
-  return text.replace(/\n/g, '<br>')
+  return text.replace(/(\r\n)|(\n\r)|\n|\r/g, '<br>')
 }
 
 function formatOld (text) {
