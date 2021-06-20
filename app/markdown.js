@@ -1,7 +1,6 @@
 const marked = require('marked')
 
-const tokenizerCode = {
-  paragraph: _ => {},
+const tokenizer = {
   strong: _ => {},
   blockquote: _ => {},
   list: _ => {},
@@ -37,16 +36,13 @@ const tokenizerCode = {
   }
 }
 
-const rendererCode = {
+const renderer = {
   code: text => '<pre><code>' + text + '</code></pre>',
   codespan: text => '<code>' + text + '</code>',
-  paragraph: text => text
+  paragraph: text => '<p>' + text + '</p>',
+  br: _ => '<br>'
 }
 
-marked.use({
-  renderer: rendererCode,
-  tokenizer: tokenizerCode,
-  sanitizer: false
-})
+marked.use({ renderer, tokenizer })
 
 module.exports = marked
