@@ -1,7 +1,6 @@
 const marked = require('marked')
 
 const tokenizer = {
-  strong: _ => {},
   blockquote: _ => {},
   list: _ => {},
   heading: _ => {},
