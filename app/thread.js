@@ -43,7 +43,7 @@ const threadHandler = (req, res) => {
       thread.timestamp = fmt.formatTimestamp(thread.timestamp, texts.months)
 
       posts.forEach((post) => {
-        post.message = fmt.formatMessage(post.message)
+        post.message = formatMessage(post.message)
         post.timestamp = fmt.formatTimestamp(post.timestamp, texts.months)
       })
 
