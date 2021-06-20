@@ -1,2 +1,0 @@
-- Clickable links to posts (like ">>123")
-- Markdown
