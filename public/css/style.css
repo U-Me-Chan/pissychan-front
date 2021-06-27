@@ -1,10 +1,3 @@
-/* Color Theme Swatches in Hex */
-.Helka-pidu-1-hex { color: #525943; }
-.Helka-pidu-2-hex { color: #F2D8C2; }
-.Helka-pidu-3-hex { color: #F2F2F2; }
-.Helka-pidu-4-hex { color: #F29C6B; }
-.Helka-pidu-5-hex { color: #F27D52; }
-
 :root {
   --main-txt-color: #525943;
   --main-bg-color:  #F2D8C2;
@@ -17,6 +10,10 @@ body {
   background-color: var(--main-bg-color);
   color: var(--main-txt-color);
   border-color: var(--main-txt-color);
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  word-wrap: break-word;
 }
 
 h1 {
@@ -46,6 +43,10 @@ div.post {
   display: block;
   padding: 10px;
   margin: 10px 0 10px 10px;
+}
+
+.post_message {
+  text-align: justify;
 }
 
 a {
