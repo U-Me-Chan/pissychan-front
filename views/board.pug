@@ -12,6 +12,7 @@ block content
         label.post_header
           - const post = thread
           include post_header_elements
+          |#{' / '}
           a.post_header_element.reply_button(
             href='/' + tag + '/' + thread.id + '/'
           ) #{texts.into_thread}
