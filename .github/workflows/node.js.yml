@@ -17,6 +17,19 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: Install jq tool
+      run: |
+        sudo apt-get update
+        sudo apt-get install jq
+    - name: Declare variables
+      id: vars
+      shell: bash
+      run: |
+        echo "::set-output name=branch::$(echo ${GITHUB_REF#refs/heads/})"
+        echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+        echo "::set-output name=package_name::$(jq -r '.name' <package.json)"
+        echo "::set-output name=package_version::$(jq -r '.version' <package.json)"
+        echo "::set-output name=bundle_name::${package_name}-v${package_version}-${sha_short}-${branch}"
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v2
       with:
@@ -25,3 +38,9 @@ jobs:
     - run: npm clean-install
     - run: npm run build --if-present
     - run: npm test
+    - name: Bundle for the deployment
+      run: tar cfz ${{ steps.vars.outputs.bundle_name }}
+    - uses: actions/upload-artifact@master
+      with:
+        name: Bundling artifacts
+        path: ${{ steps.vars.output.bundle_name }}
