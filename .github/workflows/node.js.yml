@@ -29,7 +29,7 @@ jobs:
         echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
         echo "::set-output name=package_name::$(jq -r '.name' <package.json)"
         echo "::set-output name=package_version::$(jq -r '.version' <package.json)"
-        echo "::set-output name=bundle_name::${package_name}-v${package_version}-${sha_short}-${branch}"
+        echo "::set-output name=bundle_name::${{steps.vars.output.package_name}}-v${{steps.vars.output.package_version}}-${{steps.vars.output.sha_short}}-${{steps.vars.output.branch}}.tar.gz"
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v2
       with:
@@ -39,7 +39,7 @@ jobs:
     - run: npm run build --if-present
     - run: npm test
     - name: Bundle for the deployment
-      run: tar cfz ${{ steps.vars.outputs.bundle_name }}
+      run: tar cfz ${{ steps.vars.outputs.bundle_name }} *
     - uses: actions/upload-artifact@master
       with:
         name: Bundling artifacts
