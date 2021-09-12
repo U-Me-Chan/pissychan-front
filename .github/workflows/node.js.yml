@@ -25,11 +25,14 @@ jobs:
       id: vars
       shell: bash
       run: |
-        echo "::set-output name=branch::$(echo ${GITHUB_REF#refs/heads/})"
-        echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
-        echo "::set-output name=package_name::$(jq -r '.name' <package.json)"
-        echo "::set-output name=package_version::$(jq -r '.version' <package.json)"
-        echo "::set-output name=bundle_name::${{ steps.vars.outputs.package_name }}-v${{ steps.vars.outputs.package_version }}-${{ steps.vars.outputs.sha_short }}-${{ steps.vars.outputs.branch }}-${{ matrix.node-version }}.tar.gz"
+        branch=$(echo ${GITHUB_REF#refs/heads/})
+        sha_short=$(git rev-parse --short HEAD)
+        package_name=$(jq -r '.name' <package.json)
+        package_version=$(jq -r '.version' <package.json)
+        echo "package_name=${package_name}" >> env
+        echo "package_version=${package_version}" >> env
+        echo "sha_short=${sha_short}" >> env
+        echo "bundle_name=${package_name}-v${package_version}-${sha_short}-${branch}-${{ matrix.node-version }}.tar.gz" >> $GITHUB_ENV
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v2
       with:
@@ -39,7 +42,8 @@ jobs:
     - run: npm run build --if-present
     - run: npm test
     - name: Bundle for the deployment
-      run: tar cfzv ${{ steps.vars.outputs.bundle_name }} *
+      run: |
+        tar cfzv ${{ steps.vars.outputs.bundle_name }} *
     - uses: actions/upload-artifact@master
       with:
         name: Bundling artifacts
