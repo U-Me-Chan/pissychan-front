@@ -29,10 +29,12 @@ jobs:
         sha_short=$(git rev-parse --short HEAD)
         package_name=$(jq -r '.name' <package.json)
         package_version=$(jq -r '.version' <package.json)
+        bundle_name=${package_name}-v${package_version}-${sha_short}-${branch}-${{ matrix.node-version }}
         echo "package_name=${package_name}" >> env
         echo "package_version=${package_version}" >> env
         echo "sha_short=${sha_short}" >> env
-        echo "bundle_name=${package_name}-v${package_version}-${sha_short}-${branch}-${{ matrix.node-version }}.tar.gz" >> $GITHUB_ENV
+        echo "bundle_name=${bundle_name}" >> env
+        echo "bundle_name=${bundle_name}" >> $GITHUB_ENV
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v2
       with:
@@ -43,8 +45,9 @@ jobs:
     - run: npm test
     - name: Bundle for the deployment
       run: |
-        tar cfz ${{ env.bundle_name }} *
+        tar cfz ${{ env.bundle_name }}.tar.gz *
     - uses: actions/upload-artifact@master
+      name: Uploading artifacts
       with:
-        name: Bundling artifacts
-        path: ${{ env.bundle_name }}
+        name: artifacts-${{ env.bundle_name }}
+        path: ${{ env.bundle_name }}.tar.gz
