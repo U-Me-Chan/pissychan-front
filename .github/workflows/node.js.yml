@@ -43,8 +43,8 @@ jobs:
     - run: npm test
     - name: Bundle for the deployment
       run: |
-        tar cfzv ${{ steps.vars.outputs.bundle_name }} *
+        tar cfz ${{ env.bundle_name }} *
     - uses: actions/upload-artifact@master
       with:
         name: Bundling artifacts
-        path: ${{ steps.vars.outputs.bundle_name }}
+        path: ${{ env.bundle_name }}
