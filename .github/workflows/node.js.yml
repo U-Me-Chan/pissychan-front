@@ -30,10 +30,11 @@ jobs:
         package_name=$(jq -r '.name' <package.json)
         package_version=$(jq -r '.version' <package.json)
         bundle_name=${package_name}-v${package_version}-${sha_short}-${branch}-${{ matrix.node-version }}
-        echo "package_name=${package_name}" >> env
-        echo "package_version=${package_version}" >> env
-        echo "sha_short=${sha_short}" >> env
-        echo "bundle_name=${bundle_name}" >> env
+        echo "npm_package_name=${package_name}" >> .env
+        echo "npm_package_version=${package_version}" >> .env
+        echo "sha_short=${sha_short}" >> .env
+        echo "branch_name=${branch}" >> .env
+        echo "bundle_name=${bundle_name}" >> .env
         echo "bundle_name=${bundle_name}" >> $GITHUB_ENV
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v2
