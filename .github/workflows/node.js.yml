@@ -65,6 +65,6 @@ jobs:
       with:
         name: artifacts-${{ needs.build.outputs.bundle_name }}
         path: ${{ needs.build.outputs.bundle_name }}.tar.gz
-    - run: mkdir ${{ needs.build.outputs.artifact_path }}
-    - run: ls -la ${{ needs.build.outputs.artifact_path }}.tar.gz
+    - run: mkdir ${{ needs.build.outputs.bundle_name }}
+    - run: ls -la ${{ needs.build.outputs.bundle_name }}.tar.gz
     - run: ls -la
