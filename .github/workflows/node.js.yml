@@ -86,4 +86,4 @@ jobs:
         SSH_HOST: ${{ secrets.SSH_HOST }}
         SSH_PORT: ${{ secrets.SSH_PORT }}
       run: |
-        scp -P$SSH_PORT -l$SSH_USER ${{ needs.build.outputs.bundle_name }}.tar.gz $SSH_HOST:
+        scp -P$SSH_PORT ${{ needs.build.outputs.bundle_name }}.tar.gz $SSH_USER@$SSH_HOST:
