@@ -78,7 +78,7 @@ jobs:
         name: artifacts-${{ needs.build.outputs.bundle_name }}
         path: artifacts
     - name: Debug ls
-    - run: |
+      run: |
         ls -la
         ls -la artifacts
         ls -la artifacts/${{ needs.build.outputs.bundle_name }}.tar.gz
