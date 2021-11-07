@@ -76,14 +76,18 @@ jobs:
     - uses: actions/download-artifact@master
       with:
         name: artifacts-${{ needs.build.outputs.bundle_name }}
-        path: ${{ needs.build.outputs.bundle_name }}.tar.gz
-    - run: mkdir ${{ needs.build.outputs.bundle_name }}
-    - run: ls -la ${{ needs.build.outputs.bundle_name }}.tar.gz
-    - run: ls -la
+        path: artifacts
+    - name: Debug ls
+    - run: |
+      ls -la
+      ls -la artifacts
+      ls -la artifacts/${{ needs.build.outputs.bundle_name }}.tar.gz
+      ls -laR
+      tree || true
     - name: Push by SSH
       env:
         SSH_USER: ${{ secrets.SSH_USER }}
         SSH_HOST: ${{ secrets.SSH_HOST }}
         SSH_PORT: ${{ secrets.SSH_PORT }}
       run: |
-        scp -P$SSH_PORT ${{ needs.build.outputs.bundle_name }}.tar.gz $SSH_USER@$SSH_HOST:
+        scp -P$SSH_PORT artifacts/${{ needs.build.outputs.bundle_name }}.tar.gz $SSH_USER@$SSH_HOST:
