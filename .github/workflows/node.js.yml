@@ -44,7 +44,7 @@ jobs:
     - run: npm clean-install
     - run: npm run build --if-present
     - run: npm test
-    - run: sh ./github/gen_pm2_ecosystem.sh >ecosystem.config.js
+    - run: sh ./.github/gen_pm2_ecosystem.sh >ecosystem.config.js
     - name: Bundle for the deployment
       run: |
         tar cfz ${{ env.bundle_name }}.tar.gz *
