@@ -63,7 +63,7 @@ jobs:
     - uses: actions/checkout@v2
     - uses: actions/download-artifact@master
       with:
-        name: my-artifact
+        name: artifacts-${{ needs.build.outputs.bundle_name }}
         path: ${{ needs.build.outputs.bundle_name }}.tar.gz
     - run: mkdir ${{ needs.build.outputs.artifact_path }}
     - run: ls -la ${{ needs.build.outputs.artifact_path }}.tar.gz
