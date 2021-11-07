@@ -53,3 +53,17 @@ jobs:
       with:
         name: artifacts-${{ env.bundle_name }}
         path: ${{ env.bundle_name }}.tar.gz
+    outputs:
+      bundle_name: ${{ env.bundle_name }}
+
+  deploy:
+    needs: build
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/download-artifact@master
+      with:
+        name: my-artifact
+        path: ${{ needs.build.outputs.bundle_name }}.tar.gz
+    - run: mkdir ${{ needs.build.outputs.artifact_path }}
+    - run: ls -la ${{ needs.build.outputs.artifact_path }}.tar.gz
+    - run: ls -la
