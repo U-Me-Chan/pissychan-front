@@ -58,8 +58,16 @@ jobs:
 
   deploy:
     needs: build
+    environment: Main
     runs-on: ubuntu-latest
     steps:
+    - name: Install SSH key
+      uses: shimataro/ssh-key-action@v2
+      with:
+        key: ${{ secrets.SSH_KEY }}
+        name: id_rsa # optional
+        known_hosts: ${{ secrets.KNOWN_HOSTS }}
+        if_key_exists: fail # replace / ignore / fail; optional (defaults to fail)
     - uses: actions/checkout@v2
     - uses: actions/download-artifact@master
       with:
@@ -68,3 +76,9 @@ jobs:
     - run: mkdir ${{ needs.build.outputs.bundle_name }}
     - run: ls -la ${{ needs.build.outputs.bundle_name }}.tar.gz
     - run: ls -la
+    - name: Push by SSH
+      env:
+        SSH_USER: ${{ secrets.SSH_USER }}
+        SSH_HOST: ${{ secrets.SSH_HOST }}
+        SSH_PORT: ${{ secrets.SSH_PORT }}
+      run: scp -P$SSH_PORT -l$SSH_USER ${{ needs.build.outputs.bundle_name }}.tar.gz $SSH_HOST:
