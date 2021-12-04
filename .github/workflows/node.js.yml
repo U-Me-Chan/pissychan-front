@@ -81,10 +81,7 @@ jobs:
         path: artifacts
     - name: Debug ls
       run: |
-        ls -la
-        ls -la artifacts
         ls -la artifacts/${{ needs.build.outputs.bundle_name }}.tar.gz
-        tree || true
     - name: Push by SSH
       env:
         SSH_USER: ${{ secrets.SSH_USER }}
