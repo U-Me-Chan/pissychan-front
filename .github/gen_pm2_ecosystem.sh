@@ -1,3 +1,5 @@
+#!/bin/sh
+
 source ./.env
 echo "\
 module.exports = {
