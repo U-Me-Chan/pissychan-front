@@ -49,10 +49,8 @@ jobs:
     - run: npm clean-install
     - run: npm run build --if-present
     - run: npm test
-    - run: |
-        ls -la .env
-        cat .env
-        sh ./.github/gen_pm2_ecosystem.sh >ecosystem.config.js
+    - name: Generate "ecosystem.config.js" file
+      run: sh ./.github/gen_pm2_ecosystem.sh >ecosystem.config.js
     - name: Bundle for the deployment
       run: |
         tar cfz ${{ env.bundle_name }}.tar.gz * .env

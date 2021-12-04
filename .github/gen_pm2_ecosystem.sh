@@ -1,8 +1,6 @@
 #!/bin/sh
 
-ls -la .env
-cat .env
-source .env
+. .env
 echo "\
 module.exports = {
   apps : [{
