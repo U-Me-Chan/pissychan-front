@@ -34,11 +34,11 @@ jobs:
         package_name=$(jq -r '.name' <package.json)
         package_version=$(jq -r '.version' <package.json)
         bundle_name=${package_name}-v${package_version}-${sha_short}-${branch}-${{ matrix.node-version }}
-        echo "npm_package_name=${package_name}" >>./.env
-        echo "npm_package_version=${package_version}" >>./.env
-        echo "sha_short=${sha_short}" >>./.env
-        echo "branch_name=${branch}" >>./.env
-        echo "bundle_name=${bundle_name}" >>./.env
+        echo "npm_package_name=${package_name}" >>.env
+        echo "npm_package_version=${package_version}" >>.env
+        echo "sha_short=${sha_short}" >>.env
+        echo "branch_name=${branch}" >>.env
+        echo "bundle_name=${bundle_name}" >>.env
         echo "bundle_name=${bundle_name}" >>$GITHUB_ENV
         cat .env
     - name: Use Node.js ${{ matrix.node-version }}
@@ -49,7 +49,10 @@ jobs:
     - run: npm clean-install
     - run: npm run build --if-present
     - run: npm test
-    - run: sh ./.github/gen_pm2_ecosystem.sh >ecosystem.config.js
+    - run: |
+        ls -la .env
+        cat .env
+        sh ./.github/gen_pm2_ecosystem.sh >ecosystem.config.js
     - name: Bundle for the deployment
       run: |
         tar cfz ${{ env.bundle_name }}.tar.gz * .env
