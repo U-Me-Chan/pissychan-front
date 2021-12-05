@@ -7,7 +7,7 @@ module.exports = {
     name: \"pissychan\",
     script: \"index.js\",
     env_production: {
-      NODE_ENV: \"development\",
+      NODE_ENV: \"dev\",
       npm_package_name: \"$npm_package_name\",
       npm_package_version: \"$npm_package_version\",
       sha_short: \"$sha_short\",
