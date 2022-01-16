@@ -2,10 +2,14 @@ extends layout.pug
 
 block content
   h1 /#{tag}/ - #{board_name}
+
   form.new_thread(action='/post', method='POST')
     include post_form_common
     input(type='hidden', name='tag', value=tag)
     input(type='submit', value=texts.submit)
+
+  include pagination.pug
+
   div.threads
     each thread in threads
       div.thread(id=thread.id)
@@ -17,3 +21,6 @@ block content
             href='/' + tag + '/' + thread.id + '/'
           ) #{texts.into_thread}
         blockquote.post_message !{thread.message}
+
+  
+  include pagination.pug

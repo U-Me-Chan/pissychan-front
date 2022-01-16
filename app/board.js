@@ -11,8 +11,11 @@ const boardHandler = (req, res) => {
     headers: { 'User-Agent': config.user_agent }
   }
 
+  const limit = req.query.limit ? req.query.limit : 20;
+  const offset = req.query.offset ? req.query.offset : 0;
+
   Promise.allSettled([
-    axios.get('/board/' + req.params.tag, options),
+    axios.get('/board/' + req.params.tag + '/?limit=' + limit + '&offset=' + offset, options),
     axios.get('/board/all', options)
   ])
     .then((results) => {
@@ -32,8 +35,10 @@ const boardHandler = (req, res) => {
         throw new Error(boardRes.reason)
       }
 
-      const board = boardRes.value.data.payload.board_data
+      const board   = boardRes.value.data.payload.board_data
       const threads = board.threads
+      const count   = board.threads_count
+      const pages   = count <= limit ? [1] : Array.from({ length: Math.floor(count / limit) + 1 }, (v,i) => i + 1)
 
       const formatMessage = config.format_old
         ? fmt.formatMessageOld
@@ -49,7 +54,11 @@ const boardHandler = (req, res) => {
         board_name: board.name,
         navs,
         threads,
-        texts
+        texts,
+        offset,
+        limit,
+        count,
+        pages
       })
     })
     .catch(error => res.send(error.stack))
