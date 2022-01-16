@@ -1,5 +1,7 @@
 const axios = require('axios')
 const u = require('./util')
+const formData = require('form-data')
+const fs = require('fs')
 
 function formatSource (reqBody) {
   let source = '/'
@@ -23,18 +25,50 @@ function formatQueryObject (reqBody) {
   return query
 }
 
-const postHandler = (req, res) => {
+function sendPost(req, res, data) {
   const config = req.app.locals.config
   const options = {
     baseURL: u.baseURLFromConfig(config),
     headers: { 'User-Agent': config.user_agent }
   }
 
-  axios.post('/post', formatQueryObject(req.body), options)
-    .then(
-      _ => res.redirect(formatSource(req.body)),
-      backRes => res.send(backRes.message))
-    .catch(error => res.send(error.stack))
+  axios.post('/post', data, options)
+       .then(
+	 _ => res.redirect(formatSource(req.body)),
+	 backRes => res.send(backRes.message))
+       .catch(error => res.send(error.stack))
+}
+
+const postHandler = (req, res) => {
+  if (req.body.message == '' && !req.files) {
+    res.send('Выберите изображение или заполните сообщение поста')
+
+    return
+  }
+
+  if (req.files) {
+    const form = new formData()
+
+    form.append('image', fs.createReadStream(req.files.image.tempFilePath), req.files.image.name)
+
+    axios.post('/', form, {
+      'baseURL': u.filestoreURLFromConfig(req.app.locals.config),
+      'headers': form.getHeaders()
+    })
+	.then(result => {
+	  const orig = result.data.original_file
+	  const thmb = result.data.thumbnail_file
+	  const marked_image = `![![](${thmb})](${orig})`
+
+	  query = formatQueryObject(req.body);
+	  query.message = query.message ? query.message : ' ' + '\r\n' + marked_image
+
+	  sendPost(req, res, query)
+	})
+	.catch(error => res.send(error.stack))
+  } else {
+    sendPost(req, res, formatQueryObject(req.body))
+  }
 }
 
 module.exports = postHandler

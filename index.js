@@ -31,6 +31,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 const express = require('express')
+const fileUpload = require('express-fileupload')
 const bodyParser = require('body-parser')
 const app = express()
 const config = require('./config')
@@ -41,6 +42,11 @@ app.locals.config = config
 app.set('view engine', 'pug')
 app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: true })) // For HTML POST forms
+app.use(fileUpload({
+  limits: { fileSize: 50 * 1014 * 1024 },
+  useTempFiles: true,
+  tempFileDir: config.tmpDir
+}));
 
 // Hot reload!
 // ALL server routes are in this module!
