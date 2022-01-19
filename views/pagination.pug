@@ -1,4 +1,4 @@
-div.pagination
+div.pagination #{texts.pages}: &nbsp;
   each page in pages
     if (page - 1) * limit == offset
       a(class='page page-selected') <b>#{page - 1}</b>

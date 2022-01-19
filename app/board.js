@@ -57,7 +57,6 @@ const boardHandler = (req, res) => {
         texts,
         offset,
         limit,
-        count,
         pages
       })
     })
