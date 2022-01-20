@@ -84,4 +84,4 @@ jobs:
         SSH_PORT: ${{ secrets.SSH_PORT }}
       run: |
         scp -P$SSH_PORT artifacts/${{ needs.build.outputs.bundle_name }}.tar.gz $SSH_USER@$SSH_HOST:
-        ssh -p$SSH_PORT $SSH_USER@$SSH_HOST BUNDLE_NAME=${{ needs.build.outputs.bundle_name }} bash -s <.github/remote_unpack.sh
+        ssh -p$SSH_PORT $SSH_USER@$SSH_HOST BUNDLE_NAME=${{ needs.build.outputs.bundle_name }} bash -ls <.github/remote_unpack.sh
