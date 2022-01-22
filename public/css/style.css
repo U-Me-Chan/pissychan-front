@@ -86,3 +86,7 @@ a.page {
 a.page-selected {
     border: 2px solid #f97;
 }
+
+span.hidden-space {
+  display: none;
+}
