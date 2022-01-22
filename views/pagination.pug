@@ -1,0 +1,9 @@
+div.pagination #{texts.pages}: &nbsp;
+  each page in pages
+    if page * limit == offset
+      a(class='page page-selected') <b>#{page}</b>
+    else
+      a(class='page' href='/' + tag + '?limit=' + limit + '&offset=' + page * limit) #{page}
+    // The space is hidden for graphical browsers, but rendered for
+    // links/elinks, w3m, and other text-based browsers.
+    span.hidden-space &nbsp;

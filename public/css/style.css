@@ -70,3 +70,23 @@ img{
 .navbar {
   text-align: right;
 }
+
+div.pagination {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+a.page {
+    margin: 1px;
+    padding-left: 5px;
+    padding-right: 5px;
+    border: 2px dotted #f97;
+}
+
+a.page-selected {
+    border: 2px solid #f97;
+}
+
+span.hidden-space {
+  display: none;
+}
