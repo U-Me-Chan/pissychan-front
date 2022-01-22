@@ -1,0 +1,87 @@
+name: Build and deploy
+
+on:
+  push:
+    branches:
+      - master
+      - i10-ci-cd
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install jq tool
+      run: |
+        sudo apt-get update
+        sudo apt-get install jq
+    - name: Declare variables
+      id: vars
+      shell: bash
+      run: |
+        branch=$(echo ${GITHUB_REF#refs/heads/})
+        sha_short=$(git rev-parse --short HEAD)
+        package_name=$(jq -r '.name' <package.json)
+        package_version=$(jq -r '.version' <package.json)
+        bundle_name=${package_name}-v${package_version}-${sha_short}-${branch}-${{ matrix.node-version }}
+        echo "npm_package_name=${package_name}" >>.env
+        echo "npm_package_version=${package_version}" >>.env
+        echo "sha_short=${sha_short}" >>.env
+        echo "branch_name=${branch}" >>.env
+        echo "bundle_name=${bundle_name}" >>.env
+        echo "bundle_name=${bundle_name}" >>$GITHUB_ENV
+        cat .env
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    - run: npm clean-install
+    - run: npm run build --if-present
+    - run: npm test
+    - name: Generate "ecosystem.config.js" file
+      run: sh ./.github/gen_pm2_ecosystem.sh | tee ecosystem.config.js
+    - name: Bundle for the deployment
+      run: |
+        tar cfz ${{ env.bundle_name }}.tar.gz * .env
+    - uses: actions/upload-artifact@master
+      name: Uploading artifacts
+      with:
+        name: artifacts-${{ env.bundle_name }}
+        path: ${{ env.bundle_name }}.tar.gz
+    outputs:
+      bundle_name: ${{ env.bundle_name }}
+
+  deploy:
+    needs: build
+    environment: Main
+    runs-on: ubuntu-latest
+    steps:
+    - name: Install SSH key
+      uses: shimataro/ssh-key-action@v2
+      with:
+        key: ${{ secrets.SSH_KEY }}
+        name: id_rsa # optional
+        known_hosts: ${{ secrets.KNOWN_HOSTS }}
+        if_key_exists: fail # replace / ignore / fail; optional (defaults to fail)
+    - uses: actions/checkout@v2
+    - uses: actions/download-artifact@master
+      with:
+        name: artifacts-${{ needs.build.outputs.bundle_name }}
+        path: artifacts
+    - name: Debug ls
+      run: |
+        ls -la artifacts/${{ needs.build.outputs.bundle_name }}.tar.gz
+    - name: Push by SSH
+      env:
+        SSH_USER: ${{ secrets.SSH_USER }}
+        SSH_HOST: ${{ secrets.SSH_HOST }}
+        SSH_PORT: ${{ secrets.SSH_PORT }}
+      run: |
+        scp -P$SSH_PORT artifacts/${{ needs.build.outputs.bundle_name }}.tar.gz $SSH_USER@$SSH_HOST:
+        ssh -p$SSH_PORT $SSH_USER@$SSH_HOST BUNDLE_NAME=${{ needs.build.outputs.bundle_name }} bash -ls <.github/remote_unpack.sh
