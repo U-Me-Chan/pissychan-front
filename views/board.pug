@@ -4,11 +4,15 @@ block content
   h1 /#{tag}/ - #{board_name}
   div.posting_mode #{texts.posting_mode}: #{texts.posting_mode_post}
   form.new_thread(action='/post', method='POST', enctype="multipart/form-data")
+
     include post_form_common
     input(type='hidden', name='tag', value=tag)
     input(type='file' name='image')
     p
     input(type='submit', value=texts.submit)
+
+  include pagination.pug
+
   div.threads
     each thread in threads
       div.thread(id=thread.id)
@@ -20,3 +24,6 @@ block content
             href='/' + tag + '/' + thread.id + '/'
           ) #{texts.into_thread}
         blockquote.post_message !{thread.message}
+
+  
+  include pagination.pug

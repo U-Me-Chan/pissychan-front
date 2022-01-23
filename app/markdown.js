@@ -44,4 +44,4 @@ const renderer = {
 
 marked.use({ renderer, tokenizer })
 
-module.exports = marked
+module.exports = marked.parse
