@@ -1,6 +1,6 @@
 const axios = require('axios')
 const u = require('./util')
-const formData = require('form-data')
+const FormData = require('form-data')
 const fs = require('fs')
 
 function formatSource (reqBody) {
@@ -25,43 +25,42 @@ function formatQueryObject (reqBody) {
   return query
 }
 
-function sendPost(req, res, data) {
+function sendPost (req, res, data) {
   const config = req.app.locals.config
   const options = {
     baseURL: u.baseURLFromConfig(config),
     headers: { 'User-Agent': config.user_agent }
   }
 
-  axios.post('/post', data, options)
-       .then(
-	 _ => res.redirect(formatSource(req.body)),
-	 backRes => res.send(backRes.message))
-       .catch(error => res.send(error.stack))
+  axios.post('/post', data, options).then(
+    _ => res.redirect(formatSource(req.body)),
+    backRes => res.send(backRes.message)
+  ).catch(error => res.send(error.stack))
 }
 
 const postHandler = (req, res) => {
-  if (req.body.message == '' && !req.files) {
+  if (req.body.message === '' && !req.files) {
     res.send('Выберите изображение или заполните сообщение поста')
 
     return
   }
 
   if (req.files) {
-    const form = new formData()
+    const form = new FormData()
 
     form.append('image', fs.createReadStream(req.files.image.tempFilePath), req.files.image.name)
 
     axios.post('/', form, {
-      'baseURL': u.filestoreURLFromConfig(req.app.locals.config),
-      'headers': form.getHeaders()
+      baseURL: u.filestoreURLFromConfig(req.app.locals.config),
+      headers: form.getHeaders()
     }).then(result => {
-      fs.rm(req.files.image.tempFilePath, () => {});
+      fs.rm(req.files.image.tempFilePath, () => {})
       const orig = result.data.original_file
       const thmb = result.data.thumbnail_file
-      const marked_image = `[![](${thmb})](${orig})`
+      const markedImage = `[![](${thmb})](${orig})`
 
-      query = formatQueryObject(req.body);
-      query.message = query.message ? query.message + '\n' + marked_image : marked_image
+      const query = formatQueryObject(req.body)
+      query.message = query.message ? query.message + '\n' + markedImage : markedImage
 
       sendPost(req, res, query)
     }).catch(error => res.send(error.stack))

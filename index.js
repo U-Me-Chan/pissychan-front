@@ -14,7 +14,7 @@ app.use(fileUpload({
   limits: { fileSize: 50 * 1014 * 1024 },
   useTempFiles: true,
   tempFileDir: config.tmpDir
-}));
+}))
 
 // Hot reload!
 // ALL server routes are in this module!
