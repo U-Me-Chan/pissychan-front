@@ -55,6 +55,7 @@ const postHandler = (req, res) => {
       'baseURL': u.filestoreURLFromConfig(req.app.locals.config),
       'headers': form.getHeaders()
     }).then(result => {
+      fs.rm(req.files.image.tempFilePath, () => {});
       const orig = result.data.original_file
       const thmb = result.data.thumbnail_file
       const marked_image = `[![](${thmb})](${orig})`
