@@ -54,18 +54,16 @@ const postHandler = (req, res) => {
     axios.post('/', form, {
       'baseURL': u.filestoreURLFromConfig(req.app.locals.config),
       'headers': form.getHeaders()
-    })
-	.then(result => {
-	  const orig = result.data.original_file
-	  const thmb = result.data.thumbnail_file
-	  const marked_image = `[![](${thmb})](${orig})`
+    }).then(result => {
+      const orig = result.data.original_file
+      const thmb = result.data.thumbnail_file
+      const marked_image = `[![](${thmb})](${orig})`
 
-	  query = formatQueryObject(req.body);
-	  query.message = query.message ? query.message : ' ' + '\r\n' + marked_image
+      query = formatQueryObject(req.body);
+      query.message = query.message ? query.message + '\n' + marked_image : marked_image
 
-	  sendPost(req, res, query)
-	})
-	.catch(error => res.send(error.stack))
+      sendPost(req, res, query)
+    }).catch(error => res.send(error.stack))
   } else {
     sendPost(req, res, formatQueryObject(req.body))
   }
