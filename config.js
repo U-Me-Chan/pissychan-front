@@ -5,7 +5,10 @@ const dev = {
   backend_port: 80,
   user_agent: 'pissychan-front/' + process.env.npm_package_version,
   lang: 'en',
-  format_old: false
+  format_old: false,
+  filestore_hostname: 'filestore.scheoble.xyz',
+  filestore_post: 80,
+  tmpDir: './tmp'
 }
 
 const production = {
@@ -15,7 +18,10 @@ const production = {
   backend_port: 80,
   user_agent: 'pissychan-front/' + process.env.npm_package_version,
   lang: 'ru',
-  format_old: false
+  format_old: false,
+  filestore_hostname: 'filestore.scheoble.xyz',
+  filestore_port: 80,
+  tmpDir: './tmp'
 }
 
 const envConfig = {

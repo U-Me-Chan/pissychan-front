@@ -2,10 +2,13 @@ extends layout.pug
 
 block content
   h1 /#{tag}/ - #{board_name}
+  div.posting_mode #{texts.posting_mode}: #{texts.posting_mode_post}
+  form.new_thread(action='/post', method='POST', enctype="multipart/form-data")
 
-  form.new_thread(action='/post', method='POST')
     include post_form_common
     input(type='hidden', name='tag', value=tag)
+    input(type='file' name='image')
+    p
     input(type='submit', value=texts.submit)
 
   include pagination.pug
