@@ -3,7 +3,7 @@ function baseURLFromConfig (config) {
 }
 
 function filestoreURLFromConfig (config) {
-  return `http://${config.filestore_hostname}:${config.filestore_post}/`
+  return `http://${config.filestore_hostname}:${config.filestore_port}/`
 }
 
 module.exports = {

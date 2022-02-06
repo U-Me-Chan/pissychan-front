@@ -7,7 +7,7 @@ const dev = {
   lang: 'en',
   format_old: false,
   filestore_hostname: 'filestore.scheoble.xyz',
-  filestore_post: 80,
+  filestore_port: 80,
   tmpDir: './tmp'
 }
 
