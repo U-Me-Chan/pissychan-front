@@ -90,3 +90,7 @@ a.page-selected {
 span.hidden-space {
   display: none;
 }
+
+pre {
+  overflow: auto;
+}
