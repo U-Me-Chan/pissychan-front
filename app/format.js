@@ -35,7 +35,7 @@ function formatOld (text) {
 }
 
 function format (text) {
-  return renderReplies(renderNewlines(markdown(htmlDefuse(text))))
+  return renderNewlines(markdown(htmlDefuse(text)))
 }
 
 module.exports = {
