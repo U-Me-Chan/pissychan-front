@@ -94,3 +94,7 @@ span.hidden-space {
 pre {
   overflow: auto;
 }
+
+.poster_verified {
+  border-bottom: 1px dotted black;
+}
