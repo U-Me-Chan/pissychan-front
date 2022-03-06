@@ -8,7 +8,7 @@ const threadHandler = (req, res) => {
   const texts = i18n[config.lang]
   const options = {
     baseURL: u.baseURLFromConfig(config),
-    headers: { 'User-Agent': config.user_agent }
+    headers: { 'User-Agent': u.versionFromConfig(config) }
   }
 
   Promise.allSettled([

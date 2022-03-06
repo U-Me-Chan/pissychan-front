@@ -1,5 +1,5 @@
 {
-  "name": "pissychan",
+  "name": "pissychan-front",
   "version": "0.1.0",
   "description": "Pissykaka frontend",
   "main": "index.js",
@@ -12,7 +12,7 @@
     "lint": "eslint --ignore-path .gitignore .",
     "postinstall": "husky install",
     "test": "jasmine",
-    "dev": "node index.js"
+    "dev": "sha_short=asdf nodemon index.js"
   },
   "author": "Oxore <oxore@protonmail.com>",
   "license": "WTFPL",
