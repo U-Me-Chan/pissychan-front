@@ -1,6 +1,13 @@
 //- No divs since they do not become inlined in Links browser
 b.post_header_element.subject= post.subject + ' '
-span.post_header_element.poster= post.poster + ' '
+
+if post.is_verify
+  span.post_header_element.poster
+    abbr.poster_verified(title=texts.authenticatedPoster)= post.poster + ' '
+else
+  span.post_header_element.poster= post.poster + ' '
+
 span.post_header_element.timestamp= post.timestamp + ' '
+
 a(name=post.id)
 a(href='#' + post.id): span.post_header_element.thread_id=post.id + ' '

@@ -1,5 +1,6 @@
 const ru = {
   reply: 'Ответить',
+  authenticatedPoster: 'Документы на имя проверены',
   up: 'Вернуться в доску',
   name: 'Имя',
   subject: 'Тема',
@@ -22,6 +23,7 @@ const ru = {
 }
 
 const en = {
+  authenticatedPoster: 'Posted by authenticated user',
   reply: 'Reply',
   up: 'Return',
   name: 'Name',
