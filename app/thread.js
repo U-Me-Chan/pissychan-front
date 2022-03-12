@@ -52,7 +52,8 @@ const threadHandler = (req, res) => {
         thread,
         navs,
         posts,
-        texts
+        texts,
+        version: u.versionFromConfig(config)
       })
     })
     .catch(error => res.send(error.stack))
