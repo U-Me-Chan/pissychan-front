@@ -29,7 +29,7 @@ function sendPost (req, res, data) {
   const config = req.app.locals.config
   const options = {
     baseURL: u.baseURLFromConfig(config),
-    headers: { 'User-Agent': config.user_agent }
+    headers: { 'User-Agent': u.versionFromConfig(config) }
   }
 
   axios.post('/post', data, options).then(

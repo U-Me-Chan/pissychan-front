@@ -1,9 +1,11 @@
+const { execSync } = require('child_process')
+const { readFileSync } = require('fs')
+
 const dev = {
   env_name: 'dev',
   port: 3000,
   backend_hostname: 'pissykaka.scheoble.xyz',
   backend_port: 80,
-  user_agent: 'pissychan-front/' + process.env.npm_package_version,
   lang: 'en',
   format_old: false,
   filestore_hostname: 'filestore.scheoble.xyz',
@@ -16,7 +18,6 @@ const production = {
   port: 8080,
   backend_hostname: 'pissykaka.scheoble.xyz',
   backend_port: 80,
-  user_agent: 'pissychan-front/' + process.env.npm_package_version,
   lang: 'ru',
   format_old: false,
   filestore_hostname: 'filestore.scheoble.xyz',
@@ -57,4 +58,55 @@ function overrideFromEnvVars (config) {
   return config
 }
 
-module.exports = overrideFromEnvVars(envConfig[getEnvName()])
+function extractGitBranchName () {
+  try {
+    return execSync('git branch --show-current', {
+      stdio: ['ignore', 'pipe', 'ignore']
+    }).toString('utf8').replace(/^\s+|\s+$/g, '')
+  } catch {}
+}
+
+function extractGitShaShort () {
+  try {
+    return execSync('git rev-parse --short HEAD', {
+      stdio: ['ignore', 'pipe', 'ignore']
+    }).toString('utf8').replace(/^\s+|\s+$/g, '')
+  } catch {}
+}
+
+function extractRepoStateDirty () {
+  try {
+    return execSync('git diff', {
+      stdio: ['ignore', 'pipe', 'ignore']
+    }).toString('utf8').replace(/^\s+|\s+$/g, '').length > 0
+      ? '+'
+      : ''
+  } catch {}
+}
+
+function extractPackageName () {
+  try {
+    return JSON.parse(readFileSync('package.json', 'utf8')).name
+  } catch {
+    return 'pissychan'
+  }
+}
+
+function extractPackageVersion () {
+  try {
+    return JSON.parse(readFileSync('package.json', 'utf8')).version
+  } catch {
+    return '9999.0.0'
+  }
+}
+
+const envVars = {
+  branch_name: process.env.branch_name || extractGitBranchName(),
+  bundle_name: process.env.bundle_name,
+  npm_package_name: process.env.npm_package_name || extractPackageName(),
+  npm_package_version: process.env.npm_package_version || extractPackageVersion(),
+  sha_short: process.env.sha_short || extractGitShaShort(),
+  repo_state_dirty: process.env.repo_state_dirty || extractRepoStateDirty()
+}
+
+module.exports = { ...overrideFromEnvVars(envConfig[getEnvName()]), ...envVars }
