@@ -20,20 +20,22 @@ const threadHandler = (req, res) => {
       // silently
 
       const allBoardsRes = results[1]
-      const navs = allBoardsRes.status === 'fulfilled'
-        ? allBoardsRes.value.data.payload.boards.map(b => `/${b.tag}/`)
+      const allBoards = allBoardsRes.status === 'fulfilled'
+        ? allBoardsRes.value.data.payload.boards
         : []
+      const navs = allBoards.map(b => `/${b.tag}/`)
 
-      // We care about fetching board content, hence fail of this promise is
+      // We care about fetching thread content, hence fail of this promise is
       // unacceptable
 
-      const boardRes = results[0]
-      if (boardRes.status !== 'fulfilled') {
-        throw new Error(boardRes.reason)
+      const threadRes = results[0]
+      if (threadRes.status !== 'fulfilled') {
+        throw new Error(threadRes.reason)
       }
 
-      const thread = boardRes.value.data.payload.thread_data
+      const thread = threadRes.value.data.payload.thread_data
       const posts = thread.replies
+      const { name: boardName, tag } = allBoards.find((b) => b.id === thread.board_id)
 
       const formatMessage = config.format_old
         ? fmt.formatMessageOld
@@ -48,7 +50,8 @@ const threadHandler = (req, res) => {
       })
 
       res.render(thread.parent_id ? 'freestanding_post' : 'thread', {
-        tag: req.params.tag,
+        tag,
+        boardName,
         thread,
         navs,
         posts,

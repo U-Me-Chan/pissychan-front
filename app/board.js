@@ -52,7 +52,7 @@ const boardHandler = (req, res) => {
 
       res.render('board', {
         tag: board.tag,
-        board_name: board.name,
+        boardName: board.name,
         navs,
         threads,
         texts,
