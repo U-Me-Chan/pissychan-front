@@ -47,6 +47,7 @@ const boardHandler = (req, res) => {
       threads.forEach((post) => {
         post.message = formatMessage(post.message)
         post.timestamp = fmt.formatTimestamp(post.timestamp, texts.months)
+        post.repliesCount = post.replies_count
       })
 
       res.render('board', {

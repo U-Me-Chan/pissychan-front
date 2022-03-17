@@ -23,7 +23,9 @@ block content
           a.post_header_element.reply_button(
             href='/' + tag + '/' + thread.id + '/'
           ) #{texts.into_thread}
-        blockquote.post_message !{thread.message}
+        blockquote.post_message
+          p !{thread.message}
+          div.post_count.thread_info !{texts.post_count}: !{thread.repliesCount}
 
   
   include pagination.pug
