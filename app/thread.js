@@ -35,7 +35,8 @@ const threadHandler = (req, res) => {
 
       const thread = threadRes.value.data.payload.thread_data
       const posts = thread.replies
-      const { name: boardName, tag } = allBoards.find((b) => b.id === thread.board_id)
+      const { name: boardName, tag } = allBoards.find((b) => b.id === thread.board_id) ||
+        { name: null, tag: req.params.tag }
 
       const formatMessage = config.format_old
         ? fmt.formatMessageOld
