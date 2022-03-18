@@ -1,0 +1,41 @@
+mixin post_form(posting_mode, extra, thread_id)
+  div.postarea
+    div.posting_mode= `${texts.posting_mode}: `
+      span.posting_mode= posting_mode
+    form.new_post(action='/post', method='POST', enctype="multipart/form-data")
+      table.post_form_layout
+        tr
+          td.header_column
+            label.form_label.input_post #{texts.name}
+          td
+            input.form_input.input_post(type='text' name='poster' value='' size='30')
+            span.name_to_submit_padding= ' '
+            input(type='submit', value=texts.submit)
+        tr
+          td.header_column
+            label.form_label.input_post #{texts.subject}
+          td
+            textarea.form_input.input_post(
+              type='text' name='subject' value='' rows='1' cols='45')
+        tr
+          td.header_column
+            label.form_label.input_post #{texts.message}
+          td
+            textarea.form_input.input_post(
+              type='text' name='message' value='' rows='10' cols='45')
+        tr
+          td.header_column
+            label.form_label.input_post #{texts.file}
+          td
+            input(type='file' name='image')
+        if extra
+          tr
+            td.header_column
+              label.form_label.input_post #{texts.postFormExtra}
+            td
+              label.sage
+                input(type='checkbox' name='sage')
+                | #{texts.sage}
+      input(type='hidden', name='tag', value=tag)
+      if thread_id
+        input(type='hidden', name='thread', value=thread_id)

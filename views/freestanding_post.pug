@@ -5,7 +5,7 @@ block content
   div
     a(href='/' + tag) #{texts.up}
 
-  include post_form_freestanding_post
+  div.posting_mode #{texts.posting_mode}: #{texts.posting_mode_forbidden}
 
   div.thread
     label.post_header
@@ -23,4 +23,4 @@ block content
         //- blockquote makes nice look in Links browser
         blockquote.post_message !{post.message}
 
-  include post_form_freestanding_post
+  div.posting_mode #{texts.posting_mode}: #{texts.posting_mode_forbidden}

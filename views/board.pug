@@ -1,15 +1,10 @@
 extends layout.pug
+include post_form.pug
 
 block content
   h1 /#{tag}/ - #{boardName}
-  div.posting_mode #{texts.posting_mode}: #{texts.posting_mode_post}
-  form.new_thread(action='/post', method='POST', enctype="multipart/form-data")
 
-    include post_form_common
-    input(type='hidden', name='tag', value=tag)
-    input(type='file' name='image')
-    p
-    input(type='submit', value=texts.submit)
+  +post_form(texts.posting_mode_post)
 
   include pagination.pug
 

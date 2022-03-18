@@ -63,10 +63,6 @@ img{
   display: inline-block;
 }
 
-.input_post {
-  display: block;
-}
-
 .navbar {
   text-align: right;
 }
@@ -93,4 +89,24 @@ span.hidden-space {
 
 pre {
   overflow: auto;
+}
+
+td.header_column {
+  font-weight: bold;
+  background: var(--main-bg2-color);
+  border-color: var(--main-txt-color);
+  border-style: solid;
+  border-width: 1px;
+}
+
+span.posting_mode {
+  font-weight: bold;
+}
+
+div.postarea {
+  text-align: center;
+}
+
+form.new_post {
+  text-align: left;
 }
