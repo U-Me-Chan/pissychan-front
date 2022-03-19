@@ -5,7 +5,9 @@ block content
   div
     a(href='/' + tag) #{texts.up}
 
-  div.posting_mode #{texts.posting_mode}: #{texts.posting_mode_forbidden}
+  div.postarea
+    div.posting_mode= `${texts.posting_mode}: `
+      span.posting_mode= texts.posting_mode_forbidden
 
   div.thread
     label.post_header
@@ -23,4 +25,6 @@ block content
         //- blockquote makes nice look in Links browser
         blockquote.post_message !{post.message}
 
-  div.posting_mode #{texts.posting_mode}: #{texts.posting_mode_forbidden}
+  div.postarea
+    div.posting_mode= `${texts.posting_mode}: `
+      span.posting_mode= texts.posting_mode_forbidden
