@@ -6,7 +6,7 @@ block content
   div.return_to_board
     a(href='/' + tag) #{texts.up}
 
-  +post_form(texts.posting_mode_post, true, thread.id)
+  +post_form(texts.posting_mode_reply, true, thread.id)
 
   div.thread
     label.post_header
@@ -23,4 +23,4 @@ block content
         //- blockquote makes nice look in Links browser
         blockquote.post_message !{post.message}
 
-  +post_form(texts.posting_mode_post, true, thread.id)
+  +post_form(texts.posting_mode_reply, true, thread.id)
