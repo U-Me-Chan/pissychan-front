@@ -1,5 +1,5 @@
 const axios = require('axios')
-const fmt = require('./format')
+const { formatMessage, formatTimestamp } = require('./format')
 const u = require('./util')
 const i18n = require('./i18n')
 
@@ -38,16 +38,12 @@ const threadHandler = (req, res) => {
       const { name: boardName, tag } = allBoards.find((b) => b.id === thread.board_id) ||
         { name: null, tag: req.params.tag }
 
-      const formatMessage = config.format_old
-        ? fmt.formatMessageOld
-        : fmt.formatMessage
-
       thread.message = formatMessage(thread.message)
-      thread.timestamp = fmt.formatTimestamp(thread.timestamp, texts.months)
+      thread.timestamp = formatTimestamp(thread.timestamp, texts.months)
 
       posts.forEach((post) => {
         post.message = formatMessage(post.message)
-        post.timestamp = fmt.formatTimestamp(post.timestamp, texts.months)
+        post.timestamp = formatTimestamp(post.timestamp, texts.months)
       })
 
       res.render(thread.parent_id ? 'freestanding_post' : 'thread', {

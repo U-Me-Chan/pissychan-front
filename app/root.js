@@ -1,5 +1,5 @@
 const axios = require('axios')
-const fmt = require('./format')
+const { formatMessage, formatTimestamp } = require('./format')
 const u = require('./util')
 const i18n = require('./i18n')
 
@@ -17,13 +17,9 @@ const rootHandler = (req, res) => {
       const boards = backRes.data.payload.boards
       const navs = boards.map(b => `/${b.tag}/`)
 
-      const formatMessage = config.format_old
-        ? fmt.formatMessageOld
-        : fmt.formatMessage
-
       posts.forEach((post) => {
         post.message = formatMessage(post.message)
-        post.timestamp = fmt.formatTimestamp(post.timestamp, texts.months)
+        post.timestamp = formatTimestamp(post.timestamp, texts.months)
       })
 
       res.render('root', {

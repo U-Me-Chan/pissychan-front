@@ -1,5 +1,5 @@
 const axios = require('axios')
-const fmt = require('./format')
+const { formatMessage, formatTimestamp } = require('./format')
 const u = require('./util')
 const i18n = require('./i18n')
 
@@ -40,13 +40,9 @@ const boardHandler = (req, res) => {
       const count = board.threads_count
       const pages = Array.from({ length: Math.ceil(count / limit) }, (v, i) => i)
 
-      const formatMessage = config.format_old
-        ? fmt.formatMessageOld
-        : fmt.formatMessage
-
       threads.forEach((post) => {
         post.message = formatMessage(post.message)
-        post.timestamp = fmt.formatTimestamp(post.timestamp, texts.months)
+        post.timestamp = formatTimestamp(post.timestamp, texts.months)
         post.repliesCount = post.replies_count
       })
 

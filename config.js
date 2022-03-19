@@ -7,7 +7,6 @@ const dev = {
   backend_hostname: 'pissykaka.scheoble.xyz',
   backend_port: 80,
   lang: 'en',
-  format_old: false,
   filestore_hostname: 'filestore.scheoble.xyz',
   filestore_port: 80,
   tmpDir: './tmp'
@@ -19,7 +18,6 @@ const production = {
   backend_hostname: 'pissykaka.scheoble.xyz',
   backend_port: 80,
   lang: 'ru',
-  format_old: false,
   filestore_hostname: 'filestore.scheoble.xyz',
   filestore_port: 80,
   tmpDir: './tmp'
