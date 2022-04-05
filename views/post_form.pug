@@ -3,12 +3,16 @@ mixin post_form(posting_mode, extra, thread_id)
     div.posting_mode= `${texts.posting_mode}: `
       span.posting_mode= posting_mode
     form.new_post(action='/post', method='POST', enctype="multipart/form-data")
+      div.trap
+        | #{texts.spamTrap}
+        input.form_input.input_post(type='text' name='name' size='28')
+        input.form_input.input_post(type='text' name='link' size='28')
       table.post_form_layout
         tr
           td.header_column
             label.form_label.input_post #{texts.name}
           td
-            input.form_input.input_post(type='text' name='poster' value='' size='30')
+            input.form_input.input_post(type='text' name='oaoao' size='30')
             span.name_to_submit_padding= ' '
             input(type='submit', value=texts.submit)
         tr
@@ -16,18 +20,18 @@ mixin post_form(posting_mode, extra, thread_id)
             label.form_label.input_post #{texts.subject}
           td
             textarea.form_input.input_post(
-              type='text' name='subject' value='' rows='1' cols='45')
+              type='text' name='mmmmm' rows='1' cols='45')
         tr
           td.header_column
             label.form_label.input_post #{texts.message}
           td
             textarea.form_input.input_post(
-              type='text' name='message' value='' rows='10' cols='45')
+              type='text' name='zzzzz' rows='10' cols='45')
         tr
           td.header_column
             label.form_label.input_post #{texts.file}
           td
-            input(type='file' name='image')
+            input(type='file' name='usuc')
         if extra
           tr
             td.header_column

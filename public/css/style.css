@@ -110,3 +110,7 @@ div.postarea {
 form.new_post {
   text-align: left;
 }
+
+div.trap {
+  display: none;
+}

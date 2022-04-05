@@ -17,9 +17,9 @@ function formatSource (reqBody) {
 function formatQueryObject (reqBody) {
   const query = {}
   query.tag = reqBody.tag || undefined
-  query.poster = reqBody.poster || undefined
-  query.subject = reqBody.subject || undefined
-  query.message = reqBody.message || undefined
+  query.poster = reqBody.oaoao || undefined
+  query.subject = reqBody.mmmmm || undefined
+  query.message = reqBody.zzzzz || undefined
   query.parent_id = reqBody.thread || undefined
   query.sage = reqBody.sage || undefined
   return query
@@ -39,22 +39,24 @@ function sendPost (req, res, data) {
 }
 
 const postHandler = (req, res) => {
-  if (req.body.message === '' && !req.files) {
-    res.send('Выберите изображение или заполните сообщение поста')
-
+  if (req.body.name || req.body.link) {
+    res.redirect(formatSource(req.body))
     return
   }
-
+  if (req.body.message === '' && !req.files) {
+    res.send('Выберите изображение или заполните сообщение поста')
+    return
+  }
   if (req.files) {
     const form = new FormData()
 
-    form.append('image', fs.createReadStream(req.files.image.tempFilePath), req.files.image.name)
+    form.append('image', fs.createReadStream(req.files.usuc.tempFilePath), req.files.usuc.name)
 
     axios.post('/', form, {
       baseURL: u.filestoreURLFromConfig(req.app.locals.config),
       headers: form.getHeaders()
     }).then(result => {
-      fs.rm(req.files.image.tempFilePath, () => {})
+      fs.rm(req.files.usuc.tempFilePath, () => {})
       const orig = result.data.original_file
       const thmb = result.data.thumbnail_file
       const markedImage = `[![](${thmb})](${orig})`
