@@ -19,9 +19,10 @@ html
 
       div.navbar
         | #{'[ '}
-        each nav in navs
-          a(href=nav) #{nav}
-          | #{' '}
+        if navs
+          each nav in navs
+            a(href=nav) #{nav}
+            | #{' '}
         | #{'] [ '}
         a(href='/') #{texts.link_home + ' '}
         | #{'] '}

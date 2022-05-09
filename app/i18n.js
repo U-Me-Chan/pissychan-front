@@ -1,4 +1,5 @@
 const ru = {
+  error: 'Ошибка',
   spamTrap: 'Оставьте поля пустыми (ловушка Джокера):',
   reply: 'Ответить',
   authenticatedPoster: 'Документы на имя проверены',
@@ -26,6 +27,7 @@ const ru = {
 }
 
 const en = {
+  error: 'Error',
   spamTrap: 'Leave these fields empty (spam trap):',
   authenticatedPoster: 'Posted by authenticated user',
   reply: 'Reply',

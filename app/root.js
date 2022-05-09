@@ -29,8 +29,21 @@ const rootHandler = (req, res) => {
         texts,
         version: u.versionFromConfig(config)
       })
-    }, backRes => res.send(backRes.message))
-    .catch(error => res.send(error.stack))
+    }, backRes => {
+      const errorData = backRes.response?.data?.error?.message ||
+        JSON.stringify(backRes.response?.data)
+      res.status(backRes.response?.status || 500)
+        .render('root_error', {
+          errorCode: backRes.response?.status || backRes.code,
+          errorData,
+          texts,
+          version: u.versionFromConfig(config)
+        })
+    })
+    .catch(error => {
+      console.error(error.stack)
+      res.status(500).send(error.stack)
+    })
 }
 
 module.exports = rootHandler

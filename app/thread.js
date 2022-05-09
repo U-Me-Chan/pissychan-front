@@ -30,7 +30,21 @@ const threadHandler = (req, res) => {
 
       const threadRes = results[0]
       if (threadRes.status !== 'fulfilled') {
-        throw new Error(threadRes.reason)
+        const errorData = threadRes.reason.response?.data?.error?.message ||
+          JSON.stringify(threadRes.reason.response?.data)
+        const errorCode = threadRes.reason.response?.status ||
+          threadRes.reason.code
+        res.status(threadRes.reason.response?.status || 500)
+          .render('thread_error', {
+            tag: req.params.tag,
+            thread_id: req.params.thread_id,
+            navs,
+            errorCode,
+            errorData,
+            texts,
+            version: u.versionFromConfig(config)
+          })
+        return
       }
 
       const thread = threadRes.value.data.payload.thread_data
@@ -56,7 +70,10 @@ const threadHandler = (req, res) => {
         version: u.versionFromConfig(config)
       })
     })
-    .catch(error => res.send(error.stack))
+    .catch(error => {
+      console.error(error.stack)
+      res.status(500).send(error.stack)
+    })
 }
 
 module.exports = threadHandler

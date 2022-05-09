@@ -65,7 +65,7 @@ const postHandler = (req, res) => {
       query.message = query.message ? query.message + '\n' + markedImage : markedImage
 
       sendPost(req, res, query)
-    }).catch(error => res.send(error.stack))
+    }).catch(error => res.status(500).send(error.stack))
   } else {
     sendPost(req, res, formatQueryObject(req.body))
   }

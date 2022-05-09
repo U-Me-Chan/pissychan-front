@@ -29,10 +29,20 @@ const boardHandler = (req, res) => {
 
       // We care about fetching board content, hence fail of this promise is
       // unacceptable
-
       const boardRes = results[0]
       if (boardRes.status !== 'fulfilled') {
-        throw new Error(boardRes.reason)
+        const errorData = boardRes.reason.response?.data?.error?.message ||
+          JSON.stringify(boardRes.reason.response?.data)
+        res.status(boardRes.reason.response?.status || 500)
+          .render('board_error', {
+            tag: req.params.tag,
+            navs,
+            errorCode: boardRes.reason.response?.status || boardRes.reason.code,
+            errorData,
+            texts,
+            version: u.versionFromConfig(config)
+          })
+        return
       }
 
       const board = boardRes.value.data.payload.board_data
@@ -58,7 +68,10 @@ const boardHandler = (req, res) => {
         version: u.versionFromConfig(config)
       })
     })
-    .catch(error => res.send(error.stack))
+    .catch(error => {
+      console.error(error.stack)
+      res.status(500).send(error.stack)
+    })
 }
 
 module.exports = boardHandler
