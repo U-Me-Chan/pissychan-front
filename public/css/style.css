@@ -1,15 +1,15 @@
 :root {
-  --main-txt-color: #525943;
-  --main-bg-color:  #F2D8C2;
-  --main-bg2-color: #F2F2F2;
-  --main-fg-color:  #F27D52;
-  --main-fg2-color: #E34D2E;
+  --color: #525943;
+  --background: #F2D8C2;
+  --background2: #F2F2F2;
+  --accent: #F27D52;
+  --accent2: #E34D2E;
 }
 
 body {
-  background-color: var(--main-bg-color);
-  color: var(--main-txt-color);
-  border-color: var(--main-txt-color);
+  background-color: var(--background);
+  color: var(--color);
+  border-color: var(--color);
   max-width: 800px;
   margin-left: auto;
   margin-right: auto;
@@ -35,8 +35,8 @@ div.thread_info {
 }
 
 div.post {
-  background-color: var(--main-bg2-color);
-  border-color: var(--main-txt-color);
+  background-color: var(--background2);
+  border-color: var(--color);
   border-style: solid;
   border-width: 2px;
   border-radius: 5px;
@@ -51,7 +51,11 @@ div.post {
 
 a {
   text-decoration: none;
-  color: var(--main-fg2-color);
+  color: var(--accent);
+}
+
+a:visited {
+  color: var(--accent2);
 }
 
 img {
@@ -76,11 +80,11 @@ a.page {
   margin: 1px;
   padding-left: 5px;
   padding-right: 5px;
-  border: 2px dotted #f97;
+  border: 2px dotted var(--accent);
 }
 
 a.page-selected {
-  border: 2px solid #f97;
+  border: 2px solid var(--accent);
 }
 
 span.hidden-space {
@@ -93,8 +97,8 @@ pre {
 
 td.header_column {
   font-weight: bold;
-  background: var(--main-bg2-color);
-  border-color: var(--main-txt-color);
+  background: var(--background2);
+  border-color: var(--color);
   border-style: solid;
   border-width: 1px;
 }

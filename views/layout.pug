@@ -4,11 +4,15 @@ html
     meta(name='viewport' content='width=device-width, initial-scale=1.0')
     if tag
       title /#{tag}/ - #{boardName} - #{texts.pissychan}
+    else if title
+      title=title
     else
       title=texts.pissychan
 
     link(rel="icon" href="data:,")
     link(rel='stylesheet' href='/css/style.css')
+    if themeUrl
+      link(rel='stylesheet' href=themeUrl)
 
   body
     main#main
@@ -21,10 +25,15 @@ html
             a(href=nav) #{nav}
             | #{' '}
         | #{'] [ '}
-        a(href='/') #{texts.link_home + ' '}
-        | #{'] '}
+        a(href='/') #{texts.link_home}
+        | #{' ]'}
 
       block content
+
+      div.navbar
+        | #{'[ '}
+        a(href='/settings') #{texts.settings}
+        | #{' ]'}
 
     block footer
       footer

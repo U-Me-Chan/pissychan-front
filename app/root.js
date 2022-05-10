@@ -10,6 +10,7 @@ const rootHandler = (req, res) => {
     baseURL: u.baseURLFromConfig(config),
     headers: { 'User-Agent': u.versionFromConfig(config) }
   }
+  const themeUrl = u.buildThemeUrl(config, req.cookies.theme || undefined)
 
   axios.get('/board/all', options)
     .then((backRes) => {
@@ -24,6 +25,7 @@ const rootHandler = (req, res) => {
 
       res.render('root', {
         navs,
+        themeUrl,
         boards,
         posts,
         texts,
@@ -36,6 +38,7 @@ const rootHandler = (req, res) => {
         .render('root_error', {
           errorCode: backRes.response?.status || backRes.code,
           errorData,
+          themeUrl,
           texts,
           version: u.versionFromConfig(config)
         })

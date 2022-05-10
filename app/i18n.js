@@ -1,4 +1,7 @@
 const ru = {
+  settings: 'Настройки',
+  themes: 'Шкурки',
+  selected: 'выбрано',
   error: 'Ошибка',
   spamTrap: 'Оставьте поля пустыми (ловушка Джокера):',
   reply: 'Ответить',
@@ -27,6 +30,9 @@ const ru = {
 }
 
 const en = {
+  settings: 'Settings',
+  themes: 'Themes',
+  selected: 'selected',
   error: 'Error',
   spamTrap: 'Leave these fields empty (spam trap):',
   authenticatedPoster: 'Posted by authenticated user',

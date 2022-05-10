@@ -9,7 +9,10 @@ const dev = {
   lang: 'en',
   filestore_hostname: 'filestore.scheoble.xyz',
   filestore_port: 80,
-  tmpDir: './tmp'
+  tmpDir: './tmp',
+  themeDir: 'public/css/theme/',
+  publicDir: 'public',
+  defaultTheme: 'pissychan'
 }
 
 const production = {
@@ -20,7 +23,10 @@ const production = {
   lang: 'ru',
   filestore_hostname: 'filestore.scheoble.xyz',
   filestore_port: 80,
-  tmpDir: './tmp'
+  tmpDir: './tmp',
+  themeDir: 'css/theme/',
+  publicDir: 'public',
+  defaultTheme: 'pissychan'
 }
 
 const envConfig = {

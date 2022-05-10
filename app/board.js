@@ -26,6 +26,7 @@ const boardHandler = (req, res) => {
       const navs = allBoardsRes.status === 'fulfilled'
         ? allBoardsRes.value.data.payload.boards.map(b => `/${b.tag}/`)
         : []
+      const themeUrl = u.buildThemeUrl(config, req.cookies.theme || undefined)
 
       // We care about fetching board content, hence fail of this promise is
       // unacceptable
@@ -36,6 +37,7 @@ const boardHandler = (req, res) => {
         res.status(boardRes.reason.response?.status || 500)
           .render('board_error', {
             tag: req.params.tag,
+            themeUrl,
             navs,
             errorCode: boardRes.reason.response?.status || boardRes.reason.code,
             errorData,
@@ -60,6 +62,7 @@ const boardHandler = (req, res) => {
         tag: board.tag,
         boardName: board.name,
         navs,
+        themeUrl,
         threads,
         texts,
         offset,

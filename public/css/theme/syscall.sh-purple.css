@@ -1,0 +1,20 @@
+:root {
+  --color: #fff;
+  --background: rgb(33, 32, 44);
+  --background2: rgb(33, 32, 44);
+  --accent: #ee72f1;
+  --accent2: #ee72f1;
+}
+
+body {
+  font-family: Fira Code,Monaco,Consolas,Ubuntu Mono,monospace;
+  font-size: 1rem;
+  line-height: 1.54;
+  letter-spacing: -.02em;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: "liga","tnum","case","calt","zero","ss01","locl","calt";
+  font-variant-ligatures: contextual;
+  -webkit-overflow-scrolling: touch;
+  -webkit-text-size-adjust: 100%;
+}

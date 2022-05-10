@@ -1,4 +1,5 @@
 const express = require('express')
+const cookieParser = require('cookie-parser')
 const fileUpload = require('express-fileupload')
 const bodyParser = require('body-parser')
 const app = express()
@@ -8,8 +9,9 @@ console.log(config)
 
 app.locals.config = config
 app.set('view engine', 'pug')
-app.use(express.static('public'))
+app.use(express.static(config.publicDir))
 app.use(bodyParser.urlencoded({ extended: true })) // For HTML POST forms
+app.use(cookieParser())
 app.use(fileUpload({
   limits: { fileSize: 50 * 1014 * 1024 },
   useTempFiles: true,

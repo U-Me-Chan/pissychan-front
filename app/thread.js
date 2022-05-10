@@ -10,6 +10,7 @@ const threadHandler = (req, res) => {
     baseURL: u.baseURLFromConfig(config),
     headers: { 'User-Agent': u.versionFromConfig(config) }
   }
+  const themeUrl = u.buildThemeUrl(config, req.cookies.theme || undefined)
 
   Promise.allSettled([
     axios.get('/post/' + req.params.thread_id, options),
@@ -39,6 +40,7 @@ const threadHandler = (req, res) => {
             tag: req.params.tag,
             thread_id: req.params.thread_id,
             navs,
+            themeUrl,
             errorCode,
             errorData,
             texts,
@@ -65,6 +67,7 @@ const threadHandler = (req, res) => {
         boardName,
         thread,
         navs,
+        themeUrl,
         posts,
         texts,
         version: u.versionFromConfig(config)

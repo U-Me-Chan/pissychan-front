@@ -1,0 +1,21 @@
+:root {
+  --color: #000;
+  --background: #fff;
+  --background2: #fff;
+  --accent: #000;
+  --accent2: #000;
+}
+
+@media (prefers-color-scheme: dark){
+  :root {
+    --color: #fff;
+    --background: #000;
+    --background2: #000;
+    --accent: #fff;
+    --accent2: #fff;
+  }
+}
+
+a {
+  text-decoration: underline;
+}

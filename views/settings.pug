@@ -1,0 +1,10 @@
+extends layout.pug
+include post_form.pug
+
+block content
+  h1 #{texts.settings}
+  h2 #{texts.themes}
+  each theme in themes
+    li
+      a.theme-link(href='/settings?theme=' + theme.name) #{theme.name}
+      |  #{theme.selected ? '(' + texts.selected + ')' : '' }
