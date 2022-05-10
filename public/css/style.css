@@ -123,3 +123,7 @@ footer {
   margin: 35px 0 15px 0;
   text-align: center;
 }
+
+input[type="text"], textarea {
+  background-color: var(--background2); 
+}
