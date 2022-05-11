@@ -126,4 +126,5 @@ footer {
 
 input[type="text"], textarea {
   background-color: var(--background2); 
+  color: var(--color);
 }
