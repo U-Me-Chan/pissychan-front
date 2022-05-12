@@ -18,8 +18,5 @@ module.exports = {
     const branch = config.branch_name
     if (!branch) return `${packageName}/${version}-${sha}${dirty}`
     return `${packageName}/${version}-${sha}${dirty}-${branch}`
-  },
-  buildThemeUrl (config, theme) {
-    return '/' + config.themeDir + (theme || config.defaultTheme) + '.css'
   }
 }

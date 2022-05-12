@@ -1,5 +1,5 @@
 const markdown = require('./markdown')
-const htmlDefuse = require('./html_defuse')
+const htmlDefuse = require('./html-defuse')
 const defaultMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug',
   'Sep', 'Oct', 'Nov', 'Dec']
 
@@ -8,9 +8,7 @@ function renderNewlines (text) {
 }
 
 module.exports = {
-  formatMessage: (text) => {
-    return renderNewlines(markdown(htmlDefuse(text)))
-  },
+  formatMessage: (text) => renderNewlines(markdown(htmlDefuse(text))),
   formatTimestamp: (unixtime, months = defaultMonths) => {
     const t = new Date(unixtime * 1000)
     const year = t.getFullYear()

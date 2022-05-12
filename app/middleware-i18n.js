@@ -60,7 +60,17 @@ const en = {
     'Oct', 'Nov', 'Dec']
 }
 
-module.exports = {
+const langs = {
   ru,
   en
+}
+
+module.exports = {
+  byLang: function (lang) {
+    return function (req, res, next) {
+      req.templatingCommon = { texts: langs[lang], ...req.templatingCommon }
+      next()
+    }
+  },
+  ...langs
 }
