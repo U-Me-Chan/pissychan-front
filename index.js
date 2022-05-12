@@ -18,7 +18,6 @@ app.use(fileUpload({
   tempFileDir: config.tmpDir
 }))
 
-// Hot reload!
 // ALL server routes are in this module!
 app.use((req, res, next) => {
   require('./app/router')(req, res, next)
