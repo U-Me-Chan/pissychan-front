@@ -15,25 +15,24 @@ html
       link(rel='stylesheet' href=themeUrl)
 
   body
-    main#main
-    .ui.container
 
-      div.navbar
-        | #{'[ '}
-        if navs
-          each nav in navs
-            a(href=nav) #{nav}
-            | #{' '}
-        | #{'] [ '}
-        a(href='/') #{texts.link_home}
-        | #{' ]'}
+    div.navbar
+      | #{'[ '}
+      if navs
+        each nav in navs
+          a(href=nav) #{nav}
+          | #{' '}
+      | #{'] [ '}
+      a(href='/') #{texts.link_home}
+      | #{' ]'}
 
+    main
       block content
 
-      div.navbar
-        | #{'[ '}
-        a(href='/settings') #{texts.settings}
-        | #{' ]'}
+    div.navbar
+      | #{'[ '}
+      a(href='/settings') #{texts.settings}
+      | #{' ]'}
 
     block footer
       footer
