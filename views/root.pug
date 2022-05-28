@@ -7,6 +7,7 @@ block content
       div.board
         a(href='/' + board.tag + '/') /#{board.tag}/ - #{board.name}
   h2 #{texts.feed}
+  include pagination.pug
   div.posts
     each post in posts
       div.thread(id=post.id)
@@ -25,3 +26,4 @@ block content
 
 
         blockquote.post_message !{post.message}
+  include pagination.pug
