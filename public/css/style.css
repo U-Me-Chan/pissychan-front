@@ -149,3 +149,30 @@ footer {
   margin: 35px 0 15px 0;
   text-align: center;
 }
+
+#nav-down-floating {
+  position: fixed;
+  background-color: var(--background2);
+  border-color: var(--color);
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 2px;
+  padding: 4px;
+  right: 20px;
+  z-index: 10;
+}
+
+#nav-down-floating.popup-visible {
+  transition: bottom .1s;
+  bottom: 10%;
+}
+
+#nav-down-floating.fadeout-hidden {
+  /* Fading. Thanks to https://stackoverflow.com/a/16860733 */ 
+  opacity: 0;
+  -webkit-transition: opacity 1s, bottom 1s;
+  -moz-transition: opacity 1s, bottom 1s;
+  -o-transition: opacity 1s, bottom 1s;
+  transition: opacity 1s, bottom 1s;
+  bottom: -40px;
+}

@@ -1,3 +1,14 @@
+mixin navbar(navs, texts, id)
+  div.navbar(id=id)
+    | #{'[ '}
+    if navs
+      each nav in navs
+        a(href=nav) #{nav}
+        | #{' '}
+    | #{'] [ '}
+    a(href='/') #{texts.link_home}
+    | #{' ]'}
+
 doctype html
 html
   head
@@ -13,23 +24,26 @@ html
     link(rel='stylesheet' href='/css/style.css')
     if themeUrl
       link(rel='stylesheet' href=themeUrl)
+    script(src='/scripts/kukold.js' defer)
 
   body
 
-    div.navbar
-      | #{'[ '}
-      if navs
-        each nav in navs
-          a(href=nav) #{nav}
-          | #{' '}
-      | #{'] [ '}
-      a(href='/') #{texts.link_home}
-      | #{' ]'}
+    +navbar(navs, texts, 'top-navbar')
+
+    div.navbar#nav-down(style='display:none', text=`${texts.navDown}`)
+    div.navbar#nav-down-floating(style='display:none', text=`${texts.navDown}`)
 
     main
       block content
 
-    div.navbar
+    div.navbar#go-up-button
+      | #{'[ '}
+      a(href='#') #{texts.navUp}
+      | #{' ]'}
+
+    +navbar(navs, texts, 'bottom-navbar')
+
+    div.navbar#settins
       | #{'[ '}
       a(href='/settings') #{texts.settings}
       | #{' ]'}
