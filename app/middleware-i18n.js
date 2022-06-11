@@ -11,7 +11,7 @@ const ru = {
   subject: 'Тема',
   message: 'Суть',
   file: 'Файл',
-  postFormExtra: 'Дополнительно',
+  postFormExtra: 'Ещё',
   submit: 'Отправить',
   pages: 'Страницы',
   pissychan: 'Писсичан',
