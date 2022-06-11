@@ -10,7 +10,7 @@ const dev = {
   filestore_hostname: 'filestore.scheoble.xyz',
   filestore_port: 80,
   tmpDir: './tmp',
-  themeDir: 'public/css/theme/',
+  themeDir: 'css/theme/',
   publicDir: 'public',
   defaultTheme: 'pissychan'
 }
