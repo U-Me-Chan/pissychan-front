@@ -1,5 +1,6 @@
 extends layout.pug
 include post_form.pug
+include post_content.pug
 
 block content
   h1 /#{tag}/ - #{boardName}
@@ -9,18 +10,9 @@ block content
   +post_form(texts.posting_mode_reply, true, thread.id)
 
   div.thread
-    label.post_header
-      - const post = thread
-      include post_header_elements
-    //- blockquote makes nice look in Links browser
-    blockquote.post_message
-      p !{thread.message}
-      div.post_count.thread_info !{texts.post_count}: !{posts.length}
+    +post_content(thread, "thread", texts)
     each post in posts
       div.post(id=post.id)
-        label.post_header
-          include post_header_elements
-        //- blockquote makes nice look in Links browser
-        blockquote.post_message !{post.message}
+        +post_content(post, "thread", texts)
 
   +post_form(texts.posting_mode_reply, true, thread.id)

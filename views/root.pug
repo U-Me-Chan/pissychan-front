@@ -1,4 +1,5 @@
 extends layout.pug
+include post_content.pug
 
 block content
   h1 #{texts.pissychan}
@@ -11,19 +12,5 @@ block content
   div.posts
     each post in posts
       div.thread(id=post.id)
-        label.post_header
-          b.post_header_element.subject= post.subject + ' '
-          if post.is_verify
-            span.post_header_element.poster
-              abbr.poster_verified(title=texts.authenticatedPoster)= post.poster + ' '
-          else
-            span.post_header_element.poster= post.poster + ' '
-          span.post_header_element.timestamp= post.timestamp + ' '
-          if post.parent_id
-            a(href='/' + post.tag + '/' + post.parent_id + '#' + post.id) /#{post.tag}/#{post.parent_id}/#{post.id}
-          else
-            a(href='/' + post.tag + '/' + post.id) /#{post.tag}/#{post.id}
-
-
-        blockquote.post_message !{post.message}
+        +post_content(post, "feed", texts)
   include pagination.pug

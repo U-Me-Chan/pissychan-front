@@ -1,4 +1,5 @@
 extends layout.pug
+include post_content.pug
 
 block content
   h1 /#{tag}/ - #{boardName}
@@ -10,20 +11,10 @@ block content
       span.posting_mode= texts.posting_mode_forbidden
 
   div.thread
-    label.post_header
-      - const post = thread
-      include post_header_elements
-    //- blockquote makes nice look in Links browser
-    blockquote.post_message
-      p !{thread.message}
-      div.parent_thread.thread_info !{texts.parent_thread}:
-        a(href=`/${tag}/${thread.parent_id}`)=` ${thread.parent_id}`
+    +post_content(thread, "thread", texts)
     each post in posts
       div.post(id=post.id)
-        label.post_header
-          include post_header_elements
-        //- blockquote makes nice look in Links browser
-        blockquote.post_message !{post.message}
+        +post_content(post, "thread", texts)
 
   div.postarea
     div.posting_mode= `${texts.posting_mode}: `

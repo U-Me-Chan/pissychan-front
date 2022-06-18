@@ -38,6 +38,7 @@ const threadHandler = (req, res) => {
 
       thread.message = formatMessage(thread.message)
       thread.timestamp = formatTimestamp(thread.timestamp, req.templatingCommon.texts.months)
+      thread.repliesCount = thread.replies.length // For consistent rendering
 
       posts.forEach((post) => {
         post.message = formatMessage(post.message)

@@ -1,0 +1,35 @@
+mixin post_content(post, context, texts)
+  label.post_header
+    //- No divs since they do not become inlined in Links browser
+    b.post_header_element.subject= post.subject
+    | #{' '}
+    if post.is_verify
+      span.post_header_element.poster
+        abbr.poster_verified(title=texts.authenticatedPoster)= post.poster
+        | #{' '}
+    else
+      span.post_header_element.poster= post.poster
+      | #{' '}
+    span.post_header_element.timestamp= post.timestamp
+    | #{' '}
+    if context === "feed"
+      if post.parent_id
+        a(href='/' + post.tag + '/' + post.parent_id + '#' + post.id) /#{post.tag}/#{post.parent_id}/#{post.id}
+      else
+        a(href='/' + post.tag + '/' + post.id) /#{post.tag}/#{post.id}
+    else if context === "board"
+      a(name=post.id)
+      a(href='#' + post.id): span.post_header_element.thread_id= post.id
+      | #{' / '}
+      a.post_header_element.reply_button(
+        href='/' + tag + '/' + post.id + '/'
+      ) #{texts.into_thread}
+    else
+      a(name=post.id)
+      a(href='#' + post.id): span.post_header_element.thread_id= post.id
+      | #{' '}
+  //- blockquote makes nice look in Links browser
+  blockquote.post_message
+    p !{post.message}
+    if post.repliesCount
+      div.post_count.thread_info !{texts.post_count}: !{post.repliesCount}
