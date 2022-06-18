@@ -33,21 +33,28 @@ const threadHandler = (req, res) => {
 
       const thread = threadRes.value.data.payload.thread_data
       const posts = thread.replies
+      const texts = req.templatingCommon.texts
       const { name: boardName, tag } = req.allBoards.find((b) => b.id === thread.board_id) ||
         { name: null, tag: req.params.tag }
 
       thread.message = formatMessage(thread.message)
-      thread.timestamp = formatTimestamp(thread.timestamp, req.templatingCommon.texts.months)
+      thread.timestamp = formatTimestamp(thread.timestamp, texts.months)
       thread.repliesCount = thread.replies.length // For consistent rendering
 
       posts.forEach((post) => {
         post.message = formatMessage(post.message)
-        post.timestamp = formatTimestamp(post.timestamp, req.templatingCommon.texts.months)
+        post.timestamp = formatTimestamp(post.timestamp, texts.months)
       })
 
-      res.render(thread.parent_id ? 'freestanding_post' : 'thread', {
+      const isFreestanding = Boolean(thread.parent_id)
+      const postingMode = {
+        forbidden: isFreestanding,
+        text: isFreestanding ? texts.posting_mode_forbidden : texts.posting_mode_reply
+      }
+      res.render('thread', {
         tag,
         boardName,
+        postingMode,
         thread,
         posts,
         ...req.templatingCommon,

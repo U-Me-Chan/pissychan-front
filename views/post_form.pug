@@ -1,45 +1,46 @@
-mixin post_form(posting_mode, extra, thread_id)
+mixin post_form(postingMode, hasExtra, thread_id)
   div.postarea
     div.posting_mode= `${texts.posting_mode}: `
-      span.posting_mode= posting_mode
-    form.new_post(action='/post', method='POST', enctype="multipart/form-data")
-      div.trap
-        | #{texts.spamTrap}
-        input.form_input.input_post(type='text' name='name' size='28')
-        input.form_input.input_post(type='text' name='link' size='28')
-      table.post_form_layout
-        tr
-          td.header_column
-            label.form_label.input_post #{texts.name}
-          td
-            input.form_input.input_post(type='text' name='oaoao' size='30')
-            span.name_to_submit_padding= ' '
-            input(type='submit', value=texts.submit)
-        tr
-          td.header_column
-            label.form_label.input_post #{texts.subject}
-          td
-            textarea.form_input.input_post(
-              type='text' name='mmmmm' rows='1' cols='45')
-        tr
-          td.header_column
-            label.form_label.input_post #{texts.message}
-          td
-            textarea.form_input.input_post(
-              type='text' name='zzzzz' rows='10' cols='45')
-        tr
-          td.header_column
-            label.form_label.input_post #{texts.file}
-          td
-            input(type='file' name='usuc')
-        if extra
+      span.posting_mode= postingMode.text
+    if !postingMode.forbidden
+      form.new_post(action='/post', method='POST', enctype="multipart/form-data")
+        div.trap
+          | #{texts.spamTrap}
+          input.form_input.input_post(type='text' name='name' size='28')
+          input.form_input.input_post(type='text' name='link' size='28')
+        table.post_form_layout
           tr
             td.header_column
-              label.form_label.input_post #{texts.postFormExtra}
+              label.form_label.input_post #{texts.name}
             td
-              label.sage
-                input(type='checkbox' name='sage')
-                | #{texts.sage}
-      input(type='hidden', name='tag', value=tag)
-      if thread_id
-        input(type='hidden', name='thread', value=thread_id)
+              input.form_input.input_post(type='text' name='oaoao' size='30')
+              span.name_to_submit_padding= ' '
+              input(type='submit', value=texts.submit)
+          tr
+            td.header_column
+              label.form_label.input_post #{texts.subject}
+            td
+              textarea.form_input.input_post(
+                type='text' name='mmmmm' rows='1' cols='45')
+          tr
+            td.header_column
+              label.form_label.input_post #{texts.message}
+            td
+              textarea.form_input.input_post(
+                type='text' name='zzzzz' rows='10' cols='45')
+          tr
+            td.header_column
+              label.form_label.input_post #{texts.file}
+            td
+              input(type='file' name='usuc')
+          if hasExtra
+            tr
+              td.header_column
+                label.form_label.input_post #{texts.postFormExtra}
+              td
+                label.sage
+                  input(type='checkbox' name='sage')
+                  | #{texts.sage}
+        input(type='hidden', name='tag', value=tag)
+        if thread_id
+          input(type='hidden', name='thread', value=thread_id)

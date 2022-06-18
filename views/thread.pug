@@ -7,7 +7,7 @@ block content
   div.return_to_board
     a(href='/' + tag) #{texts.up}
 
-  +post_form(texts.posting_mode_reply, true, thread.id)
+  +post_form(postingMode, true, thread.id)
 
   div.thread
     +post_content(thread, "thread", texts)
@@ -15,4 +15,4 @@ block content
       div.post(id=post.id)
         +post_content(post, "thread", texts)
 
-  +post_form(texts.posting_mode_reply, true, thread.id)
+  +post_form(postingMode, true, thread.id)

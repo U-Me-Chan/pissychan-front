@@ -17,16 +17,18 @@ const boardHandler = (req, res) => {
       const threads = board.threads
       const count = board.threads_count
       const pages = Array.from({ length: Math.ceil(count / limit) }, (v, i) => i)
+      const texts = req.templatingCommon.texts
 
       threads.forEach((post) => {
         post.message = formatMessage(post.message)
-        post.timestamp = formatTimestamp(post.timestamp, req.templatingCommon.texts.months)
+        post.timestamp = formatTimestamp(post.timestamp, texts.months)
         post.repliesCount = post.replies_count
       })
 
       res.render('board', {
         tag: board.tag,
         boardName: board.name,
+        postingMode: { forbidden: false, text: texts.posting_mode_post },
         threads,
         offset,
         limit,

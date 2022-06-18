@@ -5,7 +5,7 @@ include post_content.pug
 block content
   h1 /#{tag}/ - #{boardName}
 
-  +post_form(texts.posting_mode_post)
+  +post_form(postingMode)
 
   include pagination.pug
 
