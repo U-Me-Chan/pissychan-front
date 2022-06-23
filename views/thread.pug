@@ -11,6 +11,12 @@ block content
 
   div.thread
     +post_content(thread, "thread", texts)
+    blockquote.thread_info
+      if !postingMode.forbidden && typeof(thread.repliesCount) === 'number'
+        div.post_count.thread_info !{texts.post_count}: !{thread.repliesCount}
+      if typeof(thread.parent_id) === 'number'
+        div.parent_thread.thread_info !{texts.parent_thread}:
+          a(href=`/${tag}/${thread.parent_id}`)=` ${thread.parent_id}`
     each post in posts
       div.post(id=post.id)
         +post_content(post, "thread", texts)

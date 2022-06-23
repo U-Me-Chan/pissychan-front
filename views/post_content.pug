@@ -31,5 +31,3 @@ mixin post_content(post, context, texts)
   //- blockquote makes nice look in Links browser
   blockquote.post_message
     p !{post.message}
-    if post.repliesCount
-      div.post_count.thread_info !{texts.post_count}: !{post.repliesCount}

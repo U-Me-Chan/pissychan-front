@@ -13,5 +13,8 @@ block content
     each thread in threads
       div.thread(id=thread.id)
         +post_content(thread, "board", texts)
+        blockquote.thread_info
+          if typeof(thread.repliesCount) === 'number'
+            div.post_count.thread_info !{texts.post_count}: !{thread.repliesCount}
 
   include pagination.pug
