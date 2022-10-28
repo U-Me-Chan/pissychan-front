@@ -1,5 +1,5 @@
 describe('markdown', function () {
-  const markdown = require('../app/markdown')
+  const markdown = require('../app/markdown')()
 
   const fencesMultiline = '```\nfences<strong>asdf</strong>\n```'
   const fencesMultilineConverted = '<pre><code>fences<strong>asdf</strong></code></pre>'

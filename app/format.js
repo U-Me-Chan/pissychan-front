@@ -7,8 +7,24 @@ function renderNewlines (text) {
   return text.replace(/(\r\n)|(\n\r)|\n|\r/g, '<br>')
 }
 
+function replyRenderingContext (neighbors, extPostLinkSuffix) {
+  return function (token) {
+    const replyNumber = parseInt(token.text)
+    if (Array.isArray(neighbors) && neighbors.includes(replyNumber)) {
+      return `<a class="markdown-reply" href='#${replyNumber}'>${token.raw}</a>`
+    }
+    const link = `/post/${replyNumber}`
+    const text = `&gt;&gt;${replyNumber}${extPostLinkSuffix || ''}`
+    return `<a class="markdown-reply" href='${link}'>${text}</a>`
+  }
+}
+
 module.exports = {
-  formatMessage: (text) => renderNewlines(markdown(htmlDefuse(text))),
+  formatMessage: function (text, neighbors, extPostLinkSuffix) {
+    // neighbors - list of all posts on the same page that do not require external linking
+    const markdownLoaded = markdown(replyRenderingContext(neighbors, extPostLinkSuffix))
+    return renderNewlines(markdownLoaded(htmlDefuse(text)))
+  },
   formatTimestamp: (unixtime, months = defaultMonths) => {
     const t = new Date(unixtime * 1000)
     const year = t.getFullYear()

@@ -20,7 +20,7 @@ const boardHandler = (req, res) => {
       const texts = req.templatingCommon.texts
 
       threads.forEach((post) => {
-        post.message = formatMessage(post.message)
+        post.message = formatMessage(post.message, [post.id])
         post.timestamp = formatTimestamp(post.timestamp, texts.months)
         post.repliesCount = post.replies_count
       })

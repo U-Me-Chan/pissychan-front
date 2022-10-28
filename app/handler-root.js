@@ -23,7 +23,7 @@ const rootHandler = (req, res) => {
       const pages = Array.from({ length: pagesCount }, (v, i) => i + firstPage)
 
       posts.forEach((post) => {
-        post.message = formatMessage(post.message)
+        post.message = formatMessage(post.message, posts.map(p => p.id))
         post.timestamp = formatTimestamp(post.timestamp, req.templatingCommon.texts.months)
       })
 

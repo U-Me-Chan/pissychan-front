@@ -56,13 +56,16 @@ const reply = {
         text: cap[1]
       }
     }
-  },
-  renderer (token) {
-    return `<a class="markdown-reply" href='#${token.text}'>${token.raw}</a>`
   }
 }
 
-marked.use({ renderer, tokenizer })
-marked.use({ extensions: [reply] })
+function defaultReplyRenderer (token) {
+  return `<a class="markdown-reply" href='#${token.text}'>${token.raw}</a>`
+}
 
-module.exports = marked.parse
+module.exports = function (replyRendererArg) {
+  const postLinkRenderer = replyRendererArg || defaultReplyRenderer
+  marked.use({ renderer, tokenizer })
+  marked.use({ extensions: [{ renderer: postLinkRenderer, ...reply }] })
+  return marked.parse
+}
