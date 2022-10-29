@@ -37,13 +37,12 @@ const threadHandler = (req, res) => {
       const { name: boardName, tag } = req.allBoards.find((b) => b.id === thread.board_id) ||
         { name: null, tag: req.params.tag }
 
-      const neighbors = [thread.id, ...posts.map(p => p.id)]
-      thread.message = formatMessage(thread.message, neighbors, texts.crossThreadLinkSuffix)
+      thread.message = formatMessage(thread.message)
       thread.timestamp = formatTimestamp(thread.timestamp, texts.months)
       thread.repliesCount = thread.replies.length // For consistent rendering
 
       posts.forEach((post) => {
-        post.message = formatMessage(post.message, neighbors, texts.crossThreadLinkSuffix)
+        post.message = formatMessage(post.message)
         post.timestamp = formatTimestamp(post.timestamp, texts.months)
       })
 
