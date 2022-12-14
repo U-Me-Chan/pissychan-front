@@ -32,7 +32,7 @@ function sendPost (req, res, data) {
     headers: { 'User-Agent': u.versionFromConfig(config) }
   }
 
-  axios.post(`/${config.backend_path}/post`, data, options).then(
+  axios.post(`${config.backend_path}/post/`, data, options).then(
     _ => res.redirect(formatSource(req.body)),
     backRes => res.send(backRes.message)
   ).catch(error => res.send(error.stack))
@@ -54,7 +54,7 @@ const postHandler = (req, res) => {
 
     const config = req.app.locals.config
     // Note: no trailing slash. See https://github.com/U-Me-Chan/umechan/issues/13
-    axios.post(`/${config.filestore_path}`, form, {
+    axios.post(`${config.filestore_path}`, form, {
       baseURL: u.filestoreBaseURLFromConfig(config),
       headers: form.getHeaders()
     }).then(result => {

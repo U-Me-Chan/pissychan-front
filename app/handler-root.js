@@ -11,7 +11,7 @@ const rootHandler = (req, res) => {
   const limit = req.query.limit || 20
   const offset = req.query.offset || 0
 
-  axios.get(`/${config.backend_path}/board/all/` + '?limit=' + limit + '&offset=' + offset, options)
+  axios.get(`${config.backend_path}/board/all/` + '?limit=' + limit + '&offset=' + offset, options)
     .then((backRes) => {
       const posts = backRes.data.payload.posts
       const boards = backRes.data.payload.boards

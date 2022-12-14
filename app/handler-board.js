@@ -11,7 +11,7 @@ const boardHandler = (req, res) => {
   const limit = req.query.limit || 20
   const offset = req.query.offset || 0
 
-  axios.get(`/${config.backend_path}/board/` + req.params.tag + '/?limit=' + limit + '&offset=' + offset, options)
+  axios.get(`${config.backend_path}/board/` + req.params.tag + '/?limit=' + limit + '&offset=' + offset, options)
     .then((result) => {
       const board = result.data.payload.board_data
       const threads = board.threads
