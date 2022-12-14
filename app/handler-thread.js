@@ -10,7 +10,7 @@ const threadHandler = (req, res) => {
   }
 
   Promise.allSettled([
-    axios.get('/post/' + req.params.thread_id, options)
+    axios.get(`/${config.backend_path}/post/` + req.params.thread_id, options)
   ])
     .then((results) => {
       const threadRes = results[0]

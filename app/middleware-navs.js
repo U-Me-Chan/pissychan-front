@@ -10,7 +10,7 @@ const navsMiddlware = function (req, res, next) {
 
   Promise.allSettled([
     // For now this is large enough offset to get no posts at all
-    axios.get('/board/all/?limit=1&offset=88005553535', options)
+    axios.get(`/${config.backend_path}/board/all/?limit=1&offset=88005553535`, options)
   ])
     .then((results) => {
       // We don't care much about boards list, hence this promise may fail

@@ -2,13 +2,13 @@ function baseURLFromConfig (config) {
   return `http://${config.backend_hostname}:${config.backend_port}/`
 }
 
-function filestoreURLFromConfig (config) {
+function filestoreBaseURLFromConfig (config) {
   return `http://${config.filestore_hostname}:${config.filestore_port}/`
 }
 
 module.exports = {
   baseURLFromConfig,
-  filestoreURLFromConfig,
+  filestoreBaseURLFromConfig,
   versionFromConfig (config) {
     const packageName = config.npm_package_name
     const version = config.npm_package_version
