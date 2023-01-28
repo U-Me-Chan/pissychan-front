@@ -1,9 +1,15 @@
 function baseURLFromConfig (config) {
-  return `http://${config.backend_hostname}:${config.backend_port}/`
+  if (config.backend_port) {
+    return `${config.backend_proto}://${config.backend_hostname}:${config.backend_port}/`
+  }
+  return `${config.backend_proto}://${config.backend_hostname}/`
 }
 
 function filestoreBaseURLFromConfig (config) {
-  return `http://${config.filestore_hostname}:${config.filestore_port}/`
+  if (config.filestore_port) {
+    return `${config.filestore_proto}://${config.filestore_hostname}:${config.filestore_port}/`
+  }
+  return `${config.filestore_proto}://${config.filestore_hostname}/`
 }
 
 module.exports = {
