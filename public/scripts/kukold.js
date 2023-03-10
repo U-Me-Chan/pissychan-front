@@ -1,11 +1,3 @@
-const scrollSpeedToShowNavDown = 100
-const hideFloatingNavDownTimeoutMs = 3000
-let hideNavDownTimeout
-let lastViewTop = window.visualViewport.pageTop
-const gSettings = {
-  navDownFloatingEnabled: undefined
-}
-
 function hideFloatingNavDown (nav) {
   nav.classList.remove('popup-visible')
   nav.classList.add('fadeout-hidden')
@@ -58,33 +50,33 @@ function navDownScrollHandler () {
   }
   const navDownFloating = document.getElementById('nav-down-floating')
   if (Math.min(viewTop, pageHeight - viewBottom) > viewHeight / 2) {
-    if (Math.abs(lastViewTop - viewTop) >= scrollSpeedToShowNavDown) {
+    if (Math.abs(gLastViewTop - viewTop) >= gScrollSpeedToShowNavDown) {
       navDownFloating.classList.remove('fadeout-hidden')
       navDownFloating.classList.add('popup-visible')
-      clearTimeout(hideNavDownTimeout)
-      hideNavDownTimeout = setTimeout(
+      clearTimeout(gHideNavDownTimeout)
+      gHideNavDownTimeout = setTimeout(
         () => hideFloatingNavDown(navDownFloating),
-        hideFloatingNavDownTimeoutMs)
+        gHideFloatingNavDownTimeoutMs)
     }
   } else {
-    clearTimeout(hideNavDownTimeout)
+    clearTimeout(gHideNavDownTimeout)
     hideFloatingNavDown(navDownFloating)
   }
-  lastViewTop = viewTop
+  gLastViewTop = viewTop
 }
 
 function settingsEnableNavDownFloating () {
   gSettings.navDownFloatingEnabled = true
   localStorage.removeItem('floatingNavDownDisabled')
   renderNavDownFloatingControls(gSettings.navDownFloatingEnabled)
-  console.log('floatingNavDownDisabled: true')
+  console.log(`floatingNavDownDisabled: ${localStorage.getItem('floatingNavDownDisabled')}`)
 }
 
 function settingsDisableNavDownFloating () {
   gSettings.navDownFloatingEnabled = false
   localStorage.setItem('floatingNavDownDisabled', true)
   renderNavDownFloatingControls(gSettings.navDownFloatingEnabled)
-  console.log('floatingNavDownDisabled: false')
+  console.log(`floatingNavDownDisabled: ${localStorage.getItem('floatingNavDownDisabled')}`)
 }
 
 function renderNavDownFloatingControls (enabled) {
@@ -109,14 +101,44 @@ function renderNavDownFloatingControls (enabled) {
   }
 }
 
-function renderSettings (gSettings) {
-  renderNavDownFloatingControls(gSettings.navDownFloatingEnabled)
+// Basically taken from https://stackoverflow.com/a/51313011
+function setCookie (name, value, days) {
+  let expires = ''
+  if (days) {
+    const date = new Date()
+    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000))
+    expires = '; expires=' + date.toUTCString()
+  }
+  document.cookie = name + '=' + (value || '') + expires + '; path=/; SameSite=Lax'
 }
 
-const floatingNavDownDisabled = localStorage.getItem('floatingNavDownDisabled')
-console.log(`floatingNavDownDisabled: ${floatingNavDownDisabled}`)
-gSettings.navDownFloatingEnabled = floatingNavDownDisabled !== 'true'
+// Basically taken from https://stackoverflow.com/a/51313011
+function getCookie (name) {
+  const nameEq = name + '='
+  const cookiesArray = document.cookie.split(';')
+  for (let i = 0; i < cookiesArray.length; i++) {
+    let c = cookiesArray[i]
+    while (c.charAt(0) === ' ') c = c.substring(1, c.length)
+    if (c.indexOf(nameEq) === 0) return c.substring(nameEq.length, c.length)
+  }
+  return null
+}
+
+const gScrollSpeedToShowNavDown = 100
+const gHideFloatingNavDownTimeoutMs = 3000
+let gHideNavDownTimeout
+let gLastViewTop = window.visualViewport.pageTop
+const gSettings = {
+  navDownFloatingEnabled: (function () {
+    const floatingNavDownDisabled = localStorage.getItem('floatingNavDownDisabled')
+    console.log(`floatingNavDownDisabled: ${floatingNavDownDisabled}`)
+    return floatingNavDownDisabled !== 'true'
+  })()
+}
+
 initNavDown(gSettings.navDownFloatingEnabled)
 if (window.location.pathname === '/settings') {
-  window.addEventListener('load', () => renderSettings(gSettings))
+  window.addEventListener('load', () => {
+    renderNavDownFloatingControls(gSettings.navDownFloatingEnabled)
+  })
 }

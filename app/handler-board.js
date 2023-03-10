@@ -23,12 +23,13 @@ const boardHandler = (req, res) => {
         post.message = formatMessage(post.message)
         post.timestamp = formatTimestamp(post.timestamp, texts.months)
         post.repliesCount = post.replies_count
+        post.tag = board.tag
       })
 
       res.render('board', {
         tag: board.tag,
         boardName: board.name,
-        postingMode: { forbidden: false, text: texts.posting_mode_post },
+        postingMode: { forbidden: false, delete: false, text: texts.posting_mode_post },
         threads,
         offset,
         limit,

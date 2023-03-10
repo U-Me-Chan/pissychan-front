@@ -1,4 +1,4 @@
-mixin post_form(postingMode, hasExtra, thread_id)
+mixin post_form(postingMode, hasExtra, threadId, password)
   div.postarea
     div.posting_mode= `${texts.posting_mode}: `
       span.posting_mode= postingMode.text
@@ -42,5 +42,10 @@ mixin post_form(postingMode, hasExtra, thread_id)
                   input(type='checkbox' name='sage')
                   | #{texts.sage}
         input(type='hidden', name='tag', value=tag)
-        if thread_id
-          input(type='hidden', name='thread', value=thread_id)
+        if threadId
+          input(type='hidden', name='thread', value=threadId)
+    if postingMode.delete
+      form.delete(action='/delete', method='POST')
+        input(type='hidden', name='id', value=threadId)
+        input(type='hidden', name='password', value=password)
+        input(type='submit', value=texts.delete)

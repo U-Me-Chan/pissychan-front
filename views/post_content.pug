@@ -12,6 +12,10 @@ mixin post_content(post, context, texts)
       | #{' '}
     span.post_header_element.timestamp= post.timestamp
     | #{' '}
+    if context !== "delete"
+      span.post_header_element.delete
+        a(href=`/${post.tag}/${post.id}/delete`) #{texts.delete}
+      | #{' / '}
     if context === "feed"
       if post.parent_id
         a(href='/' + post.tag + '/' + post.parent_id + '#' + post.id) /#{post.tag}/#{post.parent_id}/#{post.id}

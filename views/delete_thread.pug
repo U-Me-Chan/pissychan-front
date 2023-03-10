@@ -1,0 +1,22 @@
+extends layout.pug
+include post_form.pug
+include post_content.pug
+
+block content
+  h1 /#{tag}/ - #{boardName}
+  h2 #{texts.deleteConfirmationMessage}
+  div.return_to_board
+    a(href='/' + tag) #{texts.up}
+
+  +post_form(postingMode, true, thread.id, thread.password)
+
+  div.thread
+    +post_content(thread, "delete", texts)
+    blockquote.thread_info
+      if !postingMode.forbidden && typeof(thread.repliesCount) === 'number'
+        div.post_count.thread_info !{texts.post_count}: !{thread.repliesCount}
+      if typeof(thread.parent_id) === 'number'
+        div.parent_thread.thread_info !{texts.parent_thread}:
+          a(href=`/${tag}/${thread.parent_id}`)=` ${thread.parent_id}`
+
+  +post_form(postingMode, true, thread.id, thread.password)

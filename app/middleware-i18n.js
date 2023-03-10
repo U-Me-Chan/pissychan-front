@@ -1,4 +1,6 @@
 const ru = {
+  deleteConfirmationMessage: 'В самом деле удалить этот пост?',
+  delete: 'Удалить',
   navDown: 'Вниз',
   navUp: 'Наверх',
   settings: 'Настройки',
@@ -26,6 +28,7 @@ const ru = {
   posting_mode_post: 'Новый тред',
   posting_mode_reply: 'Ответ в тред',
   posting_mode_forbidden: 'Постинг запрещён',
+  posting_mode_delete: 'Удалить пост',
   parent_thread: 'Родительский тред',
   into_thread: 'В тред',
   post_count: 'Ответов в треде',
@@ -37,6 +40,8 @@ const ru = {
 }
 
 const en = {
+  deleteConfirmationMessage: 'Confirm deletion of the following post',
+  delete: 'Delete',
   navDown: 'Down',
   navUp: 'Up',
   settings: 'Settings',
@@ -64,6 +69,7 @@ const en = {
   posting_mode_post: 'New thread',
   posting_mode_reply: 'Reply in thread',
   posting_mode_forbidden: 'Forbidden',
+  posting_mode_delete: 'Delete the post',
   parent_thread: 'Parent thread',
   into_thread: 'Reply',
   post_count: 'Posts count',

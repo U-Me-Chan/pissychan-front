@@ -2,7 +2,7 @@ const axios = require('axios')
 const { formatMessage, formatTimestamp } = require('./format')
 const u = require('./util')
 
-const threadHandler = (req, res) => {
+const threadHandler = (req, res, next) => {
   const config = req.app.locals.config
   const options = {
     baseURL: u.baseURLFromConfig(config),
@@ -40,18 +40,24 @@ const threadHandler = (req, res) => {
       thread.message = formatMessage(thread.message)
       thread.timestamp = formatTimestamp(thread.timestamp, texts.months)
       thread.repliesCount = thread.replies.length // For consistent rendering
+      thread.password = req.passwords.get(thread.id)
+      console.log('thread.id:', thread.id)
+      console.log('password:', thread.password)
 
       posts.forEach((post) => {
         post.message = formatMessage(post.message)
         post.timestamp = formatTimestamp(post.timestamp, texts.months)
+        post.tag = tag
+        post.password = req.passwords.get(post.id)
       })
 
       const isFreestanding = Boolean(thread.parent_id)
       const postingMode = {
         forbidden: isFreestanding,
+        delete: req.templatingCommon.isDeleteConfirmation,
         text: isFreestanding ? texts.posting_mode_forbidden : texts.posting_mode_reply
       }
-      res.render('thread', {
+      res.render(req.templatingCommon.isDeleteConfirmation ? 'delete_thread' : 'thread', {
         tag,
         boardName,
         postingMode,
