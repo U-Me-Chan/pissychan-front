@@ -40,15 +40,13 @@ const threadHandler = (req, res, next) => {
       thread.message = formatMessage(thread.message)
       thread.timestamp = formatTimestamp(thread.timestamp, texts.months)
       thread.repliesCount = thread.replies.length // For consistent rendering
-      thread.password = req.passwords.get(thread.id)
-      console.log('thread.id:', thread.id)
-      console.log('password:', thread.password)
+      thread.password = req.postsPasswords.get(thread.id)
 
       posts.forEach((post) => {
         post.message = formatMessage(post.message)
         post.timestamp = formatTimestamp(post.timestamp, texts.months)
         post.tag = tag
-        post.password = req.passwords.get(post.id)
+        post.password = req.postsPasswords.get(post.id)
       })
 
       const isFreestanding = Boolean(thread.parent_id)

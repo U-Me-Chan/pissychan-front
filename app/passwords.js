@@ -1,24 +1,43 @@
+function parseNumber (number) {
+  const str = String(number).trim()
+  const nonNumericRegex = /[^0-9]/g
+  if (nonNumericRegex.test(str)) return NaN
+  return parseInt(str)
+}
+
 const passwordsAPI = {
-  parsePasswordsFromString: (str) => {
+  parseFromString: (str = '') => {
     function parsePair (pair) {
       if (!Array.isArray(pair)) return []
       if (pair.length < 2) return []
-      const isString = (str) => str instanceof String || typeof str === 'string'
-      const idStr = (isString(pair[0])) ? pair[0].trim() : pair[0]
-      const id = parseInt(idStr)
+      const id = parseNumber(pair[0])
       if (isNaN(id)) return []
-      const password = String(pair[1])
+      const password = String(pair[1]).trim()
       return [id, password]
     }
-    return new Map(str.split(',').map((i) => parsePair(i.split(':'))))
+    return new Map(
+      str
+        .split(',')
+        .map(e => parsePair(e.split(':')))
+        .filter(e => e.length === 2)
+    )
   },
   get: (store, id) => {
-    return store.get(id)
+    const idNumber = parseNumber(id)
+    if (isNaN(idNumber)) return false
+    return store.get(idNumber)
   },
   set: (store, id, password) => {
-    return store.set(id, password)
+    const idNumber = parseNumber(id)
+    if (isNaN(idNumber)) return store
+    return store.set(idNumber, password)
   },
-  render: (store) => {
+  delete: (store, id) => {
+    const idNumber = parseNumber(id)
+    if (isNaN(idNumber)) return false
+    return store.delete(idNumber)
+  },
+  renderToString: (store, maxSizeWhenUrlencoded) => {
     let str = ''
     for (const [key, value] of store) {
       if (str !== '') {

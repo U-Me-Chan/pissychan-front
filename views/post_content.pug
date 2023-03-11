@@ -12,7 +12,7 @@ mixin post_content(post, context, texts)
       | #{' '}
     span.post_header_element.timestamp= post.timestamp
     | #{' '}
-    if context !== "delete"
+    if context !== "delete" && post.password !== undefined
       span.post_header_element.delete
         a(href=`/${post.tag}/${post.id}/delete`) #{texts.delete}
       | #{' / '}

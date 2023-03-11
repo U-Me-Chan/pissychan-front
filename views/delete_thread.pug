@@ -8,7 +8,7 @@ block content
   div.return_to_board
     a(href='/' + tag) #{texts.up}
 
-  +post_form(postingMode, true, thread.id, thread.password)
+  +post_form(postingMode, true, thread.id)
 
   div.thread
     +post_content(thread, "delete", texts)
@@ -19,4 +19,4 @@ block content
         div.parent_thread.thread_info !{texts.parent_thread}:
           a(href=`/${tag}/${thread.parent_id}`)=` ${thread.parent_id}`
 
-  +post_form(postingMode, true, thread.id, thread.password)
+  +post_form(postingMode, true, thread.id)

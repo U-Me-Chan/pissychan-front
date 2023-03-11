@@ -101,29 +101,6 @@ function renderNavDownFloatingControls (enabled) {
   }
 }
 
-// Basically taken from https://stackoverflow.com/a/51313011
-function setCookie (name, value, days) {
-  let expires = ''
-  if (days) {
-    const date = new Date()
-    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000))
-    expires = '; expires=' + date.toUTCString()
-  }
-  document.cookie = name + '=' + (value || '') + expires + '; path=/; SameSite=Lax'
-}
-
-// Basically taken from https://stackoverflow.com/a/51313011
-function getCookie (name) {
-  const nameEq = name + '='
-  const cookiesArray = document.cookie.split(';')
-  for (let i = 0; i < cookiesArray.length; i++) {
-    let c = cookiesArray[i]
-    while (c.charAt(0) === ' ') c = c.substring(1, c.length)
-    if (c.indexOf(nameEq) === 0) return c.substring(nameEq.length, c.length)
-  }
-  return null
-}
-
 const gScrollSpeedToShowNavDown = 100
 const gHideFloatingNavDownTimeoutMs = 3000
 let gHideNavDownTimeout
