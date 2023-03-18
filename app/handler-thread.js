@@ -53,9 +53,13 @@ const threadHandler = (req, res, next) => {
       const postingMode = {
         forbidden: isFreestanding,
         delete: req.templatingCommon.isDeleteConfirmation,
-        text: isFreestanding ? texts.posting_mode_forbidden : texts.posting_mode_reply
+        text: req.templatingCommon.isDeleteConfirmation
+          ? texts.posting_mode_delete
+          : isFreestanding
+            ? texts.posting_mode_forbidden
+            : texts.posting_mode_reply
       }
-      res.render(req.templatingCommon.isDeleteConfirmation ? 'delete_thread' : 'thread', {
+      res.render('thread', {
         tag,
         boardName,
         postingMode,

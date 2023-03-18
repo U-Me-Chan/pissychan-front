@@ -28,7 +28,7 @@ const ru = {
   posting_mode_post: 'Новый тред',
   posting_mode_reply: 'Ответ в тред',
   posting_mode_forbidden: 'Постинг запрещён',
-  posting_mode_delete: 'Удалить пост',
+  posting_mode_delete: 'Удаление поста',
   parent_thread: 'Родительский тред',
   into_thread: 'В тред',
   post_count: 'Ответов в треде',
@@ -40,7 +40,7 @@ const ru = {
 }
 
 const en = {
-  deleteConfirmationMessage: 'Confirm deletion of the following post',
+  deleteConfirmationMessage: 'Do you really want to delete the following post?',
   delete: 'Delete',
   navDown: 'Down',
   navUp: 'Up',

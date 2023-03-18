@@ -2,7 +2,7 @@ mixin post_form(postingMode, hasExtra, threadId)
   div.postarea
     div.posting_mode= `${texts.posting_mode}: `
       span.posting_mode= postingMode.text
-    if !postingMode.forbidden
+    if !postingMode.forbidden && !postingMode.delete
       form.new_post(action='/post', method='POST', enctype="multipart/form-data")
         div.trap
           | #{texts.spamTrap}

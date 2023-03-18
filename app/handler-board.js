@@ -24,6 +24,7 @@ const boardHandler = (req, res) => {
         post.timestamp = formatTimestamp(post.timestamp, texts.months)
         post.repliesCount = post.replies_count
         post.tag = board.tag
+        post.password = req.postsPasswords.get(post.id)
       })
 
       res.render('board', {
