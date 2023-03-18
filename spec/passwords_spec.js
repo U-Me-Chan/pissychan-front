@@ -69,6 +69,13 @@ describe('passwordsAPI', function () {
     expect(passwordsAPI.get(store, 33917)).toEqual(undefined)
   })
 
+  it('should encode multiple passwords successfully', function () {
+    const store = passwordsAPI.parseFromString('')
+    passwordsAPI.set(store, 33918, 'passwor')
+    passwordsAPI.set(store, 33919, 'assword')
+    expect(passwordsAPI.renderToString(store, 1000, encodeURIComponent)).toEqual('33918:passwor,33919:assword')
+  })
+
   it('should not render string that exceeds specified size in bytes when urlencoded', function () {
     const store = passwordsAPI.parseFromString('')
     for (let i = 0; i < 100; i++) {
@@ -77,7 +84,12 @@ describe('passwordsAPI', function () {
       const password = 'fba5b7275a3987fa400933c8bfb20c62f0fb13a85ade78cd71a96685445df' + suffix
       passwordsAPI.set(store, i, password)
     }
-    const rendered = encodeURIComponent(passwordsAPI.renderToString(store, 4096 - 'post_passwords'))
+    const rendered = encodeURIComponent(
+      passwordsAPI.renderToString(
+        store,
+        4096 - 'post_passwords'.length,
+        encodeURIComponent
+      ))
     expect(rendered.length).toBeLessThanOrEqual(4096 - 'post_passwords'.length)
   })
 })

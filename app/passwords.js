@@ -37,15 +37,19 @@ const passwordsAPI = {
     if (isNaN(idNumber)) return false
     return store.delete(idNumber)
   },
-  renderToString: (store, maxSizeWhenUrlencoded) => {
-    let str = ''
-    for (const [key, value] of store) {
-      if (str !== '') {
-        str += ','
-      }
-      str += `${key}:${value}`
+  renderToString: (store, maxSizeWhenEncoded, encode = (a) => a) => {
+    const pairs = Array.from(store).map(([key, value]) => `${key}:${value}`)
+    if (maxSizeWhenEncoded === undefined || maxSizeWhenEncoded === null) {
+      return pairs.join(',')
     }
-    return str
+    if (pairs.length === 0) return ''
+    for (let i = 1; i < pairs.length; i++) {
+      const str = pairs.slice(pairs.length - i, pairs.length).join(',')
+      if (encode(str).length > maxSizeWhenEncoded) {
+        return pairs.slice(pairs.length - (i - 1), pairs.length).join(',')
+      }
+    }
+    return pairs.join(',')
   }
 }
 
