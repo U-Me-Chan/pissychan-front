@@ -5,7 +5,9 @@ const passwordsMiddlware = (req, res, next) => {
     get: function (id) { return passwordsAPI.get(this.store, id) },
     set: function (id, password) { return passwordsAPI.set(this.store, id, password) },
     delete: function (id) { return passwordsAPI.delete(this.store, id) },
-    render: function () { return passwordsAPI.renderToString(this.store) }
+    render: function (maxSizeWhenEncoded, encode = a => a) {
+      return passwordsAPI.renderToString(this.store, maxSizeWhenEncoded, encode)
+    }
   }
   next()
 }

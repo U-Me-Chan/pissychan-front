@@ -38,7 +38,9 @@ function sendPost (req, res, data) {
       if (typeof result.data === 'object' && typeof result.data.payload === 'object') {
         req.postsPasswords.set(result.data.payload.post_id, result.data.payload.password)
       }
-      const postsPaswordsCookie = req.postsPasswords.render()
+      const expectedEncodedLenMax = 4096 - 'post_passwords'.length
+      const postsPaswordsCookie = req.postsPasswords.render(
+        expectedEncodedLenMax, encodeURIComponent)
       if (!postsPaswordsCookie.length) {
         res.clearCookie('post_passwords').redirect(formatSource(req.body))
       } else {

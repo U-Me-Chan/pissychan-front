@@ -27,7 +27,9 @@ const deleteHandler = (req, res) => {
       console.log('typeof id:', typeof id, `(${id})`)
       req.postsPasswords.delete(id)
       const yearMs = 1000 * 60 * 60 * 24 * 365
-      const postsPaswordsCookie = req.postsPasswords.render()
+      const expectedEncodedLenMax = 4096 - 'post_passwords'.length
+      const postsPaswordsCookie = req.postsPasswords.render(
+        expectedEncodedLenMax, encodeURIComponent)
       if (!postsPaswordsCookie.length) {
         res.clearCookie('post_passwords').redirect(`/post/${id}`)
       } else {

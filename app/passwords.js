@@ -37,12 +37,14 @@ const passwordsAPI = {
     if (isNaN(idNumber)) return false
     return store.delete(idNumber)
   },
-  renderToString: (store, maxSizeWhenEncoded, encode = (a) => a) => {
+  renderToString: (store, maxSizeWhenEncoded, encode = a => a) => {
     const pairs = Array.from(store).map(([key, value]) => `${key}:${value}`)
+    if (pairs.length === 0) return ''
     if (maxSizeWhenEncoded === undefined || maxSizeWhenEncoded === null) {
       return pairs.join(',')
     }
-    if (pairs.length === 0) return ''
+    // Using binary search can possibly bring a decent optimization that fits
+    // any encoding here
     for (let i = 1; i < pairs.length; i++) {
       const str = pairs.slice(pairs.length - i, pairs.length).join(',')
       if (encode(str).length > maxSizeWhenEncoded) {

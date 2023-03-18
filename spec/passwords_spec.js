@@ -73,23 +73,39 @@ describe('passwordsAPI', function () {
     const store = passwordsAPI.parseFromString('')
     passwordsAPI.set(store, 33918, 'passwor')
     passwordsAPI.set(store, 33919, 'assword')
-    expect(passwordsAPI.renderToString(store, 1000, encodeURIComponent)).toEqual('33918:passwor,33919:assword')
+    expect(passwordsAPI.renderToString(store)).toEqual('33918:passwor,33919:assword')
   })
 
-  it('should not render string that exceeds specified size in bytes when urlencoded', function () {
+  it('should encode multiple passwords successfully when the limit provided', function () {
     const store = passwordsAPI.parseFromString('')
-    for (let i = 0; i < 100; i++) {
-      let suffix = String(i)
+    passwordsAPI.set(store, 33920, 'passwo')
+    passwordsAPI.set(store, 33921, 'ssword')
+    expect(passwordsAPI.renderToString(store, 1000, encodeURIComponent))
+      .toEqual('33920:passwo,33921:ssword')
+  })
+
+  it('should crop the front of the rendered string that exceeds the limit when urlencoded', function () {
+    const store = passwordsAPI.parseFromString('')
+    const passBase = 'fba5b7275a3987fa400933c8bfb20c62f0fb13a85ade78cd71a96685445df'
+    const postNumberBase = 10000
+    for (let i = postNumberBase; i < postNumberBase + 100; i++) {
+      let suffix = String(i % 100)
       while (suffix.length < 3) suffix = '0' + suffix
-      const password = 'fba5b7275a3987fa400933c8bfb20c62f0fb13a85ade78cd71a96685445df' + suffix
+      const password = passBase + suffix
       passwordsAPI.set(store, i, password)
     }
-    const rendered = encodeURIComponent(
-      passwordsAPI.renderToString(
-        store,
-        4096 - 'post_passwords'.length,
-        encodeURIComponent
-      ))
-    expect(rendered.length).toBeLessThanOrEqual(4096 - 'post_passwords'.length)
+    const expectedEncodedLenMax = 4096 - 'post_passwords'.length
+    const rendered = passwordsAPI.renderToString(
+      store, expectedEncodedLenMax, encodeURIComponent)
+    const encoded = encodeURIComponent(rendered)
+    expect(rendered.length).not.toEqual(0)
+    expect(encoded.length).toBeLessThanOrEqual(expectedEncodedLenMax)
+    const expectedEntriesCount = ((entryStr) => {
+      for (let str = entryStr, entries = 0; ; entries++, str += '%2C' + entryStr) {
+        if (str.length >= expectedEncodedLenMax) return entries
+      }
+    })(String(postNumberBase) + '%3A' + passBase + '000')
+    expect(Array.from(passwordsAPI.parseFromString(rendered)).length)
+      .toEqual(expectedEntriesCount)
   })
 })
