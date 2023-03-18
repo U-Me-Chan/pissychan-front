@@ -41,6 +41,7 @@ const threadHandler = (req, res, next) => {
       thread.timestamp = formatTimestamp(thread.timestamp, texts.months)
       thread.repliesCount = thread.replies.length // For consistent rendering
       thread.password = req.postsPasswords.get(thread.id)
+      thread.tag = tag
 
       posts.forEach((post) => {
         post.message = formatMessage(post.message)
