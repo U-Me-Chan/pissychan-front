@@ -54,11 +54,14 @@ const threadHandler = (req, res, next) => {
       const postingMode = {
         forbidden: isFreestanding,
         delete: req.templatingCommon.isDeleteConfirmation,
+        forget: req.templatingCommon.isForgetConfirmation,
         text: req.templatingCommon.isDeleteConfirmation
           ? texts.posting_mode_delete
-          : isFreestanding
-            ? texts.posting_mode_forbidden
-            : texts.posting_mode_reply
+          : req.templatingCommon.isForgetConfirmation
+            ? texts.posting_mode_forget
+            : isFreestanding
+              ? texts.posting_mode_forbidden
+              : texts.posting_mode_reply
       }
       res.render('thread', {
         tag,

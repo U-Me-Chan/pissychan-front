@@ -2,7 +2,7 @@ mixin post_form(postingMode, hasExtra, threadId)
   div.postarea
     div.posting_mode= `${texts.posting_mode}: `
       span.posting_mode= postingMode.text
-    if !postingMode.forbidden && !postingMode.delete
+    if !postingMode.forbidden && !postingMode.delete && !postingMode.forget
       form.new_post(action='/post', method='POST', enctype="multipart/form-data")
         div.trap
           | #{texts.spamTrap}
@@ -48,3 +48,7 @@ mixin post_form(postingMode, hasExtra, threadId)
       form.delete(action='/delete', method='POST')
         input(type='hidden', name='id', value=threadId)
         input(type='submit', value=texts.delete)
+    else if postingMode.forget
+      form.forget(action='/forget', method='POST')
+        input(type='hidden', name='id', value=threadId)
+        input(type='submit', value=texts.forget)

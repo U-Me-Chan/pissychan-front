@@ -17,9 +17,10 @@ block content
           | #{' | ' + texts.settingPostsPasswordsDisabled}
       div
         | #{texts.settingPostsPasswordsSavedCount + ': '}
-        a(href='passwords') #{postsPasswordsCount}
-      div
-        a(href=`post/${oldestPostIdWithPassword}/delete`) #{texts.settingPostsPasswordsDeleteOldest}
+        a(href='#') #{postsPasswordsCount}
+      if oldestPostIdWithPassword !== undefined
+        div
+          a(href=`post/${oldestPostIdWithPassword}/forget`) #{texts.settingPostsPasswordsForgetOldest}
     // Placeholder to be rendered by scripts in the browser
     div.settings-section#settings-section-nav-floating(title=texts.settingNavDownFloating)
     div.settings-section#settings-section-theme

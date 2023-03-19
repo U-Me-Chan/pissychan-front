@@ -21,10 +21,8 @@ const deleteHandler = (req, res) => {
     res.status(400).send('There is no password available for specified post ID')
     return
   }
-  console.log(`handler-delete-post id=${id}, password=${password}`)
   axios.delete(`${config.backend_path}/post/${id}?password=${password}`, options).then(
     _ => {
-      console.log('typeof id:', typeof id, `(${id})`)
       req.postsPasswords.delete(id)
       const yearMs = 1000 * 60 * 60 * 24 * 365
       const expectedEncodedLenMax = 4096 - 'post_passwords'.length

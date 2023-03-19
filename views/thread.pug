@@ -6,22 +6,24 @@ block content
   h1 /#{tag}/ - #{boardName}
   if postingMode.delete
     h2 #{texts.deleteConfirmationMessage}
+  else if postingMode.forget
+    h2 #{texts.forgetConfirmationMessage}
   div.return_to_board
     a(href='/' + tag) #{texts.up}
 
   +post_form(postingMode, true, thread.id)
 
   div.thread
-    +post_content(thread, postingMode.delete ? "delete" : "thread", texts)
+    +post_content(thread, postingMode.delete ? 'delete' : postingMode.forget ? 'forget' : 'thread', texts)
     blockquote.thread_info
       if !postingMode.forbidden && typeof(thread.repliesCount) === 'number'
         div.post_count.thread_info !{texts.post_count}: !{thread.repliesCount}
       if typeof(thread.parent_id) === 'number'
         div.parent_thread.thread_info !{texts.parent_thread}:
           a(href=`/${tag}/${thread.parent_id}`)=` ${thread.parent_id}`
-    if !postingMode.delete
+    if !postingMode.delete && !postingMode.forget
       each post in posts
         div.post(id=post.id)
-          +post_content(post, "thread", texts)
+          +post_content(post, 'thread', texts)
 
   +post_form(postingMode, true, thread.id)
