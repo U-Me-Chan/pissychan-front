@@ -31,9 +31,26 @@ function sendPost (req, res, data) {
     baseURL: u.baseURLFromConfig(config),
     headers: { 'User-Agent': u.versionFromConfig(config) }
   }
-
+  const yearMs = 1000 * 60 * 60 * 24 * 365
   axios.post(`${config.backend_path}/post/`, data, options).then(
-    _ => res.redirect(formatSource(req.body)),
+    result => {
+      if (req.postsPasswords.savingEnabled) {
+        if (typeof result.data === 'object' && typeof result.data.payload === 'object') {
+          req.postsPasswords.set(result.data.payload.post_id, result.data.payload.password)
+        }
+      }
+      const expectedEncodedLenMax = 4096 - 'post_passwords'.length
+      const postsPaswordsCookie = req.postsPasswords.render(
+        expectedEncodedLenMax, encodeURIComponent)
+      if (!postsPaswordsCookie.length) {
+        res.clearCookie('post_passwords').redirect(formatSource(req.body))
+      } else {
+        res
+          .cookie('post_passwords', postsPaswordsCookie, { maxAge: yearMs })
+          .redirect(formatSource(req.body))
+      }
+    },
+    // TODO render proper error page
     backRes => res.send(backRes.message)
   ).catch(error => res.send(error.stack))
 }
@@ -67,7 +84,7 @@ const postHandler = (req, res) => {
       query.message = query.message ? query.message + '\n' + markedImage : markedImage
 
       sendPost(req, res, query)
-    }).catch(error => res.status(500).send(error.stack))
+    }).catch(error => res.status(500).send(error.stack)) // TODO render proper error page
   } else {
     sendPost(req, res, formatQueryObject(req.body))
   }

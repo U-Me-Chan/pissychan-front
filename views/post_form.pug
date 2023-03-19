@@ -1,8 +1,8 @@
-mixin post_form(postingMode, hasExtra, thread_id)
+mixin post_form(postingMode, hasExtra, threadId)
   div.postarea
     div.posting_mode= `${texts.posting_mode}: `
       span.posting_mode= postingMode.text
-    if !postingMode.forbidden
+    if !postingMode.forbidden && !postingMode.delete && !postingMode.forget
       form.new_post(action='/post', method='POST', enctype="multipart/form-data")
         div.trap
           | #{texts.spamTrap}
@@ -42,5 +42,13 @@ mixin post_form(postingMode, hasExtra, thread_id)
                   input(type='checkbox' name='sage')
                   | #{texts.sage}
         input(type='hidden', name='tag', value=tag)
-        if thread_id
-          input(type='hidden', name='thread', value=thread_id)
+        if threadId
+          input(type='hidden', name='thread', value=threadId)
+    if postingMode.delete
+      form.delete(action='/delete', method='POST')
+        input(type='hidden', name='id', value=threadId)
+        input(type='submit', value=texts.delete)
+    else if postingMode.forget
+      form.forget(action='/forget', method='POST')
+        input(type='hidden', name='id', value=threadId)
+        input(type='submit', value=texts.forget)

@@ -21,6 +21,7 @@ app.use(fileUpload({
 app.use(require('./app/middleware-i18n').byLang(config.lang))
 app.use(require('./app/middleware-navs'))
 app.use(require('./app/middleware-theme'))
+app.use(require('./app/middleware-passwords'))
 // ALL server routes are in this module!
 app.use((req, res, next) => {
   require('./app/router')(req, res, next)
