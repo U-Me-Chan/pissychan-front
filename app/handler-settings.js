@@ -42,8 +42,15 @@ const settingsHandler = (req, res) => {
         return { name: v, selected: v === theme }
       })
 
+      const postsPasswordsCount = Array.from(req.postsPasswords.store).length
+      const oldestPostIdWithPassword = postsPasswordsCount
+        ? Array.from(req.postsPasswords.store)
+          .map(([key, value]) => key).sort((key1, key2) => key1 - key2)[0]
+        : undefined
       res.render('settings', {
         themes,
+        postsPasswordsCount,
+        oldestPostIdWithPassword,
         ...req.templatingCommon,
         version: u.versionFromConfig(config)
       })

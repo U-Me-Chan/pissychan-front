@@ -6,6 +6,20 @@ block content
   div.settings-block
     // Internationalization pass-through for in-browser rendering
     div#settings-texts(textEnable=texts.settingEnable, textDisable=texts.settingDisable, textEnabled=texts.settingEnabled, textDisabled=texts.settingDisabled)
+    div.settings-section#settings-section-posts-passwords(title=texts.settingPostsPasswords)
+      h2 #{texts.settingPostsPasswords}
+      div
+        if !postsPasswordsSave
+          | #{texts.settingPostsPasswordsEnabled + ' | '}
+          a(href='#') #{texts.settingPostsPasswordsDisable}
+        else
+          a(href='#') #{texts.settingPostsPasswordsEnable}
+          | #{' | ' + texts.settingPostsPasswordsDisabled}
+      div
+        | #{texts.settingPostsPasswordsSavedCount + ': '}
+        a(href='passwords') #{postsPasswordsCount}
+      div
+        a(href=`post/${oldestPostIdWithPassword}/delete`) #{texts.settingPostsPasswordsDeleteOldest}
     // Placeholder to be rendered by scripts in the browser
     div.settings-section#settings-section-nav-floating(title=texts.settingNavDownFloating)
     div.settings-section#settings-section-theme
