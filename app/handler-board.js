@@ -30,7 +30,7 @@ const boardHandler = (req, res) => {
       res.render('board', {
         tag: board.tag,
         boardName: board.name,
-        postingMode: { forbidden: false, delete: false, text: texts.posting_mode_post },
+        postingMode: { text: texts.posting_mode_post },
         threads,
         offset,
         limit,
