@@ -53,11 +53,11 @@ const threadHandler = (req, res, next) => {
       const isFreestanding = Boolean(thread.parent_id)
       const postingMode = {
         forbidden: isFreestanding,
-        delete: req.templatingCommon.isDeleteConfirmation,
-        forget: req.templatingCommon.isForgetConfirmation,
-        text: req.templatingCommon.isDeleteConfirmation
+        delete: req.query.action === 'delete',
+        forget: req.query.action === 'forget',
+        text: req.query.action === 'delete'
           ? texts.posting_mode_delete
-          : req.templatingCommon.isForgetConfirmation
+          : req.query.action === 'forget'
             ? texts.posting_mode_forget
             : isFreestanding
               ? texts.posting_mode_forbidden

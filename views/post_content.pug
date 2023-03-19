@@ -32,11 +32,11 @@ mixin post_content(post, context, texts)
       if context !== 'delete'
         | #{' / '}
         span.post_header_element.delete
-          a(href=`/${post.tag}/${post.id}/delete`) #{texts.delete}
+          a(href=`/${post.tag}/${post.id}?action=delete`) #{texts.delete}
       else
         | #{' / '}
         span.post_header_element.forget
-          a(href=`/${post.tag}/${post.id}/forget`) #{texts.forget}
+          a(href=`/${post.tag}/${post.id}?action=forget`) #{texts.forget}
   //- blockquote makes nice look in Links browser
   blockquote.post_message
     p !{post.message}

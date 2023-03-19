@@ -20,7 +20,7 @@ block content
         a(href='#') #{postsPasswordsCount}
       if oldestPostIdWithPassword !== undefined
         div
-          a(href=`post/${oldestPostIdWithPassword}/forget`) #{texts.settingPostsPasswordsForgetOldest}
+          a(href=`post/${oldestPostIdWithPassword}?action=forget`) #{texts.settingPostsPasswordsForgetOldest}
     // Placeholder to be rendered by scripts in the browser
     div.settings-section#settings-section-nav-floating(title=texts.settingNavDownFloating)
     div.settings-section#settings-section-theme
