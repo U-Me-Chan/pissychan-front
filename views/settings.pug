@@ -9,15 +9,15 @@ block content
     div.settings-section#settings-section-posts-passwords(title=texts.settingPostsPasswords)
       h2 #{texts.settingPostsPasswords}
       div
-        if !postsPasswordsSave
-          | #{texts.settingPostsPasswordsEnabled + ' | '}
-          a(href='#') #{texts.settingPostsPasswordsDisable}
-        else
-          a(href='#') #{texts.settingPostsPasswordsEnable}
+        if savePostsPasswordsEnabled === false
+          a(href='/settings?save_posts_passwords=true') #{texts.settingPostsPasswordsEnable}
           | #{' | ' + texts.settingPostsPasswordsDisabled}
+        else
+          | #{texts.settingPostsPasswordsEnabled + ' | '}
+          a(href='/settings?save_posts_passwords=false') #{texts.settingPostsPasswordsDisable}
       div
         | #{texts.settingPostsPasswordsSavedCount + ': '}
-        a(href='#') #{postsPasswordsCount}
+        | #{postsPasswordsCount}
       if oldestPostIdWithPassword !== undefined
         div
           a(href=`post/${oldestPostIdWithPassword}?action=forget`) #{texts.settingPostsPasswordsForgetOldest}

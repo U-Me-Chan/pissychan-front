@@ -34,9 +34,10 @@ function sendPost (req, res, data) {
   const yearMs = 1000 * 60 * 60 * 24 * 365
   axios.post(`${config.backend_path}/post/`, data, options).then(
     result => {
-      console.log(result.data)
-      if (typeof result.data === 'object' && typeof result.data.payload === 'object') {
-        req.postsPasswords.set(result.data.payload.post_id, result.data.payload.password)
+      if (req.postsPasswords.savingEnabled) {
+        if (typeof result.data === 'object' && typeof result.data.payload === 'object') {
+          req.postsPasswords.set(result.data.payload.post_id, result.data.payload.password)
+        }
       }
       const expectedEncodedLenMax = 4096 - 'post_passwords'.length
       const postsPaswordsCookie = req.postsPasswords.render(

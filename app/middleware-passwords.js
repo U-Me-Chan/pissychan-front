@@ -7,7 +7,8 @@ const passwordsMiddlware = (req, res, next) => {
     delete: function (id) { return passwordsAPI.delete(this.store, id) },
     render: function (maxSizeWhenEncoded, encode = a => a) {
       return passwordsAPI.renderToString(this.store, maxSizeWhenEncoded, encode)
-    }
+    },
+    savingEnabled: !(req.cookies.save_posts_passwords === 'false')
   }
   next()
 }
