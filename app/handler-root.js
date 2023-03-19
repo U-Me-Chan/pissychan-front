@@ -25,6 +25,7 @@ const rootHandler = (req, res) => {
       posts.forEach((post) => {
         post.message = formatMessage(post.message)
         post.timestamp = formatTimestamp(post.timestamp, req.templatingCommon.texts.months)
+        post.password = req.postsPasswords.get(post.id)
       })
 
       res.render('root', {
