@@ -39,13 +39,13 @@ const passwordsAPI = {
   },
   renderToString: (store, maxSizeWhenEncoded, encode = a => a) => {
     const pairs = Array.from(store).map(([key, value]) => `${key}:${value}`)
-    if (pairs.length === 0) return ''
+      .sort(([key1, value1], [key2, value2]) => key1 - key2)
     if (maxSizeWhenEncoded === undefined || maxSizeWhenEncoded === null) {
       return pairs.join(',')
     }
     // Using binary search can possibly bring a decent optimization that fits
     // any encoding here
-    for (let i = 1; i < pairs.length; i++) {
+    for (let i = 1; i <= pairs.length; i++) {
       const str = pairs.slice(pairs.length - i, pairs.length).join(',')
       if (encode(str).length > maxSizeWhenEncoded) {
         return pairs.slice(pairs.length - (i - 1), pairs.length).join(',')

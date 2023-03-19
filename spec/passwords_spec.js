@@ -39,7 +39,9 @@ describe('passwordsAPI', function () {
   })
 
   it('should render proper store', function () {
-    expect(passwordsAPI.renderToString(new Map([[33915, 'a1password']]))).toEqual('33915:a1password')
+    const store = new Map([[33915, 'a1password']])
+    expect(passwordsAPI.renderToString(store)).toEqual('33915:a1password')
+    expect(passwordsAPI.renderToString(store, 1000, encodeURIComponent)).toEqual('33915:a1password')
   })
 
   it('should not perform set if key is not a number', function () {
@@ -69,14 +71,20 @@ describe('passwordsAPI', function () {
     expect(passwordsAPI.get(store, 33917)).toEqual(undefined)
   })
 
-  it('should encode multiple passwords successfully', function () {
+  it('should render empty store to empty string', function () {
+    const store = passwordsAPI.parseFromString('')
+    expect(passwordsAPI.renderToString(store)).toEqual('')
+    expect(passwordsAPI.renderToString(store, 1000, encodeURIComponent)).toEqual('')
+  })
+
+  it('should render multiple passwords successfully', function () {
     const store = passwordsAPI.parseFromString('')
     passwordsAPI.set(store, 33918, 'passwor')
     passwordsAPI.set(store, 33919, 'assword')
     expect(passwordsAPI.renderToString(store)).toEqual('33918:passwor,33919:assword')
   })
 
-  it('should encode multiple passwords successfully when the limit provided', function () {
+  it('should render multiple passwords successfully when the limit provided', function () {
     const store = passwordsAPI.parseFromString('')
     passwordsAPI.set(store, 33920, 'passwo')
     passwordsAPI.set(store, 33921, 'ssword')
@@ -84,7 +92,7 @@ describe('passwordsAPI', function () {
       .toEqual('33920:passwo,33921:ssword')
   })
 
-  it('should crop the front of the rendered string that exceeds the limit when urlencoded', function () {
+  it('should crop oldest passwords if rendered string exceeds the limit as if it was urlencoded', function () {
     const store = passwordsAPI.parseFromString('')
     const passBase = 'fba5b7275a3987fa400933c8bfb20c62f0fb13a85ade78cd71a96685445df'
     const postNumberBase = 10000
@@ -94,6 +102,7 @@ describe('passwordsAPI', function () {
       const password = passBase + suffix
       passwordsAPI.set(store, i, password)
     }
+    passwordsAPI.set(store, 20000, 'shouldBePreserved00000000000000000000000000000000000000000000000')
     const expectedEncodedLenMax = 4096 - 'post_passwords'.length
     const rendered = passwordsAPI.renderToString(
       store, expectedEncodedLenMax, encodeURIComponent)
@@ -105,7 +114,9 @@ describe('passwordsAPI', function () {
         if (str.length >= expectedEncodedLenMax) return entries
       }
     })(String(postNumberBase) + '%3A' + passBase + '000')
-    expect(Array.from(passwordsAPI.parseFromString(rendered)).length)
-      .toEqual(expectedEntriesCount)
+    const newStore = passwordsAPI.parseFromString(rendered)
+    expect(Array.from(newStore).length).toEqual(expectedEntriesCount)
+    expect(passwordsAPI.get(newStore, 20000))
+      .toEqual('shouldBePreserved00000000000000000000000000000000000000000000000')
   })
 })
