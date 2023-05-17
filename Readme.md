@@ -48,3 +48,27 @@ $(npm prefix -g)/bin/nodemon
 
 Подробнее об использовании `nodemon` можно почитать
 [здесь](https://www.digitalocean.com/community/tutorials/workflow-nodemon).
+
+## Особенности настройки NginX reverse proxy для Писсичана
+
+С появлением возможности удаления своих постов (https://github.com/U-Me-Chan/pissychan-front/pull/50) при большом количестве накопленных паролей NginX начинает отвечать клиенту `502`, а в логе `/var/log/nginx/error.log` ругаться на большие хедеры:
+
+```
+2023/05/17 18:11:24 [error] 1998#1998: *1668 upstream sent too big header while reading response header from upstream
+```
+
+В качестве решения можно увеличить прокси буферы в `/etc/nginx/nginx.conf`:
+
+```
+# https://stackoverflow.com/q/25762111
+proxy_buffer_size 128k;
+proxy_buffers 4 256k;
+proxy_busy_buffers_size 256k;
+```
+
+Для возможности корректной загрузки изображений лучше увеличить максимальный
+объём body от клиента до нескольких десятков мегабайт (в `/etc/nginx/nginx.conf`):
+
+```
+client_max_body_size 100M;
+```
