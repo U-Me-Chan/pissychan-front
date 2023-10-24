@@ -2,6 +2,7 @@ const { execSync } = require('child_process')
 const { readFileSync } = require('fs')
 
 const dev = {
+  apiv2: true,
   env_name: 'dev',
   port: 3000,
   backend_proto: 'https',
@@ -20,6 +21,7 @@ const dev = {
 }
 
 const production = {
+  apiv2: true,
   env_name: 'production',
   port: 8080,
   backend_proto: 'https',
@@ -66,6 +68,12 @@ function overrideFromEnvVars (config) {
   }
   if (isEnvVarDefined('BACKEND_PORT')) {
     config.backend_port = parseInt(process.env.BACKEND_PORT)
+  }
+  if (isEnvVarDefined('FILESTORE_HOSTNAME')) {
+    config.filestore_hostname = process.env.FILESTORE_HOSTNAME
+  }
+  if (isEnvVarDefined('FILESTORE_PORT')) {
+    config.filestore_port = parseInt(process.env.FILESTORE_PORT)
   }
   return config
 }

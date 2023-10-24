@@ -27,12 +27,25 @@ function formatQueryObject (reqBody) {
 
 function sendPost (req, res, data) {
   const config = req.app.locals.config
+  const yearMs = 1000 * 60 * 60 * 24 * 365
+  let url = `${config.backend_path}/post`
+  let method = 'post'
+  if (config.apiv2 === true) {
+    url = `${config.backend_path}/v2/post/`
+    if (data.parent_id !== undefined) {
+      url += `${data.parent_id}/`
+      method = 'put'
+    }
+  }
   const options = {
+    url,
+    method,
+    data,
     baseURL: u.baseURLFromConfig(config),
     headers: { 'User-Agent': u.versionFromConfig(config) }
   }
-  const yearMs = 1000 * 60 * 60 * 24 * 365
-  axios.post(`${config.backend_path}/post/`, data, options).then(
+  console.log(options)
+  axios(options).then(
     result => {
       if (req.postsPasswords.savingEnabled) {
         if (typeof result.data === 'object' && typeof result.data.payload === 'object') {
@@ -50,8 +63,21 @@ function sendPost (req, res, data) {
           .redirect(formatSource(req.body))
       }
     },
-    // TODO render proper error page
-    backRes => res.send(backRes.message)
+    result => {
+      const errorData = result.response?.data?.error?.message ||
+          JSON.stringify(result.response?.data)
+      const errorCode = result.response?.status || 500
+      res.status(errorCode)
+        .render('post_error', {
+          tag: req.params.tag,
+          thread_id: req.params.thread_id,
+          method,
+          errorCode,
+          errorData,
+          ...req.templatingCommon,
+          version: u.versionFromConfig(config)
+        })
+    }
   ).catch(error => res.send(error.stack))
 }
 
@@ -61,6 +87,7 @@ const postHandler = (req, res) => {
     return
   }
   if (req.body.message === '' && !req.files) {
+    // TODO render proper error page
     res.send('Выберите изображение или заполните сообщение поста')
     return
   }
