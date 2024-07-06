@@ -4,7 +4,7 @@ function buildThemeUrl (config, theme) {
 
 const themeMiddlware = (req, res, next) => {
   const themeUrl = buildThemeUrl(req.app.locals.config, req.cookies.theme || undefined)
-  req.templatingCommon = { themeUrl, ...req.templatingCommon }
+  req.app.locals.themeUrl = themeUrl
   next()
 }
 

@@ -25,7 +25,7 @@ function formatQueryObject (reqBody) {
   return query
 }
 
-function sendPost (req, res, data) {
+async function sendPost (req, res, next, data) {
   const config = req.app.locals.config
   const yearMs = 1000 * 60 * 60 * 24 * 365
   let url = `${config.backend_path}/post`
@@ -37,60 +37,32 @@ function sendPost (req, res, data) {
       method = 'put'
     }
   }
-  const options = {
-    url,
-    method,
-    data,
-    baseURL: u.baseURLFromConfig(config),
-    headers: { 'User-Agent': u.versionFromConfig(config) }
-  }
-  console.log(options)
-  axios(options).then(
-    result => {
-      if (req.postsPasswords.savingEnabled) {
-        if (typeof result.data === 'object' && typeof result.data.payload === 'object') {
-          req.postsPasswords.set(result.data.payload.post_id, result.data.payload.password)
-        }
-      }
-      const expectedEncodedLenMax = 4096 - 'post_passwords'.length
-      const postsPaswordsCookie = req.postsPasswords.render(
-        expectedEncodedLenMax, encodeURIComponent)
-      if (!postsPaswordsCookie.length) {
-        res.clearCookie('post_passwords').redirect(formatSource(req.body))
-      } else {
-        res
-          .cookie('post_passwords', postsPaswordsCookie, { maxAge: yearMs })
-          .redirect(formatSource(req.body))
-      }
-    },
-    result => {
-      const errorData = result.response?.data?.error?.message ||
-          JSON.stringify(result.response?.data)
-      const errorCode = result.response?.status || 500
-      res.status(errorCode)
-        .render('post_error', {
-          tag: req.params.tag,
-          thread_id: req.params.thread_id,
-          method,
-          errorCode,
-          errorData,
-          ...req.templatingCommon,
-          version: u.versionFromConfig(config)
-        })
+  const result = await axios({ url, method, data })
+  if (req.postsPasswords.savingEnabled) {
+    if (typeof result.data === 'object' && typeof result.data.payload === 'object') {
+      req.postsPasswords.set(result.data.payload.post_id, result.data.payload.password)
     }
-  ).catch(error => res.send(error.stack))
+  }
+  const expectedEncodedLenMax = 4096 - 'post_passwords'.length
+  const postsPaswordsCookie = req.postsPasswords.render(
+    expectedEncodedLenMax, encodeURIComponent)
+  if (!postsPaswordsCookie.length) {
+    res.clearCookie('post_passwords').redirect(formatSource(req.body))
+  } else {
+    res
+      .cookie('post_passwords', postsPaswordsCookie, { maxAge: yearMs })
+      .redirect(formatSource(req.body))
+  }
 }
 
-const postHandler = (req, res) => {
+const postHandler = async (req, res, next) => {
   if (req.body.name || req.body.link) {
-    res.redirect(formatSource(req.body))
-    return
+    return res.redirect(formatSource(req.body))
   }
   if (req.body.message === '' && !req.files) {
-    // TODO render proper error page
-    res.send('Выберите изображение или заполните сообщение поста')
-    return
+    throw new u.HttpError(400, 'Выберите изображение или заполните сообщение поста')
   }
+  const query = formatQueryObject(req.body)
   if (req.files) {
     const form = new FormData()
 
@@ -98,23 +70,16 @@ const postHandler = (req, res) => {
 
     const config = req.app.locals.config
     // Note: no trailing slash. See https://github.com/U-Me-Chan/umechan/issues/13
-    axios.post(`${config.filestore_path}`, form, {
-      baseURL: u.filestoreBaseURLFromConfig(config),
-      headers: form.getHeaders()
-    }).then(result => {
-      fs.rm(req.files.usuc.tempFilePath, () => {})
-      const orig = result.data.original_file
-      const thmb = result.data.thumbnail_file
-      const markedImage = `[![](${thmb})](${orig})`
+    const result = await axios.post(
+      `${config.filestore_path}`, form, { headers: form.getHeaders() })
+    fs.rm(req.files.usuc.tempFilePath, () => {})
+    const orig = result.data.original_file
+    const thmb = result.data.thumbnail_file
+    const markedImage = `[![](${thmb})](${orig})`
 
-      const query = formatQueryObject(req.body)
-      query.message = query.message ? query.message + '\n' + markedImage : markedImage
-
-      sendPost(req, res, query)
-    }).catch(error => res.status(500).send(error.stack)) // TODO render proper error page
-  } else {
-    sendPost(req, res, formatQueryObject(req.body))
+    query.message = query.message ? query.message + '\n' + markedImage : markedImage
   }
+  await sendPost(req, res, next, query)
 }
 
 module.exports = postHandler

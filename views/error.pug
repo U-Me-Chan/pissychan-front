@@ -1,0 +1,7 @@
+extends layout.pug
+
+block content
+  - const method_part = method ? `${method.toUpperCase()}: ` : ''
+  h1 #{method_part}#{url} - #{texts.error} #{errorCode}
+  p
+    pre #{errorData}

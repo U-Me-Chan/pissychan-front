@@ -1,17 +1,19 @@
-const forgetHandler = (req, res) => {
+const axios = require('axios')
+const u = require('./util')
+
+const createHandler = (isDelete) => async (req, res, next) => {
   const strId = String(req.body.id).trim()
   const id = parseInt(strId)
   const nonNumericRegex = /[^0-9]/g
   if (nonNumericRegex.test(strId) || isNaN(id)) {
-    // TODO render proper error page
-    res.status(400).send('Provided post ID is not a valid number')
-    return
+    return next(new u.HttpError(400, 'Provided post ID is not a valid number'))
   }
   const password = req.postsPasswords.get(id)
   if (password === undefined || password === null) {
-    // TODO render proper error page
-    res.status(400).send('There is no password available for specified post ID')
-    return
+    return next(new u.HttpError(400, 'There is no password available for specified post ID'))
+  }
+  if (isDelete) {
+    await axios.delete(`${req.app.locals.config.backend_path}/post/${id}?password=${password}`)
   }
   req.postsPasswords.delete(id)
   const yearMs = 1000 * 60 * 60 * 24 * 365
@@ -27,4 +29,7 @@ const forgetHandler = (req, res) => {
   }
 }
 
-module.exports = forgetHandler
+module.exports = {
+  delete: createHandler(true),
+  forget: createHandler(false)
+}

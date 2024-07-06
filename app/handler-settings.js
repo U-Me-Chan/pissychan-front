@@ -1,5 +1,4 @@
 const fs = require('fs')
-const u = require('./util')
 
 function themeNamesFromFiles (files) {
   return files
@@ -7,7 +6,7 @@ function themeNamesFromFiles (files) {
     .map(v => v.replace(/(\.css)$/, ''))
 }
 
-const settingsHandler = (req, res) => {
+const settingsHandler = async (req, res, next) => {
   const config = req.app.locals.config
   // A cookie without expiration date lasts for just a single session
   // which is a very short time on some browsers. For example, on
@@ -19,18 +18,13 @@ const settingsHandler = (req, res) => {
   const yearMs = 1000 * 60 * 60 * 24 * 365
 
   if (req.query.theme) {
-    fs.promises.readdir(config.publicDir + '/' + config.themeDir)
-      .then(files => {
-        const theme = themeNamesFromFiles(files).find(c => c === req.query.theme)
-        if (theme && theme !== config.defaultTheme) {
-          res.cookie('theme', theme, { maxAge: yearMs }).redirect('/settings')
-        } else {
-          res.clearCookie('theme').redirect('/settings')
-        }
-      }, err => {
-        // TODO render proper error page
-        res.status(500).send(err)
-      })
+    const files = await fs.promises.readdir(config.publicDir + '/' + config.themeDir)
+    const theme = themeNamesFromFiles(files).find(c => c === req.query.theme)
+    if (theme && theme !== config.defaultTheme) {
+      res.cookie('theme', theme, { maxAge: yearMs }).redirect('/settings')
+    } else {
+      res.clearCookie('theme').redirect('/settings')
+    }
     return
   }
 
@@ -44,35 +38,24 @@ const settingsHandler = (req, res) => {
     return
   }
 
-  fs.promises.readdir(config.publicDir + '/' + config.themeDir)
-    .then((result) => {
-      const themeNames = themeNamesFromFiles(result)
-      const theme = themeNames.find(c => c === req.cookies?.theme) || config.defaultTheme
-      const themes = themeNames.map(v => {
-        return { name: v, selected: v === theme }
-      })
+  const result = await fs.promises.readdir(config.publicDir + '/' + config.themeDir)
+  const themeNames = themeNamesFromFiles(result)
+  const theme = themeNames.find(c => c === req.cookies?.theme) || config.defaultTheme
+  const themes = themeNames.map(v => {
+    return { name: v, selected: v === theme }
+  })
 
-      const postsPasswordsCount = Array.from(req.postsPasswords.store).length
-      const oldestPostIdWithPassword = postsPasswordsCount
-        ? Array.from(req.postsPasswords.store)
-          .map(([key, value]) => key).sort((key1, key2) => key1 - key2)[0]
-        : undefined
-      res.render('settings', {
-        themes,
-        postsPasswordsCount,
-        savePostsPasswordsEnabled: req.postsPasswords.savingEnabled,
-        oldestPostIdWithPassword,
-        ...req.templatingCommon,
-        version: u.versionFromConfig(config)
-      })
-    }, (result) => {
-      // TODO render proper error page
-      res.status(500).send(result)
-    })
-    .catch(error => {
-      console.error(error.stack)
-      res.status(500).send(error.stack)
-    })
+  const postsPasswordsCount = Array.from(req.postsPasswords.store).length
+  const oldestPostIdWithPassword = postsPasswordsCount
+    ? Array.from(req.postsPasswords.store)
+      .map(([key, value]) => key).sort((key1, key2) => key1 - key2)[0]
+    : undefined
+  res.render('settings', {
+    themes,
+    postsPasswordsCount,
+    savePostsPasswordsEnabled: req.postsPasswords.savingEnabled,
+    oldestPostIdWithPassword
+  })
 }
 
 module.exports = settingsHandler

@@ -12,9 +12,17 @@ function filestoreBaseURLFromConfig (config) {
   return `${config.filestore_proto}://${config.filestore_hostname}/`
 }
 
+class HttpError extends Error {
+  constructor (status, message) {
+    super(message)
+    this.status = status
+  }
+}
+
 module.exports = {
   baseURLFromConfig,
   filestoreBaseURLFromConfig,
+  HttpError,
   versionFromConfig (config) {
     const packageName = config.npm_package_name
     const version = config.npm_package_version
