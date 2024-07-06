@@ -7,6 +7,9 @@ block content
     each board in boards
       div.board
         a(href='/' + board.tag + '/') /#{board.tag}/ - #{board.name}
+        if board.new_posts_count
+          | #{' '}
+          span.new_posts_count (+#{board.new_posts_count})
   h2 #{texts.feed}
   include pagination.pug
   div.posts

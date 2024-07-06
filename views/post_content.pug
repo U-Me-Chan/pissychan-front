@@ -19,7 +19,10 @@ mixin post_content(post, context, texts)
         a(href='/' + post.tag + '/' + post.id) /#{post.tag}/#{post.id}
     else if context === 'board'
       a(name=post.id)
-      a(href='#' + post.id): span.post_header_element.thread_id= post.id
+      if boardMixed
+        a(href='#' + post.id): span.post_header_element.thread_id= `/${post.tag}/${post.id}`
+      else
+        a(href='#' + post.id): span.post_header_element.thread_id= post.id
       | #{' / '}
       a.post_header_element.reply_button(
         href='/' + tag + '/' + post.id + '/'

@@ -22,6 +22,15 @@ function formatQueryObject (reqBody) {
   query.message = reqBody.zzzzz || undefined
   query.parent_id = reqBody.thread || undefined
   query.sage = reqBody.sage || undefined
+  if (query.tag) {
+    // It is possible to navigate to e.g. "/pic+cul/" and post a thread there.
+    // So we have to chose where the message will go and it will be the board
+    // of the first tag in a list.
+    const tags = query.tag.split('+')
+    if (tags.length) {
+      query.tag = tags[0]
+    }
+  }
   return query
 }
 
