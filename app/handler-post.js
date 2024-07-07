@@ -1,7 +1,6 @@
 const axios = require('axios')
 const u = require('./util')
 const FormData = require('form-data')
-const fs = require('fs')
 
 function formatSource (reqBody) {
   let source = '/'
@@ -74,18 +73,15 @@ const postHandler = async (req, res, next) => {
   const query = formatQueryObject(req.body)
   if (req.files) {
     const form = new FormData()
-
-    form.append('image', fs.createReadStream(req.files.usuc.tempFilePath), req.files.usuc.name)
-
+    form.append('image', req.files.usuc.data, req.files.usuc.name)
     const config = req.app.locals.config
-    // Note: no trailing slash. See https://github.com/U-Me-Chan/umechan/issues/13
-    const result = await axios.post(
-      `${config.filestore_path}`, form, { headers: form.getHeaders() })
-    fs.rm(req.files.usuc.tempFilePath, () => {})
+    const result = await axios.post(`${config.filestore_path}/`, form, {
+      baseURL: u.filestoreBaseURLFromConfig(config),
+      headers: form.getHeaders()
+    })
     const orig = result.data.original_file
     const thmb = result.data.thumbnail_file
     const markedImage = `[![](${thmb})](${orig})`
-
     query.message = query.message ? query.message + '\n' + markedImage : markedImage
   }
   await sendPost(req, res, next, query)

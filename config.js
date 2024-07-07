@@ -14,7 +14,6 @@ const dev = {
   filestore_hostname: 'scheoble.xyz',
   filestore_port: undefined,
   filestore_path: '/filestore',
-  tmpDir: './tmp',
   themeDir: 'css/theme/',
   publicDir: 'public',
   defaultTheme: 'pissychan'
@@ -33,7 +32,6 @@ const production = {
   filestore_hostname: 'scheoble.xyz',
   filestore_port: undefined,
   filestore_path: '/filestore',
-  tmpDir: './tmp',
   themeDir: 'css/theme/',
   publicDir: 'public',
   defaultTheme: 'pissychan'

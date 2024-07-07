@@ -19,11 +19,7 @@ app.set('view engine', 'pug')
 app.use(express.static(config.publicDir))
 app.use(bodyParser.urlencoded({ extended: true })) // For HTML POST forms
 app.use(cookieParser())
-app.use(fileUpload({
-  limits: { fileSize: 50 * 1014 * 1024 },
-  useTempFiles: true,
-  tempFileDir: config.tmpDir
-}))
+app.use(fileUpload({ limits: { fileSize: 50 * 1024 * 1024 } }))
 app.use(require('./app/middleware-navs'))
 app.use(require('./app/middleware-theme'))
 app.use(require('./app/middleware-passwords'))
