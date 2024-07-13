@@ -21,7 +21,7 @@ const rootHandler = async (req, res, next) => {
     post.timestamp = formatTimestamp(post.timestamp, req.app.locals.texts.months)
     post.password = req.postsPasswords.get(post.id)
   })
-  res.render('root', { boards, posts, offset, limit, pages })
+  res.render('root', { boards, posts, offset, limit, pages, tag: '' })
 }
 
 module.exports = rootHandler
