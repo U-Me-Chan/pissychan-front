@@ -13,7 +13,7 @@ const createHandler = (isDelete) => async (req, res, next) => {
     return next(new u.HttpError(400, 'There is no password available for specified post ID'))
   }
   if (isDelete) {
-    await axios.delete(`${req.app.locals.config.backend_path}/post/${id}?password=${password}`)
+    await axios.delete(`${req.app.locals.config.backend_path}/v2/post/${id}?password=${password}`)
   }
   req.postsPasswords.delete(id)
   const yearMs = 1000 * 60 * 60 * 24 * 365
