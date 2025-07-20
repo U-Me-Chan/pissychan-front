@@ -3,8 +3,7 @@ const { formatMessage, formatTimestamp } = require('./format')
 
 const threadHandler = async (req, res, next) => {
   const config = req.app.locals.config
-  const ver = config.apiv2 === true ? '/v2' : ''
-  const result = await axios.get(`${config.backend_path}${ver}/post/${req.params.thread_id}`)
+  const result = await axios.get(`${config.backend_path}/v2/post/${req.params.thread_id}`)
   const thread = result.data.payload.thread_data
   const posts = thread.replies
   const texts = req.app.locals.texts

@@ -2,7 +2,6 @@ const { execSync } = require('child_process')
 const { readFileSync } = require('fs')
 
 const dev = {
-  apiv2: true,
   env_name: 'dev',
   port: 3000,
   backend_proto: 'https',
@@ -20,7 +19,6 @@ const dev = {
 }
 
 const production = {
-  apiv2: true,
   env_name: 'production',
   port: 8080,
   backend_proto: 'https',

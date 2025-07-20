@@ -36,14 +36,11 @@ function formatQueryObject (reqBody) {
 async function sendPost (req, res, next, data) {
   const config = req.app.locals.config
   const yearMs = 1000 * 60 * 60 * 24 * 365
-  let url = `${config.backend_path}/post`
   let method = 'post'
-  if (config.apiv2 === true) {
-    url = `${config.backend_path}/v2/post/`
-    if (data.parent_id !== undefined) {
-      url += `${data.parent_id}/`
-      method = 'put'
-    }
+  let url = `${config.backend_path}/v2/post/`
+  if (data.parent_id !== undefined) {
+    url += `${data.parent_id}/`
+    method = 'put'
   }
   const result = await axios({ url, method, data })
   if (req.postsPasswords.savingEnabled) {

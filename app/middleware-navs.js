@@ -2,11 +2,7 @@ const axios = require('axios')
 
 const navsMiddlware = function (req, res, next) {
   const config = req.app.locals.config
-  // For now this is large enough offset to get no posts at all
-  let path = `${config.backend_path}/board/all/?limit=1&offset=88005553535`
-  if (config.apiv2 === true) {
-    path = `${config.backend_path}/v2/board`
-  }
+  const path = `${config.backend_path}/v2/board`
   axios.get(path)
     .then((result) => {
       req.allBoards = result.data?.payload?.boards || []

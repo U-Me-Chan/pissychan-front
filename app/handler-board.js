@@ -6,41 +6,26 @@ const boardHandler = async (req, res, next) => {
   const limit = req.query.limit || 20
   const offset = req.query.offset || 0
   const tag = req.params.tag
-  const ver = config.apiv2 === true ? '/v2' : ''
   const result = await axios.get(
-    `${config.backend_path}${ver}/board/${tag}/?limit=${limit}&offset=${offset}`)
-  let boardName
-  let threads
-  let count = 0
-  if (config.apiv2 === true) {
-    const payload = result.data.payload
-    count = payload.count
-    threads = payload.posts
-    const boardNames = []
-    tag.split('+').forEach(t => {
-      const board = req.allBoards.find(b => b.tag === t)
-      if (board) {
-        boardNames.push(board.name)
-      }
-    })
-    boardName = boardNames.join(', ')
-  } else {
-    const board = result.data.payload.board_data
-    boardName = board.name
-    threads = board.threads
-    count = board.threads_count
-  }
+    `${config.backend_path}/v2/board/${tag}/?limit=${limit}&offset=${offset}`)
+  const payload = result.data.payload
+  const count = payload.count
+  const threads = payload.posts
+  const boardNames = []
+  tag.split('+').forEach(t => {
+    const board = req.allBoards.find(b => b.tag === t)
+    if (board) {
+      boardNames.push(board.name)
+    }
+  })
+  const boardName = boardNames.join(', ')
   const pages = Array.from({ length: Math.ceil(count / limit) }, (v, i) => i)
   const texts = req.app.locals.texts
   threads.forEach((post) => {
     post.message = formatMessage(post.message)
     post.timestamp = formatTimestamp(post.timestamp, texts.months)
     post.repliesCount = post.replies_count
-    if (config.apiv2 === true) {
-      post.tag = post.board.tag
-    } else {
-      post.tag = tag
-    }
+    post.tag = post.board.tag
     post.password = req.postsPasswords.get(post.id)
   })
   // It is possible to navigate to e.g. "/pic+cul/" and post a thread there. So
