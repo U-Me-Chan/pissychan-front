@@ -4,10 +4,15 @@ const { formatMessage, formatTimestamp } = require('./format')
 const threadHandler = async (req, res, next) => {
   const config = req.app.locals.config
   const result = await axios.get(`${config.backend_path}/v2/post/${req.params.thread_id}`)
+  let allBoards = []
+  if (result.data.payload.boards) {
+    allBoards = result.data.payload.boards
+    req.app.locals.navs = allBoards.map(b => `/${b.tag}/`)
+  }
   const thread = result.data.payload.thread_data
   const posts = thread.replies
   const texts = req.app.locals.texts
-  const { name: boardName, tag } = req.allBoards.find((b) => b.id === thread.board_id) ||
+  const { name: boardName, tag } = allBoards.find((b) => b.id === thread.board_id) ||
     { name: null, tag: req.params.tag }
   thread.message = formatMessage(thread.message)
   thread.timestamp = formatTimestamp(thread.timestamp, texts.months)

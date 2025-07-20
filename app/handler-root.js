@@ -7,9 +7,13 @@ const rootHandler = async (req, res, next) => {
   const offset = req.query.offset || 0
   const result = await axios.get(
     `${config.backend_path}/board/all/` + '?limit=' + limit + '&offset=' + offset)
+  let boards = []
+  if (result.data.payload.boards) {
+    boards = result.data.payload.boards
+    req.app.locals.navs = boards.map(b => `/${b.tag}/`)
+  }
   const posts = result?.data?.payload?.posts || []
   // These are from 'middleware-navs' module
-  const boards = req.allBoards
   // Since no info about posts count on feed provided by the backend,
   // just assume here that there always is a span of 5 pages.
   const pagesCount = 5

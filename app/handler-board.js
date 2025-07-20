@@ -9,11 +9,16 @@ const boardHandler = async (req, res, next) => {
   const result = await axios.get(
     `${config.backend_path}/v2/board/${tag}/?limit=${limit}&offset=${offset}`)
   const payload = result.data.payload
+  let allBoards = []
+  if (payload.boards) {
+    allBoards = payload.boards
+    req.app.locals.navs = allBoards.map(b => `/${b.tag}/`)
+  }
   const count = payload.count
   const threads = payload.posts
   const boardNames = []
   tag.split('+').forEach(t => {
-    const board = req.allBoards.find(b => b.tag === t)
+    const board = allBoards.find(b => b.tag === t)
     if (board) {
       boardNames.push(board.name)
     }
