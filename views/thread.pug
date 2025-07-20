@@ -17,7 +17,11 @@ block content
     +post_content(thread, postingMode.delete ? 'delete' : postingMode.forget ? 'forget' : 'thread', texts)
     blockquote.thread_info
       if !postingMode.forbidden && typeof(thread.repliesCount) === 'number'
-        div.post_count.thread_info !{texts.post_count}: !{thread.repliesCount}
+        div.thread_info
+          span.post_count !{texts.post_count}: !{thread.repliesCount}
+          if thread.bump_limit_reached
+            | #{' '}
+            span.bump_limit_flag (!{texts.bump_limit_flag})
       if typeof(thread.parent_id) === 'number'
         div.parent_thread.thread_info !{texts.parent_thread}:
           a(href=`/${tag}/${thread.parent_id}`)=` ${thread.parent_id}`

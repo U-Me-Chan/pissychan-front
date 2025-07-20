@@ -39,6 +39,10 @@ h1, h2 {
     font-style: italic;
   }
 
+  span.bump_limit_flag {
+    font-weight: bold;
+  }
+
   div.post {
     background-color: var(--background2);
     border-color: var(--color);
