@@ -12,6 +12,12 @@ mixin post_content(post, context, texts)
       | #{' '}
     span.post_header_element.timestamp= post.timestamp
     | #{' '}
+    if post.is_sticky
+      span.post_tags 📌
+      | #{' '}
+    if post.is_blocked
+      span.post_tags 🔒
+      | #{' '}
     if context === 'feed'
       if post.parent_id
         a(href='/' + post.tag + '/' + post.parent_id + '#' + post.id) /#{post.tag}/#{post.parent_id}/#{post.id}
