@@ -25,7 +25,7 @@ const threadHandler = async (req, res, next) => {
     post.tag = tag
     post.password = req.postsPasswords.get(post.id)
   })
-  const isFreestanding = Boolean(thread.parent_id)
+  const isFreestanding = Boolean(thread.parent_id) || Boolean(thread.is_blocked)
   const postingMode = {
     forbidden: isFreestanding,
     delete: req.query.action === 'delete',
